@@ -74,5 +74,12 @@ public class EntidadSucursal {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
+
+    @Override
+    public String toString() {
+        return "EntidadSucursal{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
+    }
+    
+    
     
 }

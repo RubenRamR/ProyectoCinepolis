@@ -7,7 +7,11 @@ package persistencia;
 import entidades.EntidadSucursal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -125,5 +129,32 @@ public class SucursalDAO implements ISucursalDAO{
             }
         }
     } // fin metodo eliminarSucursal
+
+    @Override
+    public List<EntidadSucursal> buscarSucursalesTabla(int limit, int offset) throws PersistenciaException {
+        try {
+            List<EntidadSucursal> sucursalLista = new ArrayList<>();
+            Connection conexion = this.conexionBD.crearConexion();
+            String codigoSQL = "SELECT id, nombre, ciudad, coordenadaX, coordenadaY FROM Sucursal LIMIT " + limit + " OFFSET " + offset;
+            Statement comandoSQL = conexion.createStatement();
+            ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
+            while (resultado.next()) {
+                EntidadSucursal sucursal = new EntidadSucursal();
+                sucursal.setId(resultado.getInt("id"));
+                sucursal.setNombre(resultado.getString("nombre"));
+                sucursal.setCiudad(resultado.getString("ciudad"));
+                sucursal.setCoordenadaX(resultado.getInt("coordenadaX"));
+                sucursal.setCoordenadaY(resultado.getInt("coordenadaY"));
+                sucursalLista.add(sucursal);
+                System.out.println(sucursal.toString());
+            }
+            conexion.close();
+            return sucursalLista;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new PersistenciaException("Ocurrió un error");
+        }
+    }
+
     
 }

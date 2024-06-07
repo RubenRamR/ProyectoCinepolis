@@ -5,6 +5,7 @@
 package persistencia;
 
 import entidades.EntidadSucursal;
+import java.util.List;
 
 /**
  *
@@ -14,4 +15,6 @@ public interface ISucursalDAO {
     public void insertarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
+    public List<EntidadSucursal> buscarSucursalesTabla(int limit, int offset) throws PersistenciaException;
+
 }
