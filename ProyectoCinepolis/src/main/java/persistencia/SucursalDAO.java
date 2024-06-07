@@ -58,12 +58,72 @@ public class SucursalDAO implements ISucursalDAO{
 
     @Override
     public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
-    
+        Connection conexion = null;
+        try {
+            conexion = this.conexionBD.crearConexion();
+            conexion.setAutoCommit(false);
+            String codigoSQL = "UPDATE Sucursal SET nombre = ?, ciudad = ?, coordenadaX = ?, coordenadaY = ? WHERE id = ?;";
+            PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
+
+            preparedStatement.setString(1, entidadSucursal.getNombre());
+            preparedStatement.setString(2, entidadSucursal.getCiudad());
+            preparedStatement.setInt(3, entidadSucursal.getCoordenadaX());
+            preparedStatement.setInt(4, entidadSucursal.getCoordenadaY());
+            preparedStatement.setInt(5, entidadSucursal.getId());
+            preparedStatement.executeUpdate();
+            conexion.commit();
+        } catch (SQLException ex) {
+            if (conexion != null){
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            System.out.println(ex.getMessage());
+            throw new PersistenciaException("Ocurrio un error en el rollback");
+        } finally {
+            if (conexion != null){
+                try {
+                    conexion.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+               }
+            }
+        }
     } // fin metodo editarSucursal
 
     @Override
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
-    
+        Connection conexion = null;
+        try {
+            conexion = this.conexionBD.crearConexion();
+            conexion.setAutoCommit(false);
+            String codigoSQL = "DELETE FROM Sucursal WHERE id = ?;";
+            PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
+
+            preparedStatement.setInt(1, entidadSucursal.getId());
+            preparedStatement.executeUpdate();
+            conexion.commit();
+        } catch (SQLException ex) {
+            if (conexion != null){
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            System.out.println(ex.getMessage());
+            throw new PersistenciaException("Ocurrio un error en el rollback");
+        } finally {
+            if (conexion != null){
+                try {
+                    conexion.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+               }
+            }
+        }
     } // fin metodo eliminarSucursal
     
 }
