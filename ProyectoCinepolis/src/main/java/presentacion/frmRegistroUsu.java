@@ -27,6 +27,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        btnVolver = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -43,7 +44,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
         txtAmaterno = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         btnRegistrarUsuario = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbxCuidadReg = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
 
@@ -51,15 +52,29 @@ public class frmRegistroUsu extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));
 
+        btnVolver.setBackground(new java.awt.Color(51, 102, 255));
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 34, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -104,8 +119,13 @@ public class frmRegistroUsu extends javax.swing.JFrame {
         btnRegistrarUsuario.setBackground(new java.awt.Color(51, 102, 255));
         btnRegistrarUsuario.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrarUsuario.setText("Registrarme");
+        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarUsuarioActionPerformed(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbxCuidadReg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel4.setBackground(new java.awt.Color(51, 102, 255));
 
@@ -159,7 +179,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, 0, 73, Short.MAX_VALUE)
+                                        .addComponent(cmbxCuidadReg, 0, 73, Short.MAX_VALUE)
                                         .addGap(187, 187, 187)
                                         .addComponent(btnRegistrarUsuario))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -221,8 +241,8 @@ public class frmRegistroUsu extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 25, Short.MAX_VALUE))
+                        .addComponent(cmbxCuidadReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 24, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistrarUsuario)
@@ -250,6 +270,26 @@ public class frmRegistroUsu extends javax.swing.JFrame {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+       frmInicioSesion men = new frmInicioSesion();
+    
+    // Hace visible el nuevo formulario
+    men.setVisible(true);
+    
+    // Oculta el formulario actual
+    this.setVisible(false);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
+         frmInicioSesion men = new frmInicioSesion();
+    
+    // Hace visible el nuevo formulario
+    men.setVisible(true);
+    
+    // Oculta el formulario actual
+    this.setVisible(false);
+    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,7 +328,8 @@ public class frmRegistroUsu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarUsuario;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnVolver;
+    private javax.swing.JComboBox<String> cmbxCuidadReg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -301,7 +342,6 @@ public class frmRegistroUsu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField txtAmaterno;

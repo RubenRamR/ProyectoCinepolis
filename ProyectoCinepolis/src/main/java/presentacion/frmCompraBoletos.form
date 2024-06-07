@@ -112,7 +112,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -121,20 +121,23 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnVolver">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="33" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Volver"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolverActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -159,11 +162,11 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblNombreFuncion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                          <Component id="jLabel7" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Component id="lblNumAsientos" min="-2" pref="65" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                          <Component id="jLabel8" pref="72" max="32767" attributes="0"/>
+                          <Component id="lblAsientosDis" pref="72" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -183,7 +186,7 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblFechaHora" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -196,7 +199,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnConfirmarCompra" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -213,10 +216,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNombreFuncion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNumAsientos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAsientosDis" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFechaHora" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -229,7 +232,7 @@
                       <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="30" max="32767" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnConfirmarCompra" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -256,22 +259,22 @@
             <Property name="text" type="java.lang.String" value="Fecha/Hora:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="lblNombreFuncion">
           <Properties>
             <Property name="text" type="java.lang.String" value="(Nombre de la funcion)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="lblNumAsientos">
           <Properties>
             <Property name="text" type="java.lang.String" value="(Cantidad)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="lblAsientosDis">
           <Properties>
             <Property name="text" type="java.lang.String" value="(cantidad)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="lblFechaHora">
           <Properties>
             <Property name="text" type="java.lang.String" value="(Fecha establecida)"/>
           </Properties>
@@ -286,10 +289,13 @@
             <Property name="text" type="java.lang.String" value="Cantidad:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnConfirmarCompra">
           <Properties>
             <Property name="text" type="java.lang.String" value="Confirmar compra"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfirmarCompraActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel4">
           <Properties>
@@ -303,7 +309,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jLabel12" min="-2" pref="43" max="-2" attributes="0"/>
+                      <Component id="lblPrecio" min="-2" pref="43" max="-2" attributes="0"/>
                       <EmptySpace pref="33" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -312,14 +318,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPrecio" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel12">
+            <Component class="javax.swing.JLabel" name="lblPrecio">
               <Properties>
                 <Property name="text" type="java.lang.String" value="0.00$"/>
               </Properties>
@@ -338,7 +344,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="48" max="32767" attributes="0"/>
-                      <Component id="jLabel13" min="-2" pref="17" max="-2" attributes="0"/>
+                      <Component id="lblCantidadAsientos" min="-2" pref="17" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -347,14 +353,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCantidadAsientos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel13">
+            <Component class="javax.swing.JLabel" name="lblCantidadAsientos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
