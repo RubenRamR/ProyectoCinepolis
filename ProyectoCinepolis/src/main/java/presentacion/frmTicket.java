@@ -162,10 +162,10 @@ public class frmTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-       frmInicioSesion men = new frmInicioSesion();
+       CarteleraClienteView crt = new CarteleraClienteView();
     
     // Hace visible el nuevo formulario
-    men.setVisible(true);
+    crt.setVisible(true);
     
     // Oculta el formulario actual
     this.setVisible(false);
