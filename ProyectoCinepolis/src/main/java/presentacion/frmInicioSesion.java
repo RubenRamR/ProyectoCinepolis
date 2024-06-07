@@ -126,6 +126,11 @@ public class frmInicioSesion extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 255, 51));
         jButton1.setText("adminRuta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -204,26 +209,37 @@ public class frmInicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-       // Crea una nueva instancia del formulario frmRegistroUsu
-    frmRegistroUsu registro = new frmRegistroUsu();
-    
-    // Hace visible el nuevo formulario
-    registro.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+        // Crea una nueva instancia del formulario frmRegistroUsu
+        frmRegistroUsu registro = new frmRegistroUsu();
+
+        // Hace visible el nuevo formulario
+        registro.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // Crea una nueva instancia del formulario CarteleraClienteView
-    CarteleraClienteView cartelera = new CarteleraClienteView();
-    
-    // Hace visible el nuevo formulario
-    cartelera.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+        CarteleraClienteView cartelera = new CarteleraClienteView();
+
+        // Hace visible el nuevo formulario
+        cartelera.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        CarteleraAdminView carteleraAdm = new CarteleraAdminView();
+
+        // Hace visible el nuevo formulario
+        carteleraAdm.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,20 +250,27 @@ public class frmInicioSesion extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(frmInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(frmInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(frmInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(frmInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
