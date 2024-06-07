@@ -15,5 +15,5 @@ import persistencia.ISucursalDAO;
  */
 public interface ISucursalNegocio {
     
-        public List<SucursalTablaDTO> buscarSucursalTabla() throws NegocioException;
+        public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException;
 }
