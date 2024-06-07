@@ -4,6 +4,8 @@
  */
 package MainCarlos;
 
+import presentacion.frmInicioSesion;
+
 
 
 /**
@@ -16,7 +18,12 @@ public class mainCarlos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        //Crea y muestra el formulario 
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new frmInicioSesion().setVisible(true);
+        }
+    });
         
         
     }
