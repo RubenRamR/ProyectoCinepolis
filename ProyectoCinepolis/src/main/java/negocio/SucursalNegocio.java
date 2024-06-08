@@ -50,7 +50,7 @@ public class SucursalNegocio implements ISucursalNegocio {
     public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException {
         try
         {
-            List<EntidadSucursal> sucursales = this.sucursalDAO.buscarSucursalesTabla(limit, offset);
+            List<EntidadSucursal> sucursales = this.sucursalDAO.consultarSucursales(limit, offset);
             return this.convertirSucursalTablaDTO(sucursales);
         } catch (PersistenciaException ex)
         {

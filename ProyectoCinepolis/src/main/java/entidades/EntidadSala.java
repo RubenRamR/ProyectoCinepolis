@@ -75,6 +75,7 @@ public class EntidadSala {
     public void setIdSucursal(int idSucursal) {
         this.idSucursal = idSucursal;
     }
+
     
     
 }

@@ -46,13 +46,13 @@ public class frmCrudSucursal extends javax.swing.JFrame {
         this.cargarAlumnosEnTabla(pagina, LIMITE);
     }
     
-    private void cargarAlumnosEnTabla(int pagina, int limite) {
+    private void cargarAlumnosEnTabla(int limit, int offset) {
         try
         {
-            List<SucursalTablaDTO> alumnos = this.sucursalNegocio.buscarSucursalTabla();
+            List<SucursalTablaDTO> alumnos = this.sucursalNegocio.buscarSucursalTabla(limit, offset);
             int total = alumnos.size();
-            int inicia = (pagina - 1) * limite;
-            int finTotal = Math.min(inicia + limite, total);
+            int inicia = (pagina - 1) * limit;
+            int finTotal = Math.min(inicia + limit, total);
 
             List<SucursalTablaDTO> paginatedList = alumnos.subList(inicia, finTotal);
             this.llenarTablaSucursales(paginatedList);

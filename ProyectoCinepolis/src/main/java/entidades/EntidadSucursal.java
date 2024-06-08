@@ -33,6 +33,7 @@ public class EntidadSucursal {
         this.ciudad = ciudad;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
+
     }
 
     public int getId() {
@@ -74,7 +75,7 @@ public class EntidadSucursal {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-
+    
     @Override
     public String toString() {
         return "EntidadSucursal{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';

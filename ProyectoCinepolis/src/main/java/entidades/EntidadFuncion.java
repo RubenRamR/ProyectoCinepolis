@@ -19,6 +19,7 @@ public class EntidadFuncion {
     Time tiempoLimpieza;
     int idPelicula;
     int idSala;
+
     
     public EntidadFuncion() {
     }
@@ -100,6 +101,7 @@ public class EntidadFuncion {
     public void setIdSala(int idSala) {
         this.idSala = idSala;
     }
+
     
     
     

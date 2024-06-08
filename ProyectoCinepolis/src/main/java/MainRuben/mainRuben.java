@@ -29,7 +29,7 @@ public class mainRuben {
         EntidadSucursal entidadSucursa3 = new EntidadSucursal( "prueba4", "prueba4", 456, 565);
         EntidadSucursal entidadSucursa4 = new EntidadSucursal( "prueba5", "prueba5", 56, 223);
         try {
-            sucursalDAO.buscarSucursalesTabla(1000, 0);
+            sucursalDAO.consultarSucursales(1000, 0);
         } catch (PersistenciaException ex) {
             System.out.println(ex.getMessage());
         }
