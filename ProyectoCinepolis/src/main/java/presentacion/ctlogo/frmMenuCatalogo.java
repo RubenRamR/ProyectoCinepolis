@@ -57,6 +57,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCatalogo = new javax.swing.JTable();
+        btnSiguiente = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -396,11 +399,24 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         tblCatalogo.setSelectionForeground(new java.awt.Color(211, 211, 211));
         jScrollPane1.setViewportView(tblCatalogo);
 
+        btnSiguiente.setText(">");
+
+        btnAtras.setText("<");
+
+        jLabel1.setText("Pagina No. 1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 622, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -416,7 +432,13 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(565, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSiguiente)
+                    .addComponent(btnAtras)
+                    .addComponent(jLabel1))
+                .addGap(22, 22, 22))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(3, 3, 3)
@@ -518,7 +540,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     public javax.swing.JPanel botonPeliculas1;
     public javax.swing.JPanel botonPrincipal1;
     private javax.swing.JButton btnAgregarPeliculas;
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCerrarSesion1;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel iconoCerrar1;
     private javax.swing.JLabel iconoClientes1;
     private javax.swing.JLabel iconoMinimizar1;
@@ -528,6 +552,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     public javax.swing.JPanel indicador6;
     private javax.swing.JLabel info1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;

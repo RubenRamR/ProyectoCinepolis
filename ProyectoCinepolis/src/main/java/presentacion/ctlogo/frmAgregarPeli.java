@@ -25,6 +25,8 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     public frmAgregarPeli() {
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,8 +59,8 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         txtTituloPeli = new javax.swing.JTextField();
         btnAgregarPeli = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        txtDuracionPeli = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        cmbxDuracion = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,14 +176,10 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Base Neue", 1, 14)); // NOI18N
         jLabel10.setText("Duracion:");
 
-        txtDuracionPeli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDuracionPeliActionPerformed(evt);
-            }
-        });
-
         jLabel11.setFont(new java.awt.Font("Base Neue", 1, 10)); // NOI18N
         jLabel11.setText("Minutos");
+
+        cmbxDuracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "30", "60", "120", "340" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -205,12 +203,12 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                 .addComponent(cmbxClasificacionPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtDuracionPeli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -237,8 +235,8 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtDuracionPeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11))
+                                    .addComponent(jLabel11)
+                                    .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -325,18 +323,16 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     }//GEN-LAST:event_txtURLImagenPeliActionPerformed
 
     private void btnAgregarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliActionPerformed
-      btnAgregarPeli.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
+   
         // Conectar a la base de datos y agregar la película
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tu_base_de_datos", "usuario", "contraseña");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinepolis", "root", "Bi0log1a1");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             stmt.setString(1, txtTituloPeli.getText());
             stmt.setString(2, cmbxGeneroPeli.getSelectedItem().toString());
             stmt.setString(3, cmbxClasificacionPeli.getSelectedItem().toString());
             stmt.setString(4, txtAREASinopsisPeli.getText());
-            stmt.setTime(5, Time.valueOf(txtDuracionPeli.getText()));
+            stmt.setTime(5, (Time) (cmbxDuracion.getSelectedItem()));
             stmt.setString(6, txtPaisOrigenPeli.getText());
             stmt.setString(7, txtLinkTrailerPeli.getText());
             stmt.setString(8, txtURLImagenPeli.getText());
@@ -348,13 +344,9 @@ public class frmAgregarPeli extends javax.swing.JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(frmAgregarPeli.this, "Error al agregar la película.");
         }
-    }
-});
-    }//GEN-LAST:event_btnAgregarPeliActionPerformed
+       
 
-    private void txtDuracionPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDuracionPeliActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDuracionPeliActionPerformed
+    }//GEN-LAST:event_btnAgregarPeliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,6 +386,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPeli;
     private javax.swing.JComboBox<String> cmbxClasificacionPeli;
+    private javax.swing.JComboBox<String> cmbxDuracion;
     private javax.swing.JComboBox<String> cmbxGeneroPeli;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -411,7 +404,6 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtAREASinopsisPeli;
-    private javax.swing.JTextField txtDuracionPeli;
     private javax.swing.JTextField txtLinkTrailerPeli;
     private javax.swing.JTextField txtPaisOrigenPeli;
     private javax.swing.JTextField txtTituloPeli;
