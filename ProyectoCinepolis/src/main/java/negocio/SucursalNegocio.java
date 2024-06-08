@@ -4,6 +4,7 @@
  */
 package negocio;
 
+import dtos.SucursalDTO;
 import dtos.SucursalTablaDTO;
 import entidades.EntidadSucursal;
 import java.util.ArrayList;
@@ -57,6 +58,14 @@ public class SucursalNegocio implements ISucursalNegocio {
             LOGGER.log(Level.SEVERE, "Error al buscar sucursales", ex);
             System.out.println(ex.getMessage());
             throw new NegocioException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public SucursalDTO buscarSucursalPorId(int id) throws NegocioException {
+        try{
+            EntidadSucursal sucursal = this.sucursalDAO.buscarSucursalPorId(id);
+            retrun this.c
         }
     }
 

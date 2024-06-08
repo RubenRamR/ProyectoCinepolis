@@ -114,7 +114,7 @@ public class SucursalDAO implements ISucursalDAO {
                 }
             }
         }
-    } // fin metodo editarSucursal
+    } 
 
     @Override
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {

@@ -4,6 +4,7 @@
  */
 package negocio;
 
+import dtos.SucursalDTO;
 import dtos.SucursalTablaDTO;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,4 +17,5 @@ import persistencia.ISucursalDAO;
 public interface ISucursalNegocio {
     
         public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException;
+        public SucursalDTO buscarSucursalPorId(int id) throws NegocioException;
 }
