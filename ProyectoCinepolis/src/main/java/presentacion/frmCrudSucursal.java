@@ -4,7 +4,7 @@
  */
 package presentacion;
 
-import dtos.SucursalTablaDTO;
+
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +12,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import negocio.ISucursalNegocio;
-import negocio.NegocioException;
+
+
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
 
@@ -25,8 +25,7 @@ public class frmCrudSucursal extends javax.swing.JFrame {
 
     private int pagina = 1;
     private final int LIMITE = 2;
-    private ISucursalNegocio sucursalNegocio;
-    
+     
     /**
      * Creates new form CarteleraClienteView
      */
@@ -35,106 +34,7 @@ public class frmCrudSucursal extends javax.swing.JFrame {
         initComponents();
     }
 
-    public frmCrudSucursal(ISucursalNegocio suscursalNegocio) {
-        initComponents();
-        this.sucursalNegocio = suscursalNegocio;
-    }
-    
-//    public void cargarMetodosIniciales() {
-//        //this.cargarConfiguracionInicialPantalla();
-//        this.cargarConfiguracionInicialTablaSucursales();
-//        this.cargarAlumnosEnTabla(pagina, LIMITE);
-//    }
-//    
-//    private void cargarAlumnosEnTabla(int pagina, int limite) {
-//        try
-//        {
-//            List<SucursalTablaDTO> alumnos = this.sucursalNegocio.buscarSucursalTabla();
-//            int total = alumnos.size();
-//            int inicia = (pagina - 1) * limite;
-//            int finTotal = Math.min(inicia + limite, total);
-//
-//            List<SucursalTablaDTO> paginatedList = alumnos.subList(inicia, finTotal);
-//            this.llenarTablaSucursales(paginatedList);
-//
-//            /*BtnAtras.setEnabled(pagina > 1);
-//            BtnSiguiente.setEnabled(finTotal < total);
-//            LblPagina.setText("Pagina " + pagina);*/
-//        } catch (NegocioException ex)
-//        {
-//            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-
-    private void cargarConfiguracionInicialTablaSucursales() {
-        ActionListener onEditarClickListener = new ActionListener() {
-            final int columnaId = 0;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Metodo para editar un alumno
-                editar();
-            }
-        };
-        int indiceColumnaEditar = 5;
-        TableColumnModel modeloColumnas = this.TblSucursales.getColumnModel();
-        modeloColumnas.getColumn(indiceColumnaEditar)
-                .setCellRenderer(new JButtonRenderer("Editar"));
-        modeloColumnas.getColumn(indiceColumnaEditar)
-                .setCellEditor(new JButtonCellEditor("Editar",
-                        onEditarClickListener));
-
-        ActionListener onEliminarClickListener = new ActionListener() {
-            final int columnaId = 0;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Metodo para eliminar un alumno
-                eliminar();
-            }
-        };
-        int indiceColumnaEliminar = 6;
-        modeloColumnas = this.TblSucursales.getColumnModel();
-        modeloColumnas.getColumn(indiceColumnaEliminar)
-                .setCellRenderer(new JButtonRenderer("Eliminar"));
-        modeloColumnas.getColumn(indiceColumnaEliminar)
-                .setCellEditor(new JButtonCellEditor("Eliminar",
-                        onEliminarClickListener));
-    }
-
-    private void llenarTablaSucursales(List<SucursalTablaDTO> sucursalesLista) {
-        DefaultTableModel modeloTabla = (DefaultTableModel) this.TblSucursales.getModel();
-
-        if (modeloTabla.getRowCount() > 0)
-        {
-            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--)
-            {
-                modeloTabla.removeRow(i);
-            }
-        }
-
-        if (sucursalesLista != null)
-        {
-            sucursalesLista.forEach(row ->
-            {
-                Object[] fila = new Object[5];
-                fila[0] = row.getIdSucursal();
-                fila[1] = row.getNombre();
-                fila[2] = row.getCoordenadaX();
-                fila[3] = row.getCoordenadaY();
-
-                modeloTabla.addRow(fila);
-            });
-        }
-    }
-
-    private void editar() {
-
-    }
-
-    private void eliminar() {
-
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -399,55 +299,6 @@ public class frmCrudSucursal extends javax.swing.JFrame {
         
         this.setVisible(false);
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try
-//        {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-//            {
-//                if ("Nimbus".equals(info.getName()))
-//                {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex)
-//        {
-//            java.util.logging.Logger.getLogger(frmCrudSucursal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex)
-//        {
-//            java.util.logging.Logger.getLogger(frmCrudSucursal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex)
-//        {
-//            java.util.logging.Logger.getLogger(frmCrudSucursal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-//        {
-//            java.util.logging.Logger.getLogger(frmCrudSucursal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new frmCrudSucursal().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LblAdmin;

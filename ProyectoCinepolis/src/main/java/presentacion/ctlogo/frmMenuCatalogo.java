@@ -4,50 +4,17 @@
  */
 package presentacion.ctlogo;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.table.TableColumnModel;
-import utilerias.JButtonCellEditor;
-import utilerias.JButtonRenderer;
-
 /**
  *
- * @author Dell
+ * @author caarl
  */
-public class MenuCatalogo extends javax.swing.JFrame {
+public class frmMenuCatalogo extends javax.swing.JFrame {
 
     /**
-     * Creates new form MenuCatalogo
+     * Creates new form frmMenuCatalogo
      */
-    public MenuCatalogo() {
+    public frmMenuCatalogo() {
         initComponents();
-    }
-
-    private void cargarConfiguracionInicialTablaPelicula() {
-        ActionListener onEditarClickListener = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Metodo para ver funciones
-                verFunciones();
-            }
-        };
-
-        int indiceColumnaVerFuncion = 1;
-        TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
-        modeloColumnas.getColumn(indiceColumnaVerFuncion)
-                .setCellRenderer(new JButtonRenderer("Ver funciones"));
-        modeloColumnas.getColumn(indiceColumnaVerFuncion)
-                .setCellEditor(new JButtonCellEditor("Ver funciones",
-                        onEditarClickListener));
-    }
-
-    public void verFunciones() {
-        frmFunciones funciones = new frmFunciones();
-        
-        funciones.setVisible(true);
-        
-        this.setVisible(false);
     }
 
     /**
@@ -59,7 +26,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelDinamico = new javax.swing.JPanel();
         sidePane1 = new javax.swing.JPanel();
         botonPrincipal1 = new javax.swing.JPanel();
         labelPrincipal1 = new javax.swing.JLabel();
@@ -89,14 +55,10 @@ public class MenuCatalogo extends javax.swing.JFrame {
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        textFieldBuscarPeli = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCatalogo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        panelDinamico.setBackground(new java.awt.Color(65, 65, 65));
 
         sidePane1.setBackground(new java.awt.Color(0, 0, 102));
         sidePane1.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,8 +77,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
         iconoPrincipal1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         iconoPrincipal1.setForeground(new java.awt.Color(204, 204, 204));
-
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/home.png"))); // NOI18N
 
         javax.swing.GroupLayout botonPrincipal1Layout = new javax.swing.GroupLayout(botonPrincipal1);
         botonPrincipal1.setLayout(botonPrincipal1Layout);
@@ -168,8 +128,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
         labelClientes1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         labelClientes1.setForeground(new java.awt.Color(204, 204, 204));
-
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cliente.png"))); // NOI18N
 
         iconoClientes1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         iconoClientes1.setForeground(new java.awt.Color(204, 204, 204));
@@ -232,8 +190,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
         iconoPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         iconoPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/peliculas.png"))); // NOI18N
-
         javax.swing.GroupLayout botonPeliculas1Layout = new javax.swing.GroupLayout(botonPeliculas1);
         botonPeliculas1.setLayout(botonPeliculas1Layout);
         botonPeliculas1Layout.setHorizontalGroup(
@@ -276,8 +232,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
         });
 
         jLabel3.setMinimumSize(new java.awt.Dimension(300, 300));
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton (1).png"))); // NOI18N
 
         btnAgregarPeliculas.setBackground(new java.awt.Color(0, 0, 102));
         btnAgregarPeliculas.setForeground(new java.awt.Color(255, 255, 255));
@@ -392,13 +346,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Cinepolis");
 
-        textFieldBuscarPeli.setText("Buscar...");
-        textFieldBuscarPeli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldBuscarPeliActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelHerramientas1Layout = new javax.swing.GroupLayout(panelHerramientas1);
         panelHerramientas1.setLayout(panelHerramientas1Layout);
         panelHerramientas1Layout.setHorizontalGroup(
@@ -407,20 +354,15 @@ public class MenuCatalogo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelHerramientas1Layout.createSequentialGroup()
-                        .addComponent(iconoMinimizar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(iconoCerrar1))
-                    .addComponent(textFieldBuscarPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addComponent(iconoMinimizar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(iconoCerrar1)
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         panelHerramientas1Layout.setVerticalGroup(
             panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHerramientas1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(textFieldBuscarPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
                 .addGroup(panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(iconoCerrar1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(iconoMinimizar1))
@@ -454,36 +396,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
         tblCatalogo.setSelectionForeground(new java.awt.Color(211, 211, 211));
         jScrollPane1.setViewportView(tblCatalogo);
 
-        javax.swing.GroupLayout panelDinamicoLayout = new javax.swing.GroupLayout(panelDinamico);
-        panelDinamico.setLayout(panelDinamicoLayout);
-        panelDinamicoLayout.setHorizontalGroup(
-            panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDinamicoLayout.createSequentialGroup()
-                .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelDinamicoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel11)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelDinamicoLayout.setVerticalGroup(
-            panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sidePane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelDinamicoLayout.createSequentialGroup()
-                .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDinamicoLayout.createSequentialGroup()
-                        .addGap(269, 269, 269)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDinamicoLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -492,15 +404,31 @@ public class MenuCatalogo extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(panelDinamico, javax.swing.GroupLayout.PREFERRED_SIZE, 616, Short.MAX_VALUE)))
+                    .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(panelHerramientas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 610, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(panelDinamico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGap(3, 3, 3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(37, 37, 37)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(76, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(sidePane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(3, 3, 3)))))
         );
 
         pack();
@@ -522,6 +450,18 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_info1MouseClicked
 
+    private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
+
+    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarSesion1ActionPerformed
+
     private void iconoMinimizar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconoMinimizar1MouseClicked
 
     }//GEN-LAST:event_iconoMinimizar1MouseClicked
@@ -530,10 +470,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_iconoCerrar1MouseClicked
 
-    private void textFieldBuscarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldBuscarPeliActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldBuscarPeliActionPerformed
-
     private void panelHerramientas1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHerramientas1MouseDragged
 
     }//GEN-LAST:event_panelHerramientas1MouseDragged
@@ -541,18 +477,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
     private void panelHerramientas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHerramientas1MousePressed
 
     }//GEN-LAST:event_panelHerramientas1MousePressed
-
-    private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
-
-    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
-
-    private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCerrarSesion1ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -563,35 +487,28 @@ public class MenuCatalogo extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
-            java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(frmMenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(frmMenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(frmMenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(frmMenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuCatalogo().setVisible(true);
+                new frmMenuCatalogo().setVisible(true);
             }
         });
     }
@@ -611,7 +528,6 @@ public class MenuCatalogo extends javax.swing.JFrame {
     public javax.swing.JPanel indicador6;
     private javax.swing.JLabel info1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -626,10 +542,8 @@ public class MenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JLabel labelClientes1;
     private javax.swing.JLabel labelPeliculas1;
     private javax.swing.JLabel labelPrincipal1;
-    public javax.swing.JPanel panelDinamico;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;
     private javax.swing.JTable tblCatalogo;
-    private javax.swing.JTextField textFieldBuscarPeli;
     // End of variables declaration//GEN-END:variables
 }
