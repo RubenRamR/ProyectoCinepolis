@@ -40,31 +40,31 @@ public class frmCrudSucursal extends javax.swing.JFrame {
         this.sucursalNegocio = suscursalNegocio;
     }
     
-    public void cargarMetodosIniciales() {
-        //this.cargarConfiguracionInicialPantalla();
-        this.cargarConfiguracionInicialTablaSucursales();
-        this.cargarAlumnosEnTabla(pagina, LIMITE);
-    }
-    
-    private void cargarAlumnosEnTabla(int pagina, int limite) {
-        try
-        {
-            List<SucursalTablaDTO> alumnos = this.sucursalNegocio.buscarSucursalTabla();
-            int total = alumnos.size();
-            int inicia = (pagina - 1) * limite;
-            int finTotal = Math.min(inicia + limite, total);
-
-            List<SucursalTablaDTO> paginatedList = alumnos.subList(inicia, finTotal);
-            this.llenarTablaSucursales(paginatedList);
-
-            /*BtnAtras.setEnabled(pagina > 1);
-            BtnSiguiente.setEnabled(finTotal < total);
-            LblPagina.setText("Pagina " + pagina);*/
-        } catch (NegocioException ex)
-        {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//    public void cargarMetodosIniciales() {
+//        //this.cargarConfiguracionInicialPantalla();
+//        this.cargarConfiguracionInicialTablaSucursales();
+//        this.cargarAlumnosEnTabla(pagina, LIMITE);
+//    }
+//    
+//    private void cargarAlumnosEnTabla(int pagina, int limite) {
+//        try
+//        {
+//            List<SucursalTablaDTO> alumnos = this.sucursalNegocio.buscarSucursalTabla();
+//            int total = alumnos.size();
+//            int inicia = (pagina - 1) * limite;
+//            int finTotal = Math.min(inicia + limite, total);
+//
+//            List<SucursalTablaDTO> paginatedList = alumnos.subList(inicia, finTotal);
+//            this.llenarTablaSucursales(paginatedList);
+//
+//            /*BtnAtras.setEnabled(pagina > 1);
+//            BtnSiguiente.setEnabled(finTotal < total);
+//            LblPagina.setText("Pagina " + pagina);*/
+//        } catch (NegocioException ex)
+//        {
+//            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     private void cargarConfiguracionInicialTablaSucursales() {
         ActionListener onEditarClickListener = new ActionListener() {
