@@ -4,6 +4,11 @@
  */
 package presentacion.ctlogo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.table.TableColumnModel;
+import utilerias.JButtonCellEditor;
+import utilerias.JButtonRenderer;
 
 /**
  *
@@ -16,6 +21,33 @@ public class MenuCatalogo extends javax.swing.JFrame {
      */
     public MenuCatalogo() {
         initComponents();
+    }
+
+    private void cargarConfiguracionInicialTablaPelicula() {
+        ActionListener onEditarClickListener = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Metodo para ver funciones
+                verFunciones();
+            }
+        };
+
+        int indiceColumnaVerFuncion = 1;
+        TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaVerFuncion)
+                .setCellRenderer(new JButtonRenderer("Ver funciones"));
+        modeloColumnas.getColumn(indiceColumnaVerFuncion)
+                .setCellEditor(new JButtonCellEditor("Ver funciones",
+                        onEditarClickListener));
+    }
+
+    public void verFunciones() {
+        frmFunciones funciones = new frmFunciones();
+        
+        funciones.setVisible(true);
+        
+        this.setVisible(false);
     }
 
     /**
@@ -409,7 +441,15 @@ public class MenuCatalogo extends javax.swing.JFrame {
             new String [] {
                 "Pelicula", "Ver funciones"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblCatalogo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblCatalogo.setSelectionForeground(new java.awt.Color(211, 211, 211));
         jScrollPane1.setViewportView(tblCatalogo);
@@ -503,7 +543,7 @@ public class MenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_panelHerramientas1MousePressed
 
     private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
-       
+
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
     private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
@@ -523,20 +563,27 @@ public class MenuCatalogo extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(MenuCatalogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
