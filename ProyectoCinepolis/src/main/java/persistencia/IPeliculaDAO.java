@@ -17,5 +17,6 @@ public interface IPeliculaDAO {
     public void eliminarPelicula (EntidadPelicula entidadPelicula) throws PersistenciaException;
     public List <EntidadPelicula> consultarPeliculas (int limit, int offset) throws PersistenciaException;
     public EntidadPelicula consultarPeliculaPorID(int id) throws PersistenciaException;
-    
+    public List <EntidadPelicula> consultarPeliculasPorSucursal (int idSucursal, int limit, int offset) throws PersistenciaException;
+
 }

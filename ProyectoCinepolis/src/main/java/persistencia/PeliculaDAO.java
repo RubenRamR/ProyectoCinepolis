@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +24,6 @@ public class PeliculaDAO implements IPeliculaDAO {
     public PeliculaDAO(IConexionBD conexionBD){
         this.conexionBD = conexionBD;
     }
-    
     
     @Override
     public void insertarPelicula(EntidadPelicula entidadPelicula) throws PersistenciaException {
@@ -214,5 +212,37 @@ public class PeliculaDAO implements IPeliculaDAO {
             }
         }
     }
+    
+    @Override
+    public List<EntidadPelicula> consultarPeliculasPorSucursal(int idSucursal, int limit, int offset) throws PersistenciaException {
+        try {
+            List<EntidadPelicula> sucursalLista = new ArrayList<>();
+            Connection conexion = this.conexionBD.crearConexion();
+            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT " +  limit + " OFFSET " + offset;
+            Statement comandoSQL = conexion.createStatement();
+            ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
+            while (resultado.next()) {
+                EntidadPelicula pelicula = new EntidadPelicula();
+                pelicula.setId(resultado.getInt("id"));
+                pelicula.setTitulo(resultado.getString("titulo"));
+                pelicula.setGenero(resultado.getString("genero"));
+                pelicula.setClasificacion(resultado.getString("clasificacion"));
+                pelicula.setSinopsis(resultado.getString("sinopsis"));
+                pelicula.setDuracion(resultado.getTime("duracion"));
+                pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
+                pelicula.setTrailerLink(resultado.getString("trailerLink"));
+                pelicula.setImagenURL(resultado.getString("imagenURL"));
+                
+                sucursalLista.add(pelicula);
+                System.out.println(pelicula.toString());
+            }
+            conexion.close();
+            return sucursalLista;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new PersistenciaException("Ocurrió un error");
+        }
+    }
+    
     
 }

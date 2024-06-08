@@ -17,4 +17,5 @@ public interface ISalaDAO {
     public void eliminarSala(EntidadSala entidadSala) throws PersistenciaException;
     public List<EntidadSala> consultarSalas(int limit, int offset) throws PersistenciaException;
     public EntidadSala consultarSalaPorID(int id) throws PersistenciaException;
+    public List<EntidadSala> consultarSalasSegunSucursal(int idSucursal, int limit, int offset) throws PersistenciaException;
 }

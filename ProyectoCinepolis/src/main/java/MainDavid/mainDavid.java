@@ -41,15 +41,11 @@ public class mainDavid {
 //        Time duracion = Time.valueOf("02:15:00");
 //        EntidadPelicula entidadPelicula = new EntidadPelicula(1, "asdasdasd","genero","A","asdasd", duracion ,"asdasd","asdasd","asdd");
         
-        IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
-        Date fechaNacimiento = Date.valueOf("2003-10-07");
-        EntidadCliente entidadCliente = new EntidadCliente(1, "Prueba", "Apellidos prueba", "Ciudad prueba", "Correo prueba", fechaNacimiento, 400, 500);
+//        IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+//        Date fechaNacimiento = Date.valueOf("2003-10-07");
+//        EntidadCliente entidadCliente = new EntidadCliente(1, "Prueba", "Apellidos prueba", "Ciudad prueba", "Correo prueba", fechaNacimiento, 400, 500);
         
-        try {
-            clienteDAO.editarCliente(entidadCliente);
-        } catch (PersistenciaException ex) {
-            System.out.println(ex.getMessage());
-        }
+       
         
     }
     

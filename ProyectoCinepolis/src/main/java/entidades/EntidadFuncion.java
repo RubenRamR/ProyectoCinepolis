@@ -17,6 +17,7 @@ public class EntidadFuncion {
     Timestamp inicio;
     Timestamp fin;
     Time tiempoLimpieza;
+    int asientosDisponibles;
     int idPelicula;
     int idSala;
 
@@ -25,22 +26,24 @@ public class EntidadFuncion {
     }
     
     // constructor con todos los atributos
-    public EntidadFuncion(int id, float precio, Timestamp inicio, Timestamp fin, Time tiempoLimpieza, int idPelicula, int idSala) {
+    public EntidadFuncion(int id, float precio, Timestamp inicio, Timestamp fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
         this.id = id;
         this.precio = precio;
         this.inicio = inicio;
         this.fin = fin;
         this.tiempoLimpieza = tiempoLimpieza;
+        this.asientosDisponibles = asientosDisponibles;
         this.idPelicula = idPelicula;
         this.idSala = idSala;
     }
     
     // Constructor sin id
-    public EntidadFuncion(float precio, Timestamp inicio, Timestamp fin, Time tiempoLimpieza, int idPelicula, int idSala) {
+    public EntidadFuncion(float precio, Timestamp inicio, Timestamp fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
         this.precio = precio;
         this.inicio = inicio;
         this.fin = fin;
         this.tiempoLimpieza = tiempoLimpieza;
+        this.asientosDisponibles = asientosDisponibles;
         this.idPelicula = idPelicula;
         this.idSala = idSala;
     }
@@ -100,6 +103,15 @@ public class EntidadFuncion {
 
     public void setIdSala(int idSala) {
         this.idSala = idSala;
+    }
+
+    public int getAsientosDisponibles() {
+        return asientosDisponibles;
+    }
+
+    @Override
+    public String toString() {
+        return "EntidadFuncion{" + "id=" + id + ", precio=" + precio + ", inicio=" + inicio + ", fin=" + fin + ", tiempoLimpieza=" + tiempoLimpieza + ", asientosDisponibles=" + asientosDisponibles + ", idPelicula=" + idPelicula + ", idSala=" + idSala + '}';
     }
 
     

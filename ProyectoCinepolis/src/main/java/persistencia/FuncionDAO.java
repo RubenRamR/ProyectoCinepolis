@@ -31,7 +31,7 @@ public class FuncionDAO implements IFuncionDAO{
             String codigoSQL = "";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             
-            preparedStatement.setString(1, entidadFuncion.getNombre());
+            preparedStatement.setInt(1, entidadFuncion.getId());
 
             preparedStatement.executeUpdate();
             conexion.commit();

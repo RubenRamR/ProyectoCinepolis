@@ -13,18 +13,16 @@ public class EntidadSala {
     int id;
     String nombre;
     int asientos;
-    int asientosDisponibles;
     int idSucursal;
 
     public EntidadSala() {
     }
 
     // constructor con todos los atributos
-    public EntidadSala(int id, String nombre, int asientos, int asientosDisponibles, int idSucursal) {
+    public EntidadSala(int id, String nombre, int asientos, int idSucursal) {
         this.id = id;
         this.nombre = nombre;
         this.asientos = asientos;
-        this.asientosDisponibles = asientosDisponibles;
         this.idSucursal = idSucursal;
     }
 
@@ -32,7 +30,6 @@ public class EntidadSala {
     public EntidadSala(String nombre, int asientos, int asientosDisponibles, int idSucursal) {
         this.nombre = nombre;
         this.asientos = asientos;
-        this.asientosDisponibles = asientosDisponibles;
         this.idSucursal = idSucursal;
     }
     
@@ -60,13 +57,6 @@ public class EntidadSala {
         this.asientos = asientos;
     }
 
-    public int getAsientosDisponibles() {
-        return asientosDisponibles;
-    }
-
-    public void setAsientosDisponibles(int asientosDisponibles) {
-        this.asientosDisponibles = asientosDisponibles;
-    }
 
     public int getIdSucursal() {
         return idSucursal;
@@ -76,6 +66,12 @@ public class EntidadSala {
         this.idSucursal = idSucursal;
     }
 
+    @Override
+    public String toString() {
+        return "EntidadSala{" + "id=" + id + ", nombre=" + nombre + ", asientos=" + asientos + ", idSucursal=" + idSucursal + '}';
+    }
+    
+    
     
     
 }

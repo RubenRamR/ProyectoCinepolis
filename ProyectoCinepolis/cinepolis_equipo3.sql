@@ -1,32 +1,64 @@
 create database cinepolis;
 use cinepolis;
 
+drop database cinepolis;
+
 -- SECCIÓN DEL SCRIPT PARA PRUEBAS ----------------------------------------------------------------------------------
 
 -- pruebas con la entidad Sucursal
-INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY)
-values ('Cinepolis bella vista', 'Obregon', 100, 200);
+INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY) values ('Cinepolis bella vista', 'Ciudad Obregon', 100, 200);
+INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY) values ('Cinepolis de hermosillo', 'Hermosillo', -1555, 1000);
+INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY) values ('Cinepolis de navojoa', 'Navojoa', -555, -400);
+INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY) values ('Cinepolis de guaymas', 'Guaymas', 1044, 545);
 
-SELECT * FROM Sucursal;
-DELETE FROM Sucursal WHERE ID = 2;
-UPDATE Sucursal SET nombre = "prueba", ciudad = "prueba", coordenadaX = 400, coordenadaY = 400 WHERE id = 1;
-SELECT id, nombre, ciudad, coordenadaX, coordenadaY FROM Sucursal LIMIT 5 OFFSET 0;
 
 -- pruebas con la entidad Pelicula
-INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL)
-values('tituloxd', 'generoxd', 'A', 'sinopsisxd', '02:15:00', 'paisxd', 'trailerLink', 'imagenURL');
-UPDATE Pelicula SET titulo = 'hola', genero = 'hola', clasificacion = 'd', sinopsis = 'hola', duracion = '01:05:00', paisOrigen = 'hola', trailerLink = 'hola', imagenURL = 'hola' WHERE id = 1;
-SELECT * FROM Pelicula;
-SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula LIMIT 1000 OFFSET 0;
-SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula WHERE id = 5;
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Rapido y furioso', 'Accion', 'AB', 'Sinopsis', '01:50:00', 'USA', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('50 sombras', 'Drama', 'C', 'Sinopsis', '02:05:00', 'Suiza', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Avengers endgame', 'Accion', 'B', 'Sinopsis', '04:54:00', 'Noruega', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Avengers infinity', 'Accion', 'B', 'Sinopsis', '01:15:00', 'Mexico', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Spiderman', 'Ficcion', 'A', 'Sinopsis', '02:10:00', 'Canada', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Xmen', 'Ficcion', 'B', 'Sinopsis', '02:50:00', 'Italia', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('Titanic', 'Romance', 'B15', 'Sinopsis', '03:00:10', 'Inglaterra', 'trailerLink', 'imagenURL');
+INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) values('El conjuro', 'Terror', 'C', 'Sinopsis', '03:40:00', 'Suiza', 'trailerLink', 'imagenURL');
+
 
 -- pruebas cliente
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('David Elier', 'Campa Chaparro', 'Ciudad obregon', 'davidelier@gmail.com', '2004-10-07', 100, 300);
-SELECT * FROM Cliente;
-SELECT id, nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY FROM Cliente LIMIT 100 OFFSET 0;
-UPDATE Cliente SET nombre = 'asdasd', apellidos = 'asdasd', ciudad = 'asdasd', correo = 'asdasd', fechaNacimiento = '2000-10-10', coordenadaX = 1000, coordenadaY = 100 WHERE id = 2;
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('David Elier', 'Campa Chaparro', 'Ciudad Obregon', 'davidelier@gmail.com', '2004-10-07', 50, 200);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Carlos damian', 'garcia', 'Navojoa', 'carlos@gmail.com', '2004-08-07', -500, -300);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Ruben', 'ramirez', 'Hermosillo', 'ruben@gmail.com', '2004-01-07', 1000, 1000);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Edgar', 'Solano', 'Guaymas', 'edgar@gmail.com', '2000-04-01', 200, 300);
+
+-- pruebas sala
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Obregonense', 50, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Obesa', 45, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Ohio', 30, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Ontas', 100, 1);
+
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Hermosillense', 50, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Helada', 45, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Harry', 53, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Hanna', 42, 2);
+
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Navojoense', 50, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Navarro', 35, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Nevarez', 113, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Nevada', 10, 3);
+
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Guaymaense', 52, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Guayaba', 90, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala God', 53, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Grande', 80, 4);
+
+
+
+SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT  1000 offset 0;
 
 -- pruebas Funcion
+
+
+
+
 
 -- FIN SECCIÓN PRUEBAS--------------------------------------------------------------------------------------------------
 
@@ -70,11 +102,11 @@ CREATE TABLE Sala(
 	id int auto_increment primary key,
     nombre varchar(50),
     asientos int,
-    asientosDisponibles int,
-    idSucursal int,
+    idSucursal int not null,
     eliminado bit(1) not null default b'0',
     foreign key (idSucursal) references Sucursal (id)
 );
+
 
 CREATE TABLE Funcion(
 	id int auto_increment primary key,
@@ -82,6 +114,7 @@ CREATE TABLE Funcion(
     inicio datetime,
     fin datetime,
     tiempoLimpieza time,
+	asientosDisponibles int,
     idPelicula int,
     idSala int,
     eliminado bit(1) not null default b'0',
