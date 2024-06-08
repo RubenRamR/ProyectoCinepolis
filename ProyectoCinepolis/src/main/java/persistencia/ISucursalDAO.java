@@ -16,5 +16,6 @@ public interface ISucursalDAO {
     public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public List<EntidadSucursal> buscarSucursalesTabla(int limit, int offset) throws PersistenciaException;
+    public EntidadSucursal buscarSucursalPorId(int id) throws PersistenciaException;
 
 }
