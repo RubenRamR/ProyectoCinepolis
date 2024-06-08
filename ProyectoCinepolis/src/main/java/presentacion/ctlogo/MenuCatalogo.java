@@ -50,8 +50,9 @@ public class MenuCatalogo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        btnCerrarSesion = new javax.swing.JButton();
+        btnAgregarPeliculas = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnCerrarSesion1 = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
@@ -246,16 +247,30 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton (1).png"))); // NOI18N
 
-        btnCerrarSesion.setBackground(new java.awt.Color(0, 0, 102));
-        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarPeliculas.setBackground(new java.awt.Color(0, 0, 102));
+        btnAgregarPeliculas.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarPeliculas.setText("Agregar Péliculas");
+        btnAgregarPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
+                btnAgregarPeliculasActionPerformed(evt);
             }
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal Bella Vista", "Sucursal Sendero", " ", " " }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        btnCerrarSesion1.setBackground(new java.awt.Color(0, 0, 102));
+        btnCerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion1.setText("Cerrar Sesión");
+        btnCerrarSesion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesion1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sidePane1Layout = new javax.swing.GroupLayout(sidePane1);
         sidePane1.setLayout(sidePane1Layout);
@@ -286,7 +301,8 @@ public class MenuCatalogo extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCerrarSesion))
+                    .addComponent(btnAgregarPeliculas)
+                    .addComponent(btnCerrarSesion1))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
@@ -307,10 +323,12 @@ public class MenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregarPeliculas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCerrarSesion1)
                 .addGap(8, 8, 8))
         );
 
@@ -423,7 +441,7 @@ public class MenuCatalogo extends javax.swing.JFrame {
                     .addGroup(panelDinamicoLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -484,9 +502,17 @@ public class MenuCatalogo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_panelHerramientas1MousePressed
 
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+    private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
        
-    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
+
+    private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarSesion1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -527,7 +553,8 @@ public class MenuCatalogo extends javax.swing.JFrame {
     public javax.swing.JPanel botonClientes1;
     public javax.swing.JPanel botonPeliculas1;
     public javax.swing.JPanel botonPrincipal1;
-    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnAgregarPeliculas;
+    private javax.swing.JButton btnCerrarSesion1;
     private javax.swing.JLabel iconoCerrar1;
     private javax.swing.JLabel iconoClientes1;
     private javax.swing.JLabel iconoMinimizar1;
