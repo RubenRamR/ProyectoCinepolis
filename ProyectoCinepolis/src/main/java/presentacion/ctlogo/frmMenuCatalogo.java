@@ -4,6 +4,12 @@
  */
 package presentacion.ctlogo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.table.TableColumnModel;
+import utilerias.JButtonCellEditor;
+import utilerias.JButtonRenderer;
+
 /**
  *
  * @author caarl
@@ -15,7 +21,32 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
      */
     public frmMenuCatalogo() {
         initComponents();
+        cargarConfiguracionInicialTablaPelicula();
     }
+    
+    private void cargarConfiguracionInicialTablaPelicula() {
+        ActionListener onVerFuncionesClickListener = (ActionEvent e) ->
+        {
+            verFunciones();
+        };
+        int indiceColumnaVerFunciones = 1;
+        TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaVerFunciones)
+                .setCellRenderer(new JButtonRenderer("Ver funciones"));
+        modeloColumnas.getColumn(indiceColumnaVerFunciones)
+                .setCellEditor(new JButtonCellEditor("Ver funciones",
+                        onVerFuncionesClickListener));
+    }
+    
+    public void verFunciones(){
+        frmFuncionesPelis fun = new frmFuncionesPelis();
+        
+        fun.setVisible(true);
+        
+        this.setVisible(false);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
