@@ -22,6 +22,19 @@ public class SalaNegocio implements ISalaNegocio {
     public void insertarSala(SalaDTO salaDTO) throws NegocioException {
         try
         {
+            if (salaDTO == null)
+            {
+                throw new NegocioException("La sala DTO es nula");
+            }
+            if (salaDTO.getNombre().length() > 50)
+            {
+                throw new NegocioException("El nombre de la sala no puede exceder los 50 caracteres");
+            }
+            if (salaDTO.getAsientos() <= 0)
+            {
+                throw new NegocioException("El número de asientos debe ser mayor que cero");
+            }
+
             EntidadSala sala = convertirADTOEntidad(salaDTO);
             this.salaDAO.insertarSala(sala);
         } catch (PersistenciaException ex)
@@ -35,6 +48,18 @@ public class SalaNegocio implements ISalaNegocio {
     public void editarSala(SalaDTO salaDTO) throws NegocioException {
         try
         {
+            if (salaDTO == null)
+            {
+                throw new NegocioException("La sala DTO es nula");
+            }
+            if (salaDTO.getNombre().length() > 50)
+            {
+                throw new NegocioException("El nombre de la sala no puede exceder los 50 caracteres");
+            }
+            if (salaDTO.getAsientos() <= 0)
+            {
+                throw new NegocioException("El número de asientos debe ser mayor que cero");
+            }
             EntidadSala sala = convertirADTOEntidad(salaDTO);
             this.salaDAO.editarSala(sala);
         } catch (PersistenciaException ex)
