@@ -44,7 +44,7 @@ public class ClienteNegocio implements IClienteNegocio {
     private EntidadCliente convertirDTOAEntidad(ClienteDTO clienteDTO) throws NegocioException {
         if (clienteDTO == null)
         {
-            throw new NegocioException("El cliente DTO es nulo");
+            throw new NegocioException("El cliente es nulo");
         }
 
         EntidadCliente cliente = new EntidadCliente();
@@ -64,6 +64,27 @@ public class ClienteNegocio implements IClienteNegocio {
     public void insertarCliente(ClienteDTO clienteDTO) throws NegocioException {
         try
         {
+            if (clienteDTO == null)
+            {
+                throw new NegocioException("El cliente DTO es nulo");
+            }
+            if (clienteDTO.getNombre().length() > 50)
+            {
+                throw new NegocioException("El nombre del cliente no puede exceder los 50 caracteres");
+            }
+            if (clienteDTO.getApellidos().length() > 50)
+            {
+                throw new NegocioException("Los apellidos del cliente no pueden exceder los 50 caracteres");
+            }
+            if (clienteDTO.getCiudad().length() > 40)
+            {
+                throw new NegocioException("La ciudad del cliente no puede exceder los 40 caracteres");
+            }
+            if (clienteDTO.getCorreo().length() > 50)
+            {
+                throw new NegocioException("El correo del cliente no puede exceder los 50 caracteres");
+            }
+
             EntidadCliente cliente = convertirDTOAEntidad(clienteDTO);
             this.clienteDAO.insertarCliente(cliente);
         } catch (PersistenciaException ex)
@@ -77,6 +98,27 @@ public class ClienteNegocio implements IClienteNegocio {
     public void editarCliente(ClienteDTO clienteDTO) throws NegocioException {
         try
         {
+            if (clienteDTO == null)
+            {
+                throw new NegocioException("El cliente DTO es nulo");
+            }
+            if (clienteDTO.getNombre().length() > 50)
+            {
+                throw new NegocioException("El nombre del cliente no puede exceder los 50 caracteres");
+            }
+            if (clienteDTO.getApellidos().length() > 50)
+            {
+                throw new NegocioException("Los apellidos del cliente no pueden exceder los 50 caracteres");
+            }
+            if (clienteDTO.getCiudad().length() > 40)
+            {
+                throw new NegocioException("La ciudad del cliente no puede exceder los 40 caracteres");
+            }
+            if (clienteDTO.getCorreo().length() > 50)
+            {
+                throw new NegocioException("El correo del cliente no puede exceder los 50 caracteres");
+            }
+            
             EntidadCliente cliente = convertirDTOAEntidad(clienteDTO);
             this.clienteDAO.editarCliente(cliente);
         } catch (PersistenciaException ex)
