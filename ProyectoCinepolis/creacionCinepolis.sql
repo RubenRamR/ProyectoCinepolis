@@ -38,6 +38,7 @@ CREATE TABLE Cliente(
     ciudad varchar(40),
     correo varchar(50),
     fechaNacimiento date,
+    contrasena varchar(50),
 	coordenadaX int,
     coordenadaY int,
 	eliminado bit(1) not null default b'0'
