@@ -19,12 +19,13 @@ public class EntidadPelicula {
     Time duracion;
     String paisOrigen;
     String trailerLink;
+    byte[] imagen;
     
     public EntidadPelicula() {
     }
     
     // constructor con todos los atributos
-    public EntidadPelicula(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink) {
+    public EntidadPelicula(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.id = id;
         this.titulo = titulo;
         this.genero = genero;
@@ -33,10 +34,11 @@ public class EntidadPelicula {
         this.duracion = duracion;
         this.paisOrigen = paisOrigen;
         this.trailerLink = trailerLink;
+        this.imagen = imagen;
     }
 
     // constructor sin ID
-    public EntidadPelicula(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink) {
+    public EntidadPelicula(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.titulo = titulo;
         this.genero = genero;
         this.clasificacion = clasificacion;
@@ -44,6 +46,7 @@ public class EntidadPelicula {
         this.duracion = duracion;
         this.paisOrigen = paisOrigen;
         this.trailerLink = trailerLink;
+        this.imagen = imagen;
     }
     
     public int getId() {
@@ -109,5 +112,19 @@ public class EntidadPelicula {
     public void setTrailerLink(String trailerLink) {
         this.trailerLink = trailerLink;
     }
- 
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
+    @Override
+    public String toString() {
+        return "EntidadPelicula{" + "id=" + id + ", titulo=" + titulo + ", genero=" + genero + ", clasificacion=" + clasificacion + ", sinopsis=" + sinopsis + ", duracion=" + duracion + ", paisOrigen=" + paisOrigen + ", trailerLink=" + trailerLink + ", imagen=" + imagen + '}';
+    }
+    
+    
 }

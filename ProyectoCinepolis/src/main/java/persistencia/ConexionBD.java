@@ -11,11 +11,14 @@ public class ConexionBD implements IConexionBD {
     final String BASE_DATOS = "cinepolis";
     private final String CADENA_CONEXION = "jdbc:mysql://" + SERVER + "/" + BASE_DATOS;
     final String USUARIO = "root";
-    final String CONTRASEÑA = "";
+    final String CONTRASEÑA = "root";
     
     @Override
     public Connection crearConexion() throws SQLException {
         Connection conexion = DriverManager.getConnection(CADENA_CONEXION, USUARIO, CONTRASEÑA);
         return conexion;   
     }
+    
+    
+    
 }

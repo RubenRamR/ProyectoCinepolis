@@ -6,6 +6,7 @@ package entidades;
 
 import java.sql.Date;
 
+
 /**
  *
  * @author crazy
@@ -109,7 +110,10 @@ public class EntidadCliente {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "EntidadCliente{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", ciudad=" + ciudad + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
+    }
+
 }
