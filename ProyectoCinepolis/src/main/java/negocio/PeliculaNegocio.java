@@ -72,6 +72,32 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         try
         {
             EntidadPelicula pelicula = convertirADTOEntidad(peliculaDTO);
+
+            if (pelicula.getTitulo().length() > 50)
+            {
+                throw new NegocioException("El título de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getGenero().length() > 50)
+            {
+                throw new NegocioException("El género de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getClasificacion().length() > 5)
+            {
+                throw new NegocioException("La clasificación de la película no puede exceder los 5 caracteres");
+            }
+            if (pelicula.getSinopsis().length() > 200)
+            {
+                throw new NegocioException("La sinopsis de la película no puede exceder los 200 caracteres");
+            }
+            if (pelicula.getPaisOrigen().length() > 30)
+            {
+                throw new NegocioException("El país de origen de la película no puede exceder los 30 caracteres");
+            }
+            if (pelicula.getTrailerLink().length() > 80)
+            {
+                throw new NegocioException("El enlace del tráiler de la película no puede exceder los 80 caracteres");
+            }
+
             this.peliculaDAO.insertarPelicula(pelicula, idSucursal);
         } catch (PersistenciaException ex)
         {
@@ -85,6 +111,32 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         try
         {
             EntidadPelicula pelicula = convertirADTOEntidad(peliculaDTO);
+
+            if (pelicula.getTitulo().length() > 50)
+            {
+                throw new NegocioException("El título de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getGenero().length() > 50)
+            {
+                throw new NegocioException("El género de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getClasificacion().length() > 5)
+            {
+                throw new NegocioException("La clasificación de la película no puede exceder los 5 caracteres");
+            }
+            if (pelicula.getSinopsis().length() > 200)
+            {
+                throw new NegocioException("La sinopsis de la película no puede exceder los 200 caracteres");
+            }
+            if (pelicula.getPaisOrigen().length() > 30)
+            {
+                throw new NegocioException("El país de origen de la película no puede exceder los 30 caracteres");
+            }
+            if (pelicula.getTrailerLink().length() > 80)
+            {
+                throw new NegocioException("El enlace del tráiler de la película no puede exceder los 80 caracteres");
+            }
+
             this.peliculaDAO.editarPelicula(pelicula);
         } catch (PersistenciaException ex)
         {
@@ -98,6 +150,32 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         try
         {
             EntidadPelicula pelicula = convertirADTOEntidad(peliculaDTO);
+            
+            if (pelicula.getTitulo().length() > 50)
+            {
+                throw new NegocioException("El título de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getGenero().length() > 50)
+            {
+                throw new NegocioException("El género de la película no puede exceder los 50 caracteres");
+            }
+            if (pelicula.getClasificacion().length() > 5)
+            {
+                throw new NegocioException("La clasificación de la película no puede exceder los 5 caracteres");
+            }
+            if (pelicula.getSinopsis().length() > 200)
+            {
+                throw new NegocioException("La sinopsis de la película no puede exceder los 200 caracteres");
+            }
+            if (pelicula.getPaisOrigen().length() > 30)
+            {
+                throw new NegocioException("El país de origen de la película no puede exceder los 30 caracteres");
+            }
+            if (pelicula.getTrailerLink().length() > 80)
+            {
+                throw new NegocioException("El enlace del tráiler de la película no puede exceder los 80 caracteres");
+            }
+            
             this.peliculaDAO.eliminarPelicula(pelicula);
         } catch (PersistenciaException ex)
         {
