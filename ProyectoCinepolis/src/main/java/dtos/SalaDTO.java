@@ -10,27 +10,24 @@ package dtos;
  */
 public class SalaDTO {
 
-    int id;
-    String nombre;
-    int asientos;
-    int asientosDisponibles;
-    int idSucursal;
+    private int id;
+    private String nombre;
+    private int asientos;
+    private int idSucursal;
 
     public SalaDTO() {
     }
 
-    public SalaDTO(int id, String nombre, int asientos, int asientosDisponibles, int idSucursal) {
+    public SalaDTO(int id, String nombre, int asientos, int idSucursal) {
         this.id = id;
         this.nombre = nombre;
         this.asientos = asientos;
-        this.asientosDisponibles = asientosDisponibles;
         this.idSucursal = idSucursal;
     }
 
-    public SalaDTO(String nombre, int asientos, int asientosDisponibles, int idSucursal) {
+    public SalaDTO(String nombre, int asientos, int idSucursal) {
         this.nombre = nombre;
         this.asientos = asientos;
-        this.asientosDisponibles = asientosDisponibles;
         this.idSucursal = idSucursal;
     }
 
@@ -56,14 +53,6 @@ public class SalaDTO {
 
     public void setAsientos(int asientos) {
         this.asientos = asientos;
-    }
-
-    public int getAsientosDisponibles() {
-        return asientosDisponibles;
-    }
-
-    public void setAsientosDisponibles(int asientosDisponibles) {
-        this.asientosDisponibles = asientosDisponibles;
     }
 
     public int getIdSucursal() {

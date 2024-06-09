@@ -37,8 +37,8 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         dto.setDuracion(pelicula.getDuracion());
         dto.setPaisOrigen(pelicula.getPaisOrigen());
         dto.setTrailerLink(pelicula.getTrailerLink());
-        dto.setImagenURL(pelicula.getImagenURL());
-
+        pelicula.setImagen(pelicula.getImagen());
+        
         return dto;
     }
 
@@ -62,7 +62,7 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         pelicula.setDuracion(peliculaDTO.getDuracion());
         pelicula.setPaisOrigen(peliculaDTO.getPaisOrigen());
         pelicula.setTrailerLink(peliculaDTO.getTrailerLink());
-        pelicula.setImagenURL(peliculaDTO.getImagenURL());
+        pelicula.setImagen(pelicula.getImagen());
 
         return pelicula;
     }
@@ -150,7 +150,7 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         try
         {
             EntidadPelicula pelicula = convertirADTOEntidad(peliculaDTO);
-            
+
             if (pelicula.getTitulo().length() > 50)
             {
                 throw new NegocioException("El título de la película no puede exceder los 50 caracteres");
@@ -175,7 +175,7 @@ public class PeliculaNegocio implements IPeliculaNegocio {
             {
                 throw new NegocioException("El enlace del tráiler de la película no puede exceder los 80 caracteres");
             }
-            
+
             this.peliculaDAO.eliminarPelicula(pelicula);
         } catch (PersistenciaException ex)
         {

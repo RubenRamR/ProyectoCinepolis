@@ -86,7 +86,7 @@ public class ClienteNegocio implements IClienteNegocio {
             }
 
             EntidadCliente cliente = convertirDTOAEntidad(clienteDTO);
-            this.clienteDAO.insertarCliente(cliente);
+            this.clienteDAO.registrarCliente(cliente);
         } catch (PersistenciaException ex)
         {
             LOGGER.log(Level.SEVERE, "Error al insertar cliente", ex);
@@ -167,7 +167,7 @@ public class ClienteNegocio implements IClienteNegocio {
             return convertirClienteDTO(cliente);
         } catch (PersistenciaException ex)
         {
-            LOGGER.log(Level.SEVERE, "Error al consultar cliente por ID", ex);
+            LOGGER.log( Level.SEVERE, "Error al consultar cliente por ID", ex);
             throw new NegocioException("Error al consultar cliente por ID: " + ex.getMessage());
         }
     }

@@ -136,7 +136,6 @@ public class SalaNegocio implements ISalaNegocio {
         dto.setId(sala.getId());
         dto.setNombre(sala.getNombre());
         dto.setAsientos(sala.getAsientos());
-        dto.setAsientosDisponibles(sala.getAsientosDisponibles());
         dto.setIdSucursal(sala.getIdSucursal());
         return dto;
     }
@@ -146,7 +145,6 @@ public class SalaNegocio implements ISalaNegocio {
         entidad.setId(salaDTO.getId());
         entidad.setNombre(salaDTO.getNombre());
         entidad.setAsientos(salaDTO.getAsientos());
-        entidad.setAsientosDisponibles(salaDTO.getAsientosDisponibles());
         entidad.setIdSucursal(salaDTO.getIdSucursal());
         return entidad;
     }

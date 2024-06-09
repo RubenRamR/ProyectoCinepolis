@@ -8,23 +8,23 @@ package entidades;
  *
  * @author crazy
  */
-public class RelacionSucursalPelicula {
+public class RelacionSucursalTienePelicula {
     int id;
     int idSucursal;
     int idPelicula;
 
-    public RelacionSucursalPelicula() {
+    public RelacionSucursalTienePelicula() {
     }
     
     // constructor con id
-    public RelacionSucursalPelicula(int id, int idSucursal, int idPelicula) {
+    public RelacionSucursalTienePelicula(int id, int idSucursal, int idPelicula) {
         this.id = id;
         this.idSucursal = idSucursal;
         this.idPelicula = idPelicula;
     }
     
     // constructor sin id
-    public RelacionSucursalPelicula(int idSucursal, int idPelicula) {
+    public RelacionSucursalTienePelicula(int idSucursal, int idPelicula) {
         this.idSucursal = idSucursal;
         this.idPelicula = idPelicula;
     }

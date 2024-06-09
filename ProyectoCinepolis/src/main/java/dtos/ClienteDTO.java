@@ -12,25 +12,38 @@ import java.sql.Date;
  */
 public class ClienteDTO {
 
-    int id;
-    String nombre;
-    String apellidos;
-    String ciudad;
-    String correo;
-    Date fechaNacimiento;
-    int coordenadaX;
-    int coordenadaY;
+    private int id;
+    private String nombre;
+    private String apellidos;
+    private String ciudad;
+    private String correo;
+    private Date fechaNacimiento;
+    private String contrasena;
+    private int coordenadaX;
+    private int coordenadaY;
 
     public ClienteDTO() {
     }
 
-    public ClienteDTO(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, int coordenadaX, int coordenadaY) {
+    public ClienteDTO(String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.ciudad = ciudad;
+        this.correo = correo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.contrasena = contrasena;
+        this.coordenadaX = coordenadaX;
+        this.coordenadaY = coordenadaY;
+    }
+
+    public ClienteDTO(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.ciudad = ciudad;
         this.correo = correo;
         this.fechaNacimiento = fechaNacimiento;
+        this.contrasena = contrasena;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
@@ -83,6 +96,14 @@ public class ClienteDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
     public int getCoordenadaX() {
         return coordenadaX;
     }
@@ -98,5 +119,7 @@ public class ClienteDTO {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
+    
+    
 
 }

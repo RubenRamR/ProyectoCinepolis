@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IClienteDAO {
 
-    public void insertarCliente(EntidadCliente entidadCliente) throws PersistenciaException;
+    public void registrarCliente(EntidadCliente entidadCliente) throws PersistenciaException;
 
     public void editarCliente(EntidadCliente entidadCliente) throws PersistenciaException;
 
@@ -22,4 +22,6 @@ public interface IClienteDAO {
     public List<EntidadCliente> consultarClientes(int limit, int offset) throws PersistenciaException;
 
     public EntidadCliente consultarClientePorID(int id) throws PersistenciaException;
+
+    public boolean consultarClienteLogin(String correo, String contrasena) throws PersistenciaException;
 }

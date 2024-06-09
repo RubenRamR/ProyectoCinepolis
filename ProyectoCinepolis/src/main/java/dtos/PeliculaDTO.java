@@ -11,20 +11,31 @@ import java.sql.Time;
  * @author rramirez
  */
 public class PeliculaDTO {
-     int id;
-    String titulo;
-    String genero;
-    String clasificacion;
-    String sinopsis;
-    Time duracion;
-    String paisOrigen;
-    String trailerLink;
-    String imagenURL;
+    private int id;
+    private String titulo;
+    private String genero;
+    private String clasificacion;
+    private String sinopsis;
+    private Time duracion;
+    private String paisOrigen;
+    private String trailerLink;
+    private byte[] imagen;
 
     public PeliculaDTO() {
     }
+    
+    public PeliculaDTO(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
+        this.titulo = titulo;
+        this.genero = genero;
+        this.clasificacion = clasificacion;
+        this.sinopsis = sinopsis;
+        this.duracion = duracion;
+        this.paisOrigen = paisOrigen;
+        this.trailerLink = trailerLink;
+        this.imagen = imagen;
+    }
 
-    public PeliculaDTO(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, String imagenURL) {
+    public PeliculaDTO(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.id = id;
         this.titulo = titulo;
         this.genero = genero;
@@ -33,7 +44,7 @@ public class PeliculaDTO {
         this.duracion = duracion;
         this.paisOrigen = paisOrigen;
         this.trailerLink = trailerLink;
-        this.imagenURL = imagenURL;
+        this.imagen = imagen;
     }
 
     public int getId() {
@@ -100,13 +111,14 @@ public class PeliculaDTO {
         this.trailerLink = trailerLink;
     }
 
-    public String getImagenURL() {
-        return imagenURL;
+    public byte[] getImagen() {
+        return imagen;
     }
 
-    public void setImagenURL(String imagenURL) {
-        this.imagenURL = imagenURL;
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
+
     
     
 }
