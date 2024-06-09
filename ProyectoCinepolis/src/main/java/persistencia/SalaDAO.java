@@ -4,7 +4,7 @@
  */
 package persistencia;
 
-import entidades.EntidadSucursal;
+import entidades.EntidadSala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,30 +15,30 @@ import java.util.List;
 
 /**
  *
- * @author David Elier Campa Chaparro 245178 - Ruben
+ * @author David Elier Campa Chaparro 245178
  */
-public class SucursalDAO implements ISucursalDAO {
+public class SalaDAO implements ISalaDAO {
 
     private IConexionBD conexionBD;
 
-    public SucursalDAO(IConexionBD conexionBD) {
+    public SalaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
     @Override
-    public void insertarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
+    public void insertarSala(EntidadSala entidadSala) throws PersistenciaException {
         Connection conexion = null;
         try
         {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "INSERT INTO Sucursal(nombre, ciudad, coordenadaX, coordenadaY) values (?, ?, ?, ?);";
+            String codigoSQL = "INSERT INTO Sala (nombre, asientos, idSucursal) values (?, ?, ?);";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
 
-            preparedStatement.setString(1, entidadSucursal.getNombre());
-            preparedStatement.setString(2, entidadSucursal.getCiudad());
-            preparedStatement.setInt(3, entidadSucursal.getCoordenadaX());
-            preparedStatement.setInt(4, entidadSucursal.getCoordenadaY());
+            preparedStatement.setString(1, entidadSala.getNombre());
+            preparedStatement.setInt(2, entidadSala.getAsientos());
+            preparedStatement.setInt(3, entidadSala.getIdSucursal());
+
             preparedStatement.executeUpdate();
             conexion.commit();
         } catch (SQLException ex)
@@ -68,23 +68,22 @@ public class SucursalDAO implements ISucursalDAO {
                 }
             }
         }
-    } // fin metodo insertarSucursal
+    } // fin metodo
 
     @Override
-    public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
+    public void editarSala(EntidadSala entidadSala) throws PersistenciaException {
         Connection conexion = null;
         try
         {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "UPDATE Sucursal SET nombre = ?, ciudad = ?, coordenadaX = ?, coordenadaY = ? WHERE id = ?;";
+            String codigoSQL = "UPDATE Sala SET nombre = ?, asientos = ? WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
 
-            preparedStatement.setString(1, entidadSucursal.getNombre());
-            preparedStatement.setString(2, entidadSucursal.getCiudad());
-            preparedStatement.setInt(3, entidadSucursal.getCoordenadaX());
-            preparedStatement.setInt(4, entidadSucursal.getCoordenadaY());
-            preparedStatement.setInt(5, entidadSucursal.getId());
+            preparedStatement.setString(1, entidadSala.getNombre());
+            preparedStatement.setInt(2, entidadSala.getAsientos());
+            preparedStatement.setInt(3, entidadSala.getId());
+
             preparedStatement.executeUpdate();
             conexion.commit();
         } catch (SQLException ex)
@@ -114,18 +113,18 @@ public class SucursalDAO implements ISucursalDAO {
                 }
             }
         }
-    } // fin metodo editarSucursal
+    } // fin metodo
 
     @Override
-    public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
+    public void eliminarSala(EntidadSala entidadSala) throws PersistenciaException {
         Connection conexion = null;
         try
         {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "DELETE FROM Sucursal WHERE id = ?;";
+            String codigoSQL = "UPDATE Sala SET eliminado = b'1' WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
-            preparedStatement.setInt(1, entidadSucursal.getId());
+            preparedStatement.setInt(1, entidadSala.getId());
             preparedStatement.executeUpdate();
             conexion.commit();
         } catch (SQLException ex)
@@ -155,57 +154,56 @@ public class SucursalDAO implements ISucursalDAO {
                 }
             }
         }
-    } // fin metodo eliminarSucursal
+    } // fin metodo
 
     @Override
-    public List<EntidadSucursal> consultarSucursales(int limit, int offset) throws PersistenciaException {
+    public List<EntidadSala> consultarSalas(int limit, int offset) throws PersistenciaException {
         try
         {
-            List<EntidadSucursal> sucursalLista = new ArrayList<>();
+            List<EntidadSala> salaLista = new ArrayList<>();
             Connection conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT id, nombre, ciudad, coordenadaX, coordenadaY FROM Sucursal WHERE eliminado = b'0' LIMIT " + limit + " OFFSET " + offset;
+            String codigoSQL = "SELECT id, nombre, asientos, idSucursal FROM Sala WHERE eliminado = b'0' LIMIT " + limit + " OFFSET " + offset;
             Statement comandoSQL = conexion.createStatement();
             ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
             while (resultado.next())
             {
-                EntidadSucursal sucursal = new EntidadSucursal();
-                sucursal.setId(resultado.getInt("id"));
-                sucursal.setNombre(resultado.getString("nombre"));
-                sucursal.setCiudad(resultado.getString("ciudad"));
-                sucursal.setCoordenadaX(resultado.getInt("coordenadaX"));
-                sucursal.setCoordenadaY(resultado.getInt("coordenadaY"));
-                sucursalLista.add(sucursal);
-                System.out.println(sucursal.toString());
+                EntidadSala sala = new EntidadSala();
+                sala.setId(resultado.getInt("id"));
+                sala.setNombre(resultado.getString("nombre"));
+                sala.setAsientos(resultado.getInt("asientos"));
+                sala.setIdSucursal(resultado.getInt("idSucursal"));
+                salaLista.add(sala);
+                System.out.println(sala.toString());
             }
             conexion.close();
-            return sucursalLista;
+            return salaLista;
         } catch (SQLException e)
         {
             System.out.println(e.getMessage());
             throw new PersistenciaException("Ocurrió un error");
         }
-    } // fin metodo buscarSucursales
+    } // fin metodo
 
     @Override
-    public EntidadSucursal consultarSucursalPorID(int id) throws PersistenciaException {
+    public EntidadSala consultarSalaPorID(int id) throws PersistenciaException {
         Connection conexion = null;
         try
         {
             conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT id, nombre, ciudad, coordenadaX, coordenadaY FROM Sucursal WHERE id = ?;";
+            String codigoSQL = "SELECT id, nombre, asientos, idSucursal FROM sala WHERE id = ? and eliminado = b'0';";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             preparedStatement.setInt(1, id);
             ResultSet resultado = preparedStatement.executeQuery();
 
             if (resultado.next())
             {
-                EntidadSucursal sucursal = new EntidadSucursal();
-                sucursal.setId(resultado.getInt("id"));
-                sucursal.setNombre(resultado.getString("nombre"));
-                sucursal.setCiudad(resultado.getString("ciudad"));
-                sucursal.setCoordenadaX(resultado.getInt("coordenadaX"));
-                sucursal.setCoordenadaY(resultado.getInt("coordenadaY"));
-                return sucursal;
+                EntidadSala sala = new EntidadSala();
+                sala.setId(resultado.getInt("id"));
+                sala.setNombre(resultado.getString("nombre"));
+                sala.setAsientos(resultado.getInt("asientos"));
+                sala.setIdSucursal(resultado.getInt("idSucursal"));
+                System.out.println(sala.toString());
+                return sala;
             } else
             {
                 throw new PersistenciaException("No se encontró la sucursal con ID: " + id);
@@ -227,6 +225,34 @@ public class SucursalDAO implements ISucursalDAO {
                 }
             }
         }
-    } // fin metodo consultarSucursalPorId
+    } // fin metodo
+
+    @Override
+    public List<EntidadSala> consultarSalasSegunSucursal(int idSucursal, int limit, int offset) throws PersistenciaException {
+        try
+        {
+            List<EntidadSala> salaLista = new ArrayList<>();
+            Connection conexion = this.conexionBD.crearConexion();
+            String codigoSQL = "SELECT id, nombre, asientos, idSucursal FROM Sala WHERE eliminado = b'0' and idSucursal = " + idSucursal + " LIMIT " + limit + " OFFSET " + offset;
+            Statement comandoSQL = conexion.createStatement();
+            ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
+            while (resultado.next())
+            {
+                EntidadSala sala = new EntidadSala();
+                sala.setId(resultado.getInt("id"));
+                sala.setNombre(resultado.getString("nombre"));
+                sala.setAsientos(resultado.getInt("asientos"));
+                sala.setIdSucursal(resultado.getInt("idSucursal"));
+                salaLista.add(sala);
+                System.out.println(sala.toString());
+            }
+            conexion.close();
+            return salaLista;
+        } catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+            throw new PersistenciaException("Ocurrió un error");
+        }
+    }
 
 }

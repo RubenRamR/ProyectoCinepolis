@@ -31,7 +31,7 @@ public class SucursalNegocio implements ISucursalNegocio {
     private List<SucursalTablaDTO> convertirSucursalTablaDTO(List<EntidadSucursal> sucursales) throws NegocioException {
         if (sucursales == null)
         {
-            throw new NegocioException("No se pudieron obtener los alumnos");
+            throw new NegocioException("No se pudieron obtener las sucursales");
         }
 
         List<SucursalTablaDTO> sucursalDTO = new ArrayList<>();
@@ -47,11 +47,27 @@ public class SucursalNegocio implements ISucursalNegocio {
         return sucursalDTO;
     }
 
+    private SucursalDTO convertirSucursalDTO(EntidadSucursal sucursal) throws NegocioException {
+        if (sucursal == null)
+        {
+            throw new NegocioException("La sucursal es nula");
+        }
+
+        SucursalDTO dto = new SucursalDTO();
+        dto.setIdSucursal(sucursal.getId());
+        dto.setNombre(sucursal.getNombre());
+        dto.setCiudad(sucursal.getCiudad());
+        dto.setCoordenadaX(sucursal.getCoordenadaX());
+        dto.setCoordenadaY(sucursal.getCoordenadaY());
+
+        return dto;
+    }
+
     @Override
     public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException {
         try
         {
-            List<EntidadSucursal> sucursales = this.sucursalDAO.buscarSucursalesTabla(limit, offset);
+            List<EntidadSucursal> sucursales = this.sucursalDAO.consultarSucursales(limit, offset);
             return this.convertirSucursalTablaDTO(sucursales);
         } catch (PersistenciaException ex)
         {
@@ -63,9 +79,70 @@ public class SucursalNegocio implements ISucursalNegocio {
 
     @Override
     public SucursalDTO buscarSucursalPorId(int id) throws NegocioException {
-        try{
-            EntidadSucursal sucursal = this.sucursalDAO.buscarSucursalPorId(id);
-            retrun this.c
+        try
+        {
+            EntidadSucursal sucursal = this.sucursalDAO.consultarSucursalPorID(id);
+            return this.convertirSucursalDTO(sucursal);
+        } catch (PersistenciaException ex)
+        {
+            LOGGER.log(Level.SEVERE, "Error al buscar sucursales", ex);
+            System.out.println(ex.getMessage());
+            throw new NegocioException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void agregarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
+        try
+        {
+            EntidadSucursal sucursal = new EntidadSucursal();
+            sucursal.setId(sucursalDTO.getIdSucursal());
+            sucursal.setNombre(sucursalDTO.getNombre());
+            sucursal.setCiudad(sucursalDTO.getCiudad());
+            sucursal.setCoordenadaX(sucursalDTO.getCoordenadaX());
+            sucursal.setCoordenadaY(sucursalDTO.getCoordenadaY());
+
+            this.sucursalDAO.insertarSucursal(sucursal);
+        } catch (PersistenciaException ex)
+        {
+            LOGGER.log(Level.SEVERE, "Error al agregar sucursal", ex);
+            System.out.println(ex.getMessage());
+            throw new NegocioException("Error al agregar sucursal: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void editarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
+        try
+        {
+            EntidadSucursal sucursal = new EntidadSucursal();
+            sucursal.setId(sucursalDTO.getIdSucursal());
+            sucursal.setNombre(sucursalDTO.getNombre());
+            sucursal.setCiudad(sucursalDTO.getCiudad());
+            sucursal.setCoordenadaX(sucursalDTO.getCoordenadaX());
+            sucursal.setCoordenadaY(sucursalDTO.getCoordenadaY());
+
+            this.sucursalDAO.editarSucursal(sucursal);
+        } catch (PersistenciaException ex)
+        {
+            LOGGER.log(Level.SEVERE, "Error al editar sucursal", ex);
+            System.out.println(ex.getMessage());
+            throw new NegocioException("Error al editar sucursal: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void eliminarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
+        try
+        {
+            EntidadSucursal sucursal = new EntidadSucursal();
+            sucursal.setId(sucursalDTO.getIdSucursal());
+            this.sucursalDAO.eliminarSucursal(sucursal);
+        } catch (PersistenciaException ex)
+        {
+            LOGGER.log(Level.SEVERE, "Error al eliminar sucursal", ex);
+            System.out.println(ex.getMessage());
+            throw new NegocioException("Error al eliminar sucursal: " + ex.getMessage());
         }
     }
 

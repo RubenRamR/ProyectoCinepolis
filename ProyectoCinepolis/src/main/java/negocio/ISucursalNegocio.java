@@ -15,7 +15,14 @@ import persistencia.ISucursalDAO;
  * @author rramirez
  */
 public interface ISucursalNegocio {
-    
-        public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException;
-        public SucursalDTO buscarSucursalPorId(int id) throws NegocioException;
+
+    public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException;
+
+    public SucursalDTO buscarSucursalPorId(int id) throws NegocioException;
+
+    public void agregarSucursal(SucursalDTO sucursal) throws NegocioException;
+
+    public void editarSucursal(SucursalDTO sucursal) throws NegocioException;
+
+    public void eliminarSucursal(SucursalDTO sucursal) throws NegocioException;
 }

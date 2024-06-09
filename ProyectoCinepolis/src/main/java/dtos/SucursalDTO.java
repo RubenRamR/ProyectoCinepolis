@@ -12,7 +12,7 @@ public class SucursalDTO {
 
     private int idSucursal;
     private String nombre;
-    private String cuidad;
+    private String ciudad;
     private int coordenadaX;
     private int coordenadaY;
 
@@ -22,7 +22,7 @@ public class SucursalDTO {
     public SucursalDTO(int idSucursal, String nombre, String cuidad, int coordenadaX, int coordenadaY) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;
-        this.cuidad = cuidad;
+        this.ciudad = cuidad;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
@@ -43,12 +43,12 @@ public class SucursalDTO {
         this.nombre = nombre;
     }
 
-    public String getCuidad() {
-        return cuidad;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setCuidad(String cuidad) {
-        this.cuidad = cuidad;
+    public void setCiudad(String cuidad) {
+        this.ciudad = cuidad;
     }
 
     public int getCoordenadaX() {
