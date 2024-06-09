@@ -1,10 +1,5 @@
 drop database cinepolis;
 
-
-
-
-
-
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
 DELIMITER //
@@ -17,7 +12,7 @@ CREATE PROCEDURE InsertPeliculaConSucursal(
     IN p_duracion TIME,
     IN p_paisOrigen VARCHAR(30),
     IN p_trailerLink VARCHAR(80),
-    IN p_imagen VARCHAR(100),
+    IN p_imagen blob,
     IN p_idSucursal INT
 )
 BEGIN

@@ -36,6 +36,18 @@ public class mainDavid {
     
     public static void main(String[] args) {
         IConexionBD conexionBD = new ConexionBD();
+        IFuncionDAO funcionDAO = new FuncionDAO(conexionBD);
+        
+        Date fecha = Date.valueOf("2300-10-10");
+        Time inicio = Time.valueOf("14:00:00");
+        
+        EntidadFuncion funcion = new EntidadFuncion(2, 300, fecha, inicio, inicio, inicio, 50, 2, 2);
+        
+        try {
+            funcionDAO.consultarFuncionPorID(1);
+        } catch (PersistenciaException ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
     

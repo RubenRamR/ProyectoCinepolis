@@ -18,6 +18,7 @@ public class EntidadCliente {
     String ciudad;
     String correo;
     Date fechaNacimiento;
+    String contrasena;
     int coordenadaX;
     int coordenadaY;
 
@@ -25,24 +26,26 @@ public class EntidadCliente {
     }
 
     // constructor con todos los atributos
-    public EntidadCliente(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, int coordenadaX, int coordenadaY) {
+    public EntidadCliente(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.ciudad = ciudad;
         this.correo = correo;
         this.fechaNacimiento = fechaNacimiento;
+        this.contrasena = contrasena;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
     
     // constructor sin id
-    public EntidadCliente(String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, int coordenadaX, int coordenadaY) {
+    public EntidadCliente(String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.ciudad = ciudad;
         this.correo = correo;
         this.fechaNacimiento = fechaNacimiento;
+        this.contrasena = contrasena;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
@@ -111,9 +114,20 @@ public class EntidadCliente {
         this.coordenadaY = coordenadaY;
     }
 
-    @Override
-    public String toString() {
-        return "EntidadCliente{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", ciudad=" + ciudad + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
+    public String getContrasena() {
+        return contrasena;
     }
 
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    @Override
+    public String toString() {
+        return "EntidadCliente{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", ciudad=" + ciudad + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", contrasena=" + contrasena + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
+    }
+    
+    
+    
+    
 }

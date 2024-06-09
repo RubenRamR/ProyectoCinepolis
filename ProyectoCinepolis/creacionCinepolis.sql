@@ -25,11 +25,9 @@ CREATE TABLE Pelicula(
     duracion time,
     paisOrigen varchar(30),
 	trailerLink varchar(80),
-    imagen varchar(100),
+    imagen blob,
     eliminado bit(1) not null default b'0'
 );
-
-
 
 CREATE TABLE Cliente(
 	id int auto_increment primary key,
@@ -52,7 +50,6 @@ CREATE TABLE Sala(
     eliminado bit(1) not null default b'0',
     foreign key (idSucursal) references Sucursal (id)
 );
-
 
 CREATE TABLE Funcion(
 	id int auto_increment primary key,
@@ -85,12 +82,15 @@ CREATE TABLE Cliente_Compra_Funcion(
 	foreign key (idFuncion) references Funcion (id)
 );
 
-
+SELECT id, precio, dia, inicio, fin, asientosDisponibles, idPelicula, idSala FROM Funcion WHERE eliminado = b'0' and idSala = 2 and idPelicula = 2;
+select * from Funcion;
+UPDATE Funcion SET eliminado = b'0' WHERE id = 1;
 
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
+
+-- SP para insertar una pelicula en una sucursal y que tome nuevo ID
 DELIMITER //
-
 CREATE PROCEDURE InsertPeliculaConSucursal(
     IN p_titulo VARCHAR(50),
     IN p_genero VARCHAR(50),
@@ -99,23 +99,86 @@ CREATE PROCEDURE InsertPeliculaConSucursal(
     IN p_duracion TIME,
     IN p_paisOrigen VARCHAR(30),
     IN p_trailerLink VARCHAR(80),
-    IN p_imagen VARCHAR(100),
+    IN p_imagen blob,
     IN p_idSucursal INT
 )
 BEGIN
-    -- Insertar la película
     INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen)
     VALUES (p_titulo, p_genero, p_clasificacion, p_sinopsis, p_duracion, p_paisOrigen, p_trailerLink, p_imagen);
-
-    -- Obtener el ID de la película recién insertada
     SET @newPeliculaID = LAST_INSERT_ID();
-
-    -- Insertar en Sucursal_Tiene_Pelicula
     INSERT INTO Sucursal_Tiene_Pelicula (idSucursal, idPelicula)
     VALUES (p_idSucursal, @newPeliculaID);
 END//
+DELIMITER ;
+
+
+-- sp para insertar la funcion y que se calcula el tiempo fin con el tiempo de limpieza y la duracion de la pelicula
+DELIMITER //
+CREATE PROCEDURE InsertarFuncion(
+    IN p_idPelicula INT,
+    IN p_idSala INT,
+    IN p_precio FLOAT,
+    IN p_dia DATE,
+    IN p_inicio TIME
+)
+BEGIN
+    DECLARE p_duracion TIME;
+    DECLARE p_tiempoLimpieza TIME DEFAULT '00:30:00';
+    DECLARE p_fin TIME;
+    DECLARE p_asientosDisponibles INT;
+    SET p_duracion = (SELECT duracion FROM Pelicula WHERE id = p_idPelicula);
+    SET p_fin = ADDTIME(ADDTIME(p_inicio, p_duracion), p_tiempoLimpieza);
+    SET p_asientosDisponibles = (SELECT asientos FROM Sala WHERE id = p_idSala);
+    INSERT INTO Funcion (precio, dia, inicio, fin, tiempoLimpieza, asientosDisponibles, idPelicula, idSala)
+    VALUES (p_precio, p_dia, p_inicio, p_fin, p_tiempoLimpieza, p_asientosDisponibles, p_idPelicula, p_idSala);
+END//
 
 DELIMITER ;
+
+
+-- sp para editar una funcion y que se actualice automaticamente el tiempo de fin
+DELIMITER //
+CREATE PROCEDURE EditarFuncion(
+    IN p_idFuncion INT,
+    IN p_nuevoInicio TIME,
+    IN p_nuevoPrecio FLOAT,
+    IN p_nuevoDia DATE
+)
+BEGIN
+    DECLARE p_idPelicula INT;
+    DECLARE p_duracion TIME;
+    DECLARE p_tiempoLimpieza TIME;
+    DECLARE p_nuevoFin TIME;
+    SELECT idPelicula INTO p_idPelicula FROM Funcion WHERE id = p_idFuncion;
+    SELECT duracion INTO p_duracion FROM Pelicula WHERE id = p_idPelicula;
+    SELECT tiempoLimpieza INTO p_tiempoLimpieza FROM Funcion WHERE id = p_idFuncion;
+    SET p_nuevoFin = ADDTIME(ADDTIME(p_nuevoInicio, p_duracion), p_tiempoLimpieza);
+    UPDATE Funcion
+    SET inicio = p_nuevoInicio,
+        precio = p_nuevoPrecio,
+        dia = p_nuevoDia,
+        fin = p_nuevoFin
+    WHERE id = p_idFuncion;
+END//
+DELIMITER ;
+
+-- SP par poder consutlar las funciones de la misma pelicula que estén en la misma sucursal 
+DELIMITER //
+CREATE PROCEDURE ConsultarFuncionesPorSucursalYPelicula(
+    IN p_idSucursal INT,
+    IN p_idPelicula INT,
+    IN p_limit INT,
+    IN p_offset INT
+)
+BEGIN
+    SELECT f.id, f.precio, f.dia, f.inicio, f.fin, f.tiempoLimpieza, f.asientosDisponibles, f.idPelicula, f.idSala
+    FROM Funcion f
+    JOIN Sala s ON f.idSala = s.id
+    WHERE s.idSucursal = p_idSucursal AND f.idPelicula = p_idPelicula AND f.eliminado = b'0'
+    LIMIT p_limit OFFSET p_offset;
+END//
+DELIMITER ;
+
 
 
 

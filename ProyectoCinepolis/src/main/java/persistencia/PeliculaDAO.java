@@ -44,7 +44,7 @@ public class PeliculaDAO implements IPeliculaDAO {
             callableStatement.setTime(5, entidadPelicula.getDuracion());
             callableStatement.setString(6, entidadPelicula.getPaisOrigen());
             callableStatement.setString(7, entidadPelicula.getTrailerLink());
-            callableStatement.setString(8, entidadPelicula.getImagen());
+            callableStatement.setBytes(8, entidadPelicula.getImagen());
             callableStatement.setInt(9, idSucursal); // idSucursal pasado como parámetro
 
             callableStatement.execute();
@@ -85,7 +85,7 @@ public class PeliculaDAO implements IPeliculaDAO {
         try {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "UPDATE Pelicula SET titulo = ?, genero = ?, clasificacion = ?, sinopsis = ?, duracion = ?, paisOrigen = ?, trailerLink = ?, imagenURL = ? WHERE id = ?;";
+            String codigoSQL = "UPDATE Pelicula SET titulo = ?, genero = ?, clasificacion = ?, sinopsis = ?, duracion = ?, paisOrigen = ?, trailerLink = ?, imagen = ? WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             
             preparedStatement.setString(1, entidadPelicula.getTitulo());
@@ -95,7 +95,7 @@ public class PeliculaDAO implements IPeliculaDAO {
             preparedStatement.setTime(5, entidadPelicula.getDuracion());
             preparedStatement.setString(6, entidadPelicula.getPaisOrigen());
             preparedStatement.setString(7, entidadPelicula.getTrailerLink());
-            preparedStatement.setString(8, entidadPelicula.getImagen());
+            preparedStatement.setBytes(8, entidadPelicula.getImagen());
             preparedStatement.setInt(9, entidadPelicula.getId());
             preparedStatement.executeUpdate();
             conexion.commit();
@@ -159,7 +159,7 @@ public class PeliculaDAO implements IPeliculaDAO {
         try {
             List<EntidadPelicula> sucursalLista = new ArrayList<>();
             Connection conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT " +  limit + " OFFSET " + offset;
+            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT " +  limit + " OFFSET " + offset;
             Statement comandoSQL = conexion.createStatement();
             ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
             while (resultado.next()) {
@@ -172,7 +172,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getString("imagen"));
+                pelicula.setImagen(resultado.getBytes("imagen"));
                 
                 sucursalLista.add(pelicula);
                 System.out.println(pelicula.toString());
@@ -205,7 +205,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getString("imagen"));
+                pelicula.setImagen(resultado.getBytes("imagen"));
                 
                 System.out.println(pelicula.toString());
                 return pelicula;
@@ -235,7 +235,7 @@ public class PeliculaDAO implements IPeliculaDAO {
 
         try {
             conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT p.id, p.titulo, p.genero, p.clasificacion, p.sinopsis, p.duracion, p.paisOrigen, p.trailerLink, p.imagenURL, p.eliminado " +
+            String codigoSQL = "SELECT p.id, p.titulo, p.genero, p.clasificacion, p.sinopsis, p.duracion, p.paisOrigen, p.trailerLink, p.imagen, p.eliminado " +
                                "FROM Pelicula p " +
                                "JOIN Sucursal_Tiene_Pelicula stp ON p.id = stp.idPelicula " +
                                "WHERE stp.idSucursal = ? AND p.eliminado = b'0' " +
@@ -258,7 +258,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getString("imagen"));
+                pelicula.setImagen(resultado.getBytes("imagen"));
 
                 sucursalLista.add(pelicula);
                 System.out.println(pelicula.toString());
@@ -294,6 +294,4 @@ public class PeliculaDAO implements IPeliculaDAO {
         return sucursalLista;
     }
 
-    
-    
 }

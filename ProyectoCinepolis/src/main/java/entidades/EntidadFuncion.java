@@ -118,6 +118,10 @@ public class EntidadFuncion {
         return asientosDisponibles;
     }
 
+    public void setAsientosDisponibles(int asientosDisponibles) {
+        this.asientosDisponibles = asientosDisponibles;
+    }    
+    
     @Override
     public String toString() {
         return "EntidadFuncion{" + "id=" + id + ", precio=" + precio + ", dia=" + dia + ", inicio=" + inicio + ", fin=" + fin + ", tiempoLimpieza=" + tiempoLimpieza + ", asientosDisponibles=" + asientosDisponibles + ", idPelicula=" + idPelicula + ", idSala=" + idSala + '}';

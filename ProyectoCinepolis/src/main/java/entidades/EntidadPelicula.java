@@ -19,13 +19,13 @@ public class EntidadPelicula {
     Time duracion;
     String paisOrigen;
     String trailerLink;
-    String imagen;
+    byte[] imagen;
     
     public EntidadPelicula() {
     }
     
     // constructor con todos los atributos
-    public EntidadPelicula(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, String imagen) {
+    public EntidadPelicula(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.id = id;
         this.titulo = titulo;
         this.genero = genero;
@@ -38,7 +38,7 @@ public class EntidadPelicula {
     }
 
     // constructor sin ID
-    public EntidadPelicula(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, String imagen) {
+    public EntidadPelicula(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.titulo = titulo;
         this.genero = genero;
         this.clasificacion = clasificacion;
@@ -113,11 +113,11 @@ public class EntidadPelicula {
         this.trailerLink = trailerLink;
     }
 
-    public String getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 

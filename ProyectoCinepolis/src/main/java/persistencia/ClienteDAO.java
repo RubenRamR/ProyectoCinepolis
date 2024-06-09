@@ -26,12 +26,12 @@ public class ClienteDAO implements IClienteDAO {
     }
     
     @Override
-    public void insertarCliente(EntidadCliente entidadCliente) throws PersistenciaException {
+    public void registrarCliente(EntidadCliente entidadCliente) throws PersistenciaException {
         Connection conexion = null;
         try {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values (?, ?, ?, ?, ?, ?, ?);";
+            String codigoSQL = "INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values (?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             
             preparedStatement.setString(1, entidadCliente.getNombre());
@@ -39,8 +39,9 @@ public class ClienteDAO implements IClienteDAO {
             preparedStatement.setString(3, entidadCliente.getCiudad());
             preparedStatement.setString(4, entidadCliente.getCorreo());
             preparedStatement.setDate(5, entidadCliente.getFechaNacimiento());
-            preparedStatement.setInt(6, entidadCliente.getCoordenadaX());
-            preparedStatement.setInt(7, entidadCliente.getCoordenadaY());
+            preparedStatement.setString(6, entidadCliente.getContrasena());
+            preparedStatement.setInt(7, entidadCliente.getCoordenadaX());
+            preparedStatement.setInt(8, entidadCliente.getCoordenadaY());
             
             preparedStatement.executeUpdate();
             conexion.commit();
@@ -174,7 +175,7 @@ public class ClienteDAO implements IClienteDAO {
         try {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "UPDATE Cliente SET nombre = ?, apellidos = ?, ciudad = ?, correo = ?, fechaNacimiento = ?, coordenadaX = ?, coordenadaY = ? WHERE id = ?;";
+            String codigoSQL = "UPDATE Cliente SET nombre = ?, apellidos = ?, ciudad = ?, correo = ?, fechaNacimiento = ?, contrasena = ?, coordenadaX = ?, coordenadaY = ? WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
 
             preparedStatement.setString(1, entidadCliente.getNombre());
@@ -182,9 +183,10 @@ public class ClienteDAO implements IClienteDAO {
             preparedStatement.setString(3, entidadCliente.getCiudad());
             preparedStatement.setString(4, entidadCliente.getCorreo());
             preparedStatement.setDate(5, entidadCliente.getFechaNacimiento());
-            preparedStatement.setInt(6, entidadCliente.getCoordenadaX());
-            preparedStatement.setInt(7, entidadCliente.getCoordenadaY());
-            preparedStatement.setInt(8, entidadCliente.getId());
+            preparedStatement.setString(6, entidadCliente.getContrasena());
+            preparedStatement.setInt(7, entidadCliente.getCoordenadaX());
+            preparedStatement.setInt(8, entidadCliente.getCoordenadaY());
+            preparedStatement.setInt(9, entidadCliente.getId());
             
             preparedStatement.executeUpdate();
             conexion.commit();
@@ -205,6 +207,37 @@ public class ClienteDAO implements IClienteDAO {
                 } catch (SQLException e){
                     System.out.println(e.getMessage());
                }
+            }
+        }
+    }
+
+    @Override
+    public boolean consultarClienteLogin(String correo, String contrasena) throws PersistenciaException {
+        Connection conexion = null;
+        try {
+            conexion = this.conexionBD.crearConexion();
+            String codigoSQL = "SELECT * FROM Cliente WHERE correo = ? and contrasena = ?;";
+            PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
+            preparedStatement.setString(1, correo);
+            preparedStatement.setString(2, contrasena);
+            ResultSet resultado = preparedStatement.executeQuery();
+            
+            if (resultado.next()) {
+                
+                return true;
+            } else {
+                throw new PersistenciaException("No se encontró el cliente con correo: " + correo);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new PersistenciaException("Ocurrió un error al buscar el cliente");
+        } finally {
+            if (conexion != null){
+                try {
+                    conexion.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }

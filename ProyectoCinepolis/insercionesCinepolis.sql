@@ -74,51 +74,65 @@ CALL InsertPeliculaConSucursal('Reservoir Dogs', 'Crime', 'A', 'After a simple j
 CALL InsertPeliculaConSucursal('Léon: The Professional', 'Crime', 'C', 'Mathilda, a 12-year-old girl, is reluctantly taken in by Léon.', '01:50:00', 'France', 'link49', 'imagen49', 5);
 CALL InsertPeliculaConSucursal('Casino', 'Crime', 'C', 'A tale of greed, deception, money, power, and murder.', '02:58:00', 'USA', 'link50', 'imagen50', 5);
 
-
-
-
 -- pruebas cliente
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('David Elier', 'Campa Chaparro', 'Ciudad Obregon', 'davidelier@gmail.com', '2004-10-07', 50, 200);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Carlos damian', 'garcia', 'Navojoa', 'carlos@gmail.com', '2004-08-07', -500, -300);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Ruben', 'ramirez', 'Hermosillo', 'ruben@gmail.com', '2004-01-07', 1000, 1000);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, coordenadaX, coordenadaY) values ('Edgar', 'Solano', 'Guaymas', 'edgar@gmail.com', '2000-04-01', 200, 300);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('David Elier', 'Campa Chaparro', 'Ciudad Obregon', 'davidelier@gmail.com', '2004-10-07', '123456', 50, 200);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Carlos damian', 'garcia', 'Navojoa', 'carlos@gmail.com', '2004-08-07', '123456', -500, -300);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Ruben', 'ramirez', 'Hermosillo', 'ruben@gmail.com', '2004-01-07', '123456', 1000, 1000);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Edgar', 'Solano', 'Guaymas', 'edgar@gmail.com', '2000-04-01', '123456', 200, 300);
 
 -- pruebas sala
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Obregonense', 50, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Obesa', 45, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Ohio', 30, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Ontas', 100, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 1);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 1);
 
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Hermosillense', 50, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Helada', 45, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Harry', 53, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Hanna', 42, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 2);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 2);
 
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Navojoense', 50, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Navarro', 35, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Nevarez', 113, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Nevada', 10, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 3);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 3);
 
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Guaymaense', 52, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Guayaba', 90, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala God', 53, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Grande', 80, 4);
-	
--- pruebas funcion
-SET @idPelicula = 1;
-SET @idSala = 1;
-SET @precio = 100;
-SET @dia = '2025-01-01';
-SET @inicio = '12:00:00';
-SET @duracion = (SELECT duracion FROM Pelicula WHERE id = @idPelicula);
-SET @tiempoLimpieza = '00:30:00';
-SET @fin = ADDTIME(ADDTIME(@inicio, @duracion), @tiempoLimpieza);
-SET @asientosDisponibles = (SELECT asientos FROM Sala WHERE id = @idSala);
-INSERT INTO Funcion (precio, dia, inicio, fin, tiempoLimpieza, asientosDisponibles, idPelicula, idSala) 
-VALUES (@precio, @dia, @inicio, @fin, @tiempoLimpieza, @asientosDisponibles, @idPelicula, @idSala);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 4);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 4);
+
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 5);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 5);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 5);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 5);
+INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 5);
+
+
+select * from peliculas;
+select * from sala;
+select * from funcion;
+select * from Sucursal_Tiene_Pelicula;
+select p.id as 'ID Pelicula', p.titulo, s.nombre, s.id as 'ID Sucursal' from Sucursal_Tiene_Pelicula as sp inner join Pelicula as p inner join Sucursal as s
+on s.id = sp.idSucursal and p.id = sp.idPelicula
+order by sp.id;
+
+
+CREATE PROCEDURE InsertarFuncion(
+    IN p_idPelicula INT,
+    IN p_idSala INT,
+    IN p_precio FLOAT,
+    IN p_dia DATE,
+    IN p_inicio TIME
+)
+
+
+
+
+select 
 
 -- pruebas sucursal tiene peliculas
-select * from Sucursal_Tiene_Pelicula;
-select p.titulo, s.nombre from Sucursal_Tiene_Pelicula as sp inner join Pelicula as p inner join Sucursal as s
-on s.id = sp.idSucursal and p.id = sp.idPelicula
-WHERE s.id = 1;
+
