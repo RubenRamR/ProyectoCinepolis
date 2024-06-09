@@ -79,9 +79,10 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        btnAgregarPeliculas = new javax.swing.JButton();
+        btnAgregarFunciones = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         btnCerrarSesion1 = new javax.swing.JButton();
+        btnAgregarPeliculas = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
@@ -267,12 +268,12 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         jLabel3.setMinimumSize(new java.awt.Dimension(300, 300));
 
-        btnAgregarPeliculas.setBackground(new java.awt.Color(0, 0, 102));
-        btnAgregarPeliculas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarPeliculas.setText("Agregar Péliculas");
-        btnAgregarPeliculas.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarFunciones.setBackground(new java.awt.Color(0, 0, 102));
+        btnAgregarFunciones.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarFunciones.setText("Agregar Funciones");
+        btnAgregarFunciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPeliculasActionPerformed(evt);
+                btnAgregarFuncionesActionPerformed(evt);
             }
         });
 
@@ -289,6 +290,15 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnCerrarSesion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarSesion1ActionPerformed(evt);
+            }
+        });
+
+        btnAgregarPeliculas.setBackground(new java.awt.Color(0, 0, 102));
+        btnAgregarPeliculas.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarPeliculas.setText("Agregar Péliculas");
+        btnAgregarPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPeliculasActionPerformed(evt);
             }
         });
 
@@ -321,8 +331,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarPeliculas)
-                    .addComponent(btnCerrarSesion1))
+                    .addComponent(btnAgregarFunciones)
+                    .addComponent(btnCerrarSesion1)
+                    .addComponent(btnAgregarPeliculas))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
@@ -345,6 +356,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregarFunciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAgregarPeliculas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -503,9 +516,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_info1MouseClicked
 
-    private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
+    private void btnAgregarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFuncionesActionPerformed
 
-    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
+    }//GEN-LAST:event_btnAgregarFuncionesActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
@@ -530,6 +543,16 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private void panelHerramientas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHerramientas1MousePressed
 
     }//GEN-LAST:event_panelHerramientas1MousePressed
+
+    private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
+        frmAgregarPeli agpeli = new frmAgregarPeli();
+
+        // Hace visible el nuevo formulario
+        agpeli.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -570,6 +593,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     public javax.swing.JPanel botonClientes1;
     public javax.swing.JPanel botonPeliculas1;
     public javax.swing.JPanel botonPrincipal1;
+    private javax.swing.JButton btnAgregarFunciones;
     private javax.swing.JButton btnAgregarPeliculas;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCerrarSesion1;

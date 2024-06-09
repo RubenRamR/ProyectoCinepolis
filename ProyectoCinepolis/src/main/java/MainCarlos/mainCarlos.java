@@ -4,7 +4,7 @@
  */
 package MainCarlos;
 
-import presentacion.frmInicioSesion;
+import presentacion.ctlogo.frmInicioSesion;
 
 
 

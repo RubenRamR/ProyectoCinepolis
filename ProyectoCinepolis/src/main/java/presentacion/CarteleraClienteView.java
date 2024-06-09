@@ -4,6 +4,9 @@
  */
 package presentacion;
 
+
+import presentacion.ctlogo.frmInicioSesion;
+
 /**
  *
  * @author caarl
@@ -273,14 +276,7 @@ public class CarteleraClienteView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVrRFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVrRFuncionesActionPerformed
-       // Crea una nueva instancia del formulario frmCompraBoletos
-    frmFuncionClienteView funcion = new frmFuncionClienteView();
-    
-    // Hace visible el nuevo formulario
-    funcion.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+       
     }//GEN-LAST:event_btnVrRFuncionesActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

@@ -2,7 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package presentacion;
+package presentacion.ctlogo;
+
+import presentacion.CarteleraAdminView;
+import presentacion.CarteleraClienteView;
 
 /**
  *
@@ -39,7 +42,6 @@ public class frmInicioSesion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,14 +126,6 @@ public class frmInicioSesion extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Inicio de sesion");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 51));
-        jButton1.setText("adminRuta");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -155,12 +149,9 @@ public class frmInicioSesion extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(btnIngresar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnRegistrarse)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir)))
+                .addComponent(btnRegistrarse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -176,9 +167,7 @@ public class frmInicioSesion extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(8, 8, 8)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnRegistrarse)
@@ -221,7 +210,7 @@ public class frmInicioSesion extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // Crea una nueva instancia del formulario CarteleraClienteView
-        CarteleraClienteView cartelera = new CarteleraClienteView();
+        frmMenuCatalogo cartelera = new frmMenuCatalogo();
 
         // Hace visible el nuevo formulario
         cartelera.setVisible(true);
@@ -229,17 +218,6 @@ public class frmInicioSesion extends javax.swing.JFrame {
         // Oculta el formulario actual
         this.setVisible(false);
     }//GEN-LAST:event_btnIngresarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        CarteleraAdminView carteleraAdm = new CarteleraAdminView();
-
-        // Hace visible el nuevo formulario
-        carteleraAdm.setVisible(true);
-
-        // Oculta el formulario actual
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,7 +266,6 @@ public class frmInicioSesion extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnRegistrarse;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -4,6 +4,7 @@
  */
 package presentacion.ctlogo;
 
+import entidades.EntidadPelicula;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.util.logging.Level;
@@ -26,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import persistencia.IConexionBD;
 
 /**
  *
@@ -37,7 +40,9 @@ public class frmAgregarPeli extends javax.swing.JFrame {
      * Creates new form frmAgregarPeli
      */
     
-    private Conexion conectar;
+    private IConexionBD conectar;
+     private InputStream fis;
+    private int longitudBytes;
     
     
     
@@ -203,9 +208,9 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         jLabel10.setText("Duracion:");
 
         jLabel11.setFont(new java.awt.Font("Base Neue", 1, 10)); // NOI18N
-        jLabel11.setText("Minutos");
+        jLabel11.setText("HH:MM:SS");
 
-        cmbxDuracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "30", "60", "120", "340" }));
+        cmbxDuracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<None>", "00:30:00", "01:00:00", "01:30:00", "02:00:00", "02:30:00", "03:00:00", "03:30:00", "04:00:00" }));
         cmbxDuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbxDuracionActionPerformed(evt);
@@ -214,7 +219,6 @@ public class frmAgregarPeli extends javax.swing.JFrame {
 
         lblFoto.setBackground(new java.awt.Color(204, 204, 204));
         lblFoto.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblFoto.setText("FOTO");
 
         btnExaminar.setText("Examinar");
         btnExaminar.addActionListener(new java.awt.event.ActionListener() {
@@ -253,10 +257,12 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                         .addComponent(cmbxClasificacionPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGap(12, 12, 12)
+                                                .addComponent(jLabel4))
+                                            .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
                                         .addComponent(jLabel11))
                                     .addComponent(txtTituloPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10)
@@ -382,52 +388,84 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private void btnAgregarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliActionPerformed
    
        
-    FileInputStream archivoImagen = null;
-    File nombreArchivo = null;
-    
-   
-    if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Desea ingresar los datos?")) {
-        try {
-            conectar = new Conexion();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(frmAgregarPeli.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(frmAgregarPeli.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String sentenciaInsert = "INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            conectar.psPrepararSentencia = (PreparedStatement) conectar.conectar.prepareStatement(sentenciaInsert);
-        } catch (SQLException ex) {
-            
-        }
+   Connection cn = null; // Obtén tu conexión a la base de datos
+        JFileChooser se = new JFileChooser();
+        int returnValue = se.showOpenDialog(null);
 
-        try {
-            nombreArchivo = new File(txtRuta.getText());
-            archivoImagen = new FileInputStream(nombreArchivo);
-            conectar.psPrepararSentencia.setString(1, txtTituloPeli.getText());
-            conectar.psPrepararSentencia.setString(2, cmbxGeneroPeli.getSelectedItem().toString());
-            conectar.psPrepararSentencia.setString(3, cmbxClasificacionPeli.getSelectedItem().toString());
-            conectar.psPrepararSentencia.setString(4, txtAREASinopsisPeli.getText());
-            conectar.psPrepararSentencia.setTime(5, Time.valueOf(cmbxDuracion.getSelectedItem().toString()));
-            conectar.psPrepararSentencia.setString(6, txtPaisOrigenPeli.getText());
-            conectar.psPrepararSentencia.setString(7, txtLinkTrailerPeli.getText());
-            conectar.psPrepararSentencia.setBinaryStream(8, archivoImagen, (int) nombreArchivo.length());
-            conectar.psPrepararSentencia.executeUpdate();
-        } catch (IOException ex) {
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(frmAgregarPeli.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
             try {
-                if (archivoImagen != null) {
-                    archivoImagen.close();
-                }
-            } catch (IOException ex) {
-               
+                fis = new FileInputStream(se.getSelectedFile());
+                longitudBytes = (int) se.getSelectedFile().length();
+                Image icono = ImageIO.read(se.getSelectedFile()).getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT);
+                lblFoto.setIcon(new ImageIcon(icono));
+                lblFoto.updateUI();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al leer la imagen: " + e.getMessage());
+                return;
             }
         }
-    }
 
+        EntidadPelicula ep = new EntidadPelicula();
+        ep.setTitulo(txtTituloPeli.getText());
+        ep.setClasificacion((String) cmbxClasificacionPeli.getSelectedItem());
+        
+        String duracionStr = (String) cmbxDuracion.getSelectedItem();
+        Time duracion = null;
+        try {
+            duracion = Time.valueOf(duracionStr);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Duración inválida. Asegúrate de que esté en el formato HH:MM:SS");
+            return;
+        }
+        ep.setDuracion(duracion);
+
+        ep.setGenero((String) cmbxGeneroPeli.getSelectedItem());
+        ep.setTrailerLink(txtLinkTrailerPeli.getText());
+        ep.setPaisOrigen(txtPaisOrigenPeli.getText());
+
+        try {
+            // Asegúrate de inicializar tu conexión aquí
+            String dbUrl = "jdbc:mysql://localhost:3306/cinepolis";
+            String dbUser = "root";
+            String dbPassword = "Bi0log1a1";
+            cn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+            // Preparar el PreparedStatement para insertar los datos
+            String sql = "INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = cn.prepareStatement(sql);
+
+            pst.setString(1, ep.getTitulo());
+            pst.setString(2, ep.getGenero());
+            pst.setString(3, ep.getClasificacion());
+            pst.setString(4, ep.getSinopsis()); // Asegúrate de obtener la sinopsis si no está en el contexto proporcionado
+            pst.setTime(5, ep.getDuracion());
+            pst.setString(6, ep.getPaisOrigen());
+            pst.setString(7, ep.getTrailerLink());
+            pst.setBlob(8, fis, longitudBytes);
+
+            // Ejecutar la actualización
+            pst.executeUpdate();
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Registro Exitoso");
+
+        } catch (SQLException e) {
+            System.out.println("Error al guardar los datos: " + e);
+            JOptionPane.showMessageDialog(null, "¡¡Error al guardar los datos!!");
+        } finally {
+            // Asegúrate de cerrar el InputStream y la conexión si es necesario
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (IOException | SQLException e) {
+                System.out.println("Error al cerrar recursos: " + e);
+            }
+        }
+    
        
        
        

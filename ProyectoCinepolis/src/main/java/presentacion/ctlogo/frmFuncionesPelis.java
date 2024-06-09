@@ -103,7 +103,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("(NOmbre)");
+        jLabel8.setText("aladin");
 
         BtnComprarFuncion.setBackground(new java.awt.Color(0, 0, 102));
         BtnComprarFuncion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

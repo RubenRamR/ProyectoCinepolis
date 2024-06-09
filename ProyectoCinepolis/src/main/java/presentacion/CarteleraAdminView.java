@@ -4,6 +4,8 @@
  */
 package presentacion;
 
+import presentacion.ctlogo.frmInicioSesion;
+
 /**
  *
  * @author caarl

@@ -4,6 +4,8 @@
  */
 package presentacion;
 
+
+
 /**
  *
  * @author caarl
@@ -275,23 +277,11 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCompraActionPerformed
-        frmTicket ticket = new frmTicket();
-    
-    // Hace visible el nuevo formulario
-    ticket.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+        
     }//GEN-LAST:event_btnConfirmarCompraActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        frmFuncionClienteView funcion = new frmFuncionClienteView();
-    
-    // Hace visible el nuevo formulario
-    funcion.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+       
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
