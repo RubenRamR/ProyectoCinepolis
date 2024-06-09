@@ -44,7 +44,7 @@ public class PeliculaDAO implements IPeliculaDAO {
             callableStatement.setTime(5, entidadPelicula.getDuracion());
             callableStatement.setString(6, entidadPelicula.getPaisOrigen());
             callableStatement.setString(7, entidadPelicula.getTrailerLink());
-            callableStatement.setBytes(8, entidadPelicula.getImagen());
+            callableStatement.setString(8, entidadPelicula.getImagen());
             callableStatement.setInt(9, idSucursal); // idSucursal pasado como parámetro
 
             callableStatement.execute();
@@ -95,7 +95,7 @@ public class PeliculaDAO implements IPeliculaDAO {
             preparedStatement.setTime(5, entidadPelicula.getDuracion());
             preparedStatement.setString(6, entidadPelicula.getPaisOrigen());
             preparedStatement.setString(7, entidadPelicula.getTrailerLink());
-            preparedStatement.setBytes(8, entidadPelicula.getImagen());
+            preparedStatement.setString(8, entidadPelicula.getImagen());
             preparedStatement.setInt(9, entidadPelicula.getId());
             preparedStatement.executeUpdate();
             conexion.commit();
@@ -172,7 +172,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getBytes("imagen"));
+                pelicula.setImagen(resultado.getString("imagen"));
                 
                 sucursalLista.add(pelicula);
                 System.out.println(pelicula.toString());
@@ -205,7 +205,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getBytes("imagen"));
+                pelicula.setImagen(resultado.getString("imagen"));
                 
                 System.out.println(pelicula.toString());
                 return pelicula;
@@ -258,7 +258,7 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setDuracion(resultado.getTime("duracion"));
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
-                pelicula.setImagen(resultado.getBytes("imagen"));
+                pelicula.setImagen(resultado.getString("imagen"));
 
                 sucursalLista.add(pelicula);
                 System.out.println(pelicula.toString());

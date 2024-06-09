@@ -28,7 +28,7 @@ public class FuncionDAO implements IFuncionDAO{
         try {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL =  "SET @idPelicula = 1; " +
+            String codigoSQL =  "SET @idPelicula = ; " +
                                 "SET @idSala = 1; " +
                                 "SET @precio = 100; " +
                                 "SET @dia = '2025-01-01'; " +
