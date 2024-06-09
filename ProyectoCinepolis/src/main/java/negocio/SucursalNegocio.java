@@ -95,6 +95,19 @@ public class SucursalNegocio implements ISucursalNegocio {
     public void agregarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
         try
         {
+            if (sucursalDTO == null)
+            {
+                throw new NegocioException("La sucursal es nula.");
+            }
+            if (sucursalDTO.getNombre().length() > 35)
+            {
+                throw new NegocioException("El nombre de la sucursal excede el límite de caracteres permitidos.");
+            }
+            if (sucursalDTO.getCiudad().length() > 20)
+            {
+                throw new NegocioException("La ciudad de la sucursal excede el límite de caracteres permitidos.");
+            }
+
             EntidadSucursal sucursal = new EntidadSucursal();
             sucursal.setId(sucursalDTO.getIdSucursal());
             sucursal.setNombre(sucursalDTO.getNombre());
@@ -115,6 +128,18 @@ public class SucursalNegocio implements ISucursalNegocio {
     public void editarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
         try
         {
+            if (sucursalDTO == null)
+            {
+                throw new NegocioException("La sucursal es nula.");
+            }
+            if (sucursalDTO.getNombre().length() > 35)
+            {
+                throw new NegocioException("El nombre de la sucursal excede el límite de caracteres permitidos.");
+            }
+            if (sucursalDTO.getCiudad().length() > 20)
+            {
+                throw new NegocioException("La ciudad de la sucursal excede el límite de caracteres permitidos.");
+            }
             EntidadSucursal sucursal = new EntidadSucursal();
             sucursal.setId(sucursalDTO.getIdSucursal());
             sucursal.setNombre(sucursalDTO.getNombre());
