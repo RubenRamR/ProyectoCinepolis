@@ -48,6 +48,11 @@ public class PeliculaNegocio implements IPeliculaNegocio {
             throw new NegocioException("La pelicula DTO es nula");
         }
 
+        if (peliculaDTO.getTitulo().length() > 50)
+        {
+            throw new NegocioException("El título de la película no puede exceder los 50 caracteres");
+        }
+
         EntidadPelicula pelicula = new EntidadPelicula();
         pelicula.setId(peliculaDTO.getId());
         pelicula.setTitulo(peliculaDTO.getTitulo());
