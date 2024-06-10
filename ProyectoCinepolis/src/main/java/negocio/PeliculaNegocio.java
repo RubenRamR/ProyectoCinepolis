@@ -10,6 +10,8 @@ import persistencia.IPeliculaDAO;
 import persistencia.PersistenciaException;
 
 /**
+ * Clase que representa la lógica de negocio relacionada con las películas. 
+ * Esta clase implementa la interfaz IPeliculaNegocio.
  *
  * @author rramirez
  */
@@ -18,10 +20,23 @@ public class PeliculaNegocio implements IPeliculaNegocio {
     private IPeliculaDAO peliculaDAO;
     private static final Logger LOGGER = Logger.getLogger(PeliculaNegocio.class.getName());
 
+    /**
+     * Constructor de la clase PeliculaNegocio.
+     *
+     * @param peliculaDAO Objeto que implementa la interfaz IPeliculaDAO para la
+     *                    persistencia de datos relacionados con las películas.
+     */
     public PeliculaNegocio(IPeliculaDAO peliculaDAO) {
         this.peliculaDAO = peliculaDAO;
     }
 
+    /**
+     * Convierte una instancia de EntidadPelicula en un objeto PeliculaDTO.
+     *
+     * @param pelicula La instancia de EntidadPelicula a ser convertida.
+     * @return El objeto PeliculaDTO correspondiente a la entidad pelicula.
+     * @throws NegocioException Si la entidad pelicula proporcionada es nula.
+     */
     private PeliculaDTO convertirPeliculaDTO(EntidadPelicula pelicula) throws NegocioException {
         if (pelicula == null)
         {
@@ -42,6 +57,13 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         return dto;
     }
 
+    /**
+     * Convierte un objeto PeliculaDTO en una instancia de EntidadPelicula.
+     *
+     * @param peliculaDTO El objeto PeliculaDTO a ser convertido.
+     * @return La instancia de EntidadPelicula correspondiente al objeto peliculaDTO.
+     * @throws NegocioException Si el objeto peliculaDTO proporcionado es nulo.
+     */
     private EntidadPelicula convertirADTOEntidad(PeliculaDTO peliculaDTO) throws NegocioException {
         if (peliculaDTO == null)
         {
@@ -67,6 +89,13 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         return pelicula;
     }
 
+    /**
+     * Inserta una nueva película en el sistema.
+     *
+     * @param peliculaDTO El objeto PeliculaDTO que representa la película a ser insertada.
+     * @param idSucursal  El ID de la sucursal a la que pertenece la película.
+     * @throws NegocioException Si ocurre un error durante la inserción de la película.
+     */
     @Override
     public void insertarPelicula(PeliculaDTO peliculaDTO, int idSucursal) throws NegocioException {
         try
@@ -106,6 +135,12 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Edita una película existente en el sistema.
+     *
+     * @param peliculaDTO El objeto PeliculaDTO que representa la película a ser editada.
+     * @throws NegocioException Si ocurre un error durante la edición de la película.
+     */
     @Override
     public void editarPelicula(PeliculaDTO peliculaDTO) throws NegocioException {
         try
@@ -145,6 +180,12 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Elimina una película del sistema.
+     *
+     * @param peliculaDTO El objeto PeliculaDTO que representa la película a ser eliminada.
+     * @throws NegocioException Si ocurre un error durante la eliminación de la película.
+     */
     @Override
     public void eliminarPelicula(PeliculaDTO peliculaDTO) throws NegocioException {
         try
@@ -184,6 +225,14 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Consulta todas las películas disponibles en el sistema.
+     *
+     * @param limit  Límite de resultados por consulta.
+     * @param offset Desplazamiento de resultados por consulta.
+     * @return Una lista de objetos PeliculaDTO que representan las películas consultadas.
+     * @throws NegocioException Si ocurre un error durante la consulta de las películas.
+     */
     @Override
     public List<PeliculaDTO> consultarPeliculas(int limit, int offset) throws NegocioException {
         try
@@ -202,6 +251,13 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Consulta una película por su ID.
+     *
+     * @param id El ID de la película a consultar.
+     * @return El objeto PeliculaDTO que representa la película consultada.
+     * @throws NegocioException Si ocurre un error durante la consulta de la película por ID.
+     */
     @Override
     public PeliculaDTO consultarPeliculaPorID(int id) throws NegocioException {
         try
@@ -215,6 +271,15 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Consulta todas las películas de una sucursal específica.
+     *
+     * @param idSucursal El ID de la sucursal.
+     * @param limit      Límite de resultados por consulta.
+     * @param offset     Desplazamiento de resultados por consulta.
+     * @return Una lista de objetos PeliculaDTO que representan las películas consultadas.
+     * @throws NegocioException Si ocurre un error durante la consulta de las películas.
+     */
     @Override
     public List<PeliculaDTO> consultarPeliculasPorSucursal(int idSucursal, int limit, int offset) throws NegocioException {
         try
@@ -233,6 +298,13 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         }
     }
 
+    /**
+     * Calcula las ganancias totales generadas por una película en todas las sucursales.
+     *
+     * @param idPelicula El ID de la película.
+     * @return El total de ganancias generadas por la película.
+     * @throws NegocioException Si ocurre un error durante el cálculo de las ganancias.
+     */
     @Override
     public double calcularGananciasPorPelicula(int idPelicula) throws NegocioException {
         try

@@ -15,7 +15,9 @@ import persistencia.ISucursalDAO;
 import persistencia.PersistenciaException;
 
 /**
- *
+ * * Clase que representa la lógica de negocio relacionada con las sucursales.
+ * Esta clase implementa la interfaz ISucursalNegocio.
+ * 
  * @author rramirez
  */
 public class SucursalNegocio implements ISucursalNegocio {
@@ -24,10 +26,16 @@ public class SucursalNegocio implements ISucursalNegocio {
 
     private static final Logger LOGGER = Logger.getLogger(SucursalNegocio.class.getName());
 
+    /**
+     * Constructor de la clase SucursalNegocio.
+     * 
+     * @param sucursalDAO Objeto que implementa la interfaz ISucursalDAO para la persistencia de datos relacionados con las sucursales.
+     */
     public SucursalNegocio(ISucursalDAO sucursalDAO) {
         this.sucursalDAO = sucursalDAO;
     }
 
+    
     private List<SucursalTablaDTO> convertirSucursalTablaDTO(List<EntidadSucursal> sucursales) throws NegocioException {
         if (sucursales == null)
         {
@@ -63,6 +71,14 @@ public class SucursalNegocio implements ISucursalNegocio {
         return dto;
     }
 
+    /**
+     * Busca las sucursales disponibles y las convierte en una lista de objetos SucursalTablaDTO.
+     * 
+     * @param limit Límite de resultados por consulta.
+     * @param offset Desplazamiento de resultados por consulta.
+     * @return Una lista de objetos SucursalTablaDTO que representan las sucursales consultadas.
+     * @throws NegocioException Si ocurre un error durante la búsqueda de las sucursales.
+     */
     @Override
     public List<SucursalTablaDTO> buscarSucursalTabla(int limit, int offset) throws NegocioException {
         try
@@ -77,6 +93,13 @@ public class SucursalNegocio implements ISucursalNegocio {
         }
     }
 
+    /**
+     * Busca una sucursal por su ID y la convierte en un objeto SucursalDTO.
+     * 
+     * @param id El ID de la sucursal a buscar.
+     * @return El objeto SucursalDTO que representa la sucursal consultada.
+     * @throws NegocioException Si ocurre un error durante la búsqueda de la sucursal por ID.
+     */
     @Override
     public SucursalDTO buscarSucursalPorId(int id) throws NegocioException {
         try
@@ -91,6 +114,12 @@ public class SucursalNegocio implements ISucursalNegocio {
         }
     }
 
+    /**
+     * Agrega una nueva sucursal al sistema.
+     * 
+     * @param sucursalDTO El objeto SucursalDTO que representa la sucursal a ser agregada.
+     * @throws NegocioException Si ocurre un error durante la inserción de la sucursal.
+     */
     @Override
     public void agregarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
         try
@@ -124,6 +153,12 @@ public class SucursalNegocio implements ISucursalNegocio {
         }
     }
 
+     /**
+     * Edita una sucursal existente en el sistema.
+     * 
+     * @param sucursalDTO El objeto SucursalDTO que representa la sucursal a ser editada.
+     * @throws NegocioException Si ocurre un error durante la edición de la sucursal.
+     */
     @Override
     public void editarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
         try
@@ -156,6 +191,12 @@ public class SucursalNegocio implements ISucursalNegocio {
         }
     }
 
+    /**
+     * Elimina una sucursal del sistema.
+     * 
+     * @param sucursalDTO El objeto SucursalDTO que representa la sucursal a ser eliminada.
+     * @throws NegocioException Si ocurre un error durante la eliminación de la sucursal.
+     */
     @Override
     public void eliminarSucursal(SucursalDTO sucursalDTO) throws NegocioException {
         try
@@ -171,6 +212,13 @@ public class SucursalNegocio implements ISucursalNegocio {
         }
     }
 
+    /**
+     * Calcula las ganancias totales de una sucursal.
+     * 
+     * @param idSucursal El ID de la sucursal.
+     * @return El valor de las ganancias totales de la sucursal.
+     * @throws NegocioException Si ocurre un error durante el cálculo de las ganancias de la sucursal.
+     */
     @Override
     public double calcularGananciasPorSucursal(int idSucursal) throws NegocioException {
         try

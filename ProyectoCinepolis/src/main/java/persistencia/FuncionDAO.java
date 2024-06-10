@@ -14,17 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author crazy
+ * Clase que implementa la interfaz IFuncionDAO y proporciona métodos para acceder y manipular datos relacionados con las funciones en la base de datos.
  */
 public class FuncionDAO implements IFuncionDAO{
     
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase FuncionDAO.
+     * @param conexionBD Objeto que implementa la interfaz IConexionBD y que proporciona métodos para establecer la conexión con la base de datos.
+     */
     public FuncionDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
     
+    /**
+     * Método para insertar una nueva función en la base de datos.
+     * @param entidadFuncion Objeto de tipo EntidadFuncion que representa la función a insertar.
+     * @throws PersistenciaException Si ocurre un error durante la inserción en la base de datos.
+     */
     @Override
     public void insertarFuncion(EntidadFuncion entidadFuncion) throws PersistenciaException {
         Connection conexion = null;
@@ -62,6 +70,11 @@ public class FuncionDAO implements IFuncionDAO{
         }
     }
 
+    /**
+     * Método para editar una función existente en la base de datos.
+     * @param entidadFuncion Objeto de tipo EntidadFuncion que representa la función a editar.
+     * @throws PersistenciaException Si ocurre un error durante la edición en la base de datos.
+     */
     @Override
     public void editarFuncion(EntidadFuncion entidadFuncion) throws PersistenciaException {
         Connection conexion = null;
@@ -98,6 +111,11 @@ public class FuncionDAO implements IFuncionDAO{
         }
     }
 
+    /**
+     * Método para eliminar una función de la base de datos.
+     * @param entidadFuncion Objeto de tipo EntidadFuncion que representa la función a eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación en la base de datos.
+     */
     @Override
     public void eliminarFuncion(EntidadFuncion entidadFuncion) throws PersistenciaException {
         Connection conexion = null;
@@ -131,6 +149,13 @@ public class FuncionDAO implements IFuncionDAO{
         }
     }
 
+    /**
+     * Método para consultar todas las funciones almacenadas en la base de datos.
+     * @param limit Límite de resultados a consultar.
+     * @param offset Desplazamiento de los resultados.
+     * @return Una lista de objetos de tipo EntidadFuncion que representan las funciones consultadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en la base de datos.
+     */
     @Override
     public List<EntidadFuncion> consultarFunciones(int limit, int offset) throws PersistenciaException {
         try {
@@ -162,6 +187,15 @@ public class FuncionDAO implements IFuncionDAO{
         }
     }
     
+    /**
+     * Método para consultar todas las funciones de una película en una sucursal específica almacenadas en la base de datos.
+     * @param idSucursal ID de la sucursal.
+     * @param idPelicula ID de la película.
+     * @param limit Límite de resultados a consultar.
+     * @param offset Desplazamiento de los resultados.
+     * @return Una lista de objetos de tipo EntidadFuncion que representan las funciones consultadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en la base de datos.
+     */
     @Override
     public List<EntidadFuncion> consultarFuncionesPorPeliculaYSucursal(int idSucursal, int idPelicula, int limit, int offset) throws PersistenciaException {
         try {
@@ -192,6 +226,12 @@ public class FuncionDAO implements IFuncionDAO{
         }
     }
 
+    /**
+     * Método para consultar una función por su ID en la base de datos.
+     * @param id ID de la función a consultar.
+     * @return Un objeto de tipo EntidadFuncion que representa la función consultada.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en la base de datos.
+     */
     @Override
     public EntidadFuncion consultarFuncionPorID(int id) throws PersistenciaException {
         Connection conexion = null;

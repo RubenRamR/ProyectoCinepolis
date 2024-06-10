@@ -20,10 +20,23 @@ public class FuncionNegocio implements IFuncionNegocio {
     private IFuncionDAO funcionDAO;
     private static final Logger LOGGER = Logger.getLogger(FuncionNegocio.class.getName());
 
+    /**
+     * Constructor de la clase FuncionNegocio.
+     *
+     * @param funcionDAO Objeto que implementa la interfaz IFuncionDAO para la
+     * persistencia de datos relacionados con las funciones de cine.
+     */
     public FuncionNegocio(IFuncionDAO funcionDAO) {
         this.funcionDAO = funcionDAO;
     }
 
+    /**
+     * Convierte una instancia de EntidadFuncion en un objeto FuncionDTO.
+     *
+     * @param funcion La instancia de EntidadFuncion a ser convertida.
+     * @return El objeto FuncionDTO correspondiente a la entidad funcion.
+     * @throws NegocioException Si la entidad funcion proporcionada es nula.
+     */
     private FuncionDTO convertirFuncionDTO(EntidadFuncion funcion) throws NegocioException {
         if (funcion == null)
         {
@@ -44,6 +57,14 @@ public class FuncionNegocio implements IFuncionNegocio {
         return dto;
     }
 
+    /**
+     * Convierte un objeto FuncionDTO en una instancia de EntidadFuncion.
+     *
+     * @param funcionDTO El objeto FuncionDTO a ser convertido.
+     * @return La instancia de EntidadFuncion correspondiente al objeto
+     * funcionDTO.
+     * @throws NegocioException Si el objeto funcionDTO proporcionado es nulo.
+     */
     private EntidadFuncion convertirDTOAEntidad(FuncionDTO funcionDTO) throws NegocioException {
         if (funcionDTO == null)
         {
@@ -64,6 +85,14 @@ public class FuncionNegocio implements IFuncionNegocio {
         return funcion;
     }
 
+    /**
+     * Inserta una nueva función en el sistema.
+     *
+     * @param funcionDTO El objeto FuncionDTO que representa la función a ser
+     * insertada.
+     * @throws NegocioException Si ocurre un error durante la inserción de la
+     * función.
+     */
     @Override
     public void insertarFuncion(FuncionDTO funcionDTO) throws NegocioException {
         try
@@ -77,6 +106,14 @@ public class FuncionNegocio implements IFuncionNegocio {
         }
     }
 
+    /**
+     * Edita una función existente en el sistema.
+     *
+     * @param funcionDTO El objeto FuncionDTO que representa la función a ser
+     * editada.
+     * @throws NegocioException Si ocurre un error durante la edición de la
+     * función.
+     */
     @Override
     public void editarFuncion(FuncionDTO funcionDTO) throws NegocioException {
         try
@@ -90,6 +127,14 @@ public class FuncionNegocio implements IFuncionNegocio {
         }
     }
 
+    /**
+     * Elimina una función del sistema.
+     *
+     * @param funcionDTO El objeto FuncionDTO que representa la función a ser
+     * eliminada.
+     * @throws NegocioException Si ocurre un error durante la eliminación de la
+     * función.
+     */
     @Override
     public void eliminarFuncion(FuncionDTO funcionDTO) throws NegocioException {
         try
@@ -103,6 +148,16 @@ public class FuncionNegocio implements IFuncionNegocio {
         }
     }
 
+    /**
+     * Consulta todas las funciones disponibles en el sistema.
+     *
+     * @param limit Límite de resultados por consulta.
+     * @param offset Desplazamiento de resultados por consulta.
+     * @return Una lista de objetos FuncionDTO que representan las funciones
+     * consultadas.
+     * @throws NegocioException Si ocurre un error durante la consulta de las
+     * funciones.
+     */
     @Override
     public List<FuncionDTO> consultarFunciones(int limit, int offset) throws NegocioException {
         try
@@ -121,6 +176,14 @@ public class FuncionNegocio implements IFuncionNegocio {
         }
     }
 
+    /**
+     * Consulta una función por su ID.
+     *
+     * @param id El ID de la función a consultar.
+     * @return El objeto FuncionDTO que representa la función consultada.
+     * @throws NegocioException Si ocurre un error durante la consulta de la
+     * función por ID.
+     */
     @Override
     public FuncionDTO consultarFuncionPorID(int id) throws NegocioException {
         try
@@ -134,6 +197,18 @@ public class FuncionNegocio implements IFuncionNegocio {
         }
     }
 
+    /**
+     * Consulta todas las funciones de una película en una sucursal específica.
+     *
+     * @param idSucursal El ID de la sucursal.
+     * @param idPelicula El ID de la película.
+     * @param limit Límite de resultados por consulta.
+     * @param offset Desplazamiento de resultados por consulta.
+     * @return Una lista de objetos FuncionDTO que representan las funciones
+     * consultadas.
+     * @throws NegocioException Si ocurre un error durante la consulta de las
+     * funciones.
+     */
     @Override
     public List<FuncionDTO> consultarFuncionesPorPeliculaYSucursal(int idSucursal, int idPelicula, int limit, int offset) throws NegocioException {
         try

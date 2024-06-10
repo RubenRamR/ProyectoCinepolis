@@ -1,6 +1,6 @@
 /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package persistencia;
 
@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase que implementa la interfaz IPeliculaDAO y define los métodos para
+ * acceder a la persistencia de datos relacionados con las películas en la base
+ * de datos.
  *
  * @author David Elier Campa Chaparro 245178
  */
@@ -26,6 +29,16 @@ public class PeliculaDAO implements IPeliculaDAO {
         this.conexionBD = conexionBD;
     }
 
+    /**
+     * Inserta una nueva película en la base de datos junto con la asociación a
+     * una sucursal.
+     *
+     * @param entidadPelicula Objeto de tipo EntidadPelicula que representa la
+     * película a insertar.
+     * @param idSucursal ID de la sucursal a la que se asociará la película.
+     * @throws PersistenciaException Si ocurre un error durante la inserción en
+     * la base de datos.
+     */
     @Override
     public void insertarPelicula(EntidadPelicula entidadPelicula, int idSucursal) throws PersistenciaException {
         Connection conexion = null;
@@ -91,6 +104,14 @@ public class PeliculaDAO implements IPeliculaDAO {
         }
     }
 
+    /**
+     * Edita una película existente en la base de datos.
+     *
+     * @param entidadPelicula Objeto de tipo EntidadPelicula que representa la
+     * película a editar.
+     * @throws PersistenciaException Si ocurre un error durante la edición en la
+     * base de datos.
+     */
     @Override
     public void editarPelicula(EntidadPelicula entidadPelicula) throws PersistenciaException {
         Connection conexion = null;
@@ -142,6 +163,14 @@ public class PeliculaDAO implements IPeliculaDAO {
         }
     }
 
+    /**
+     * Elimina una película de la base de datos.
+     *
+     * @param entidadPelicula Objeto de tipo EntidadPelicula que representa la
+     * película a eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación
+     * en la base de datos.
+     */
     @Override
     public void eliminarPelicula(EntidadPelicula entidadPelicula) throws PersistenciaException {
         Connection conexion = null;
@@ -184,6 +213,16 @@ public class PeliculaDAO implements IPeliculaDAO {
         }
     }
 
+    /**
+     * Consulta todas las películas almacenadas en la base de datos.
+     *
+     * @param limit Límite de resultados a consultar.
+     * @param offset Desplazamiento de los resultados.
+     * @return Una lista de objetos de tipo EntidadPelicula que representan las
+     * películas consultadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en
+     * la base de datos.
+     */
     @Override
     public List<EntidadPelicula> consultarPeliculas(int limit, int offset) throws PersistenciaException {
         try
@@ -218,6 +257,15 @@ public class PeliculaDAO implements IPeliculaDAO {
         }
     }
 
+    /**
+     * Consulta una película en particular en la base de datos usando su ID.
+     *
+     * @param id ID de la película a consultar.
+     * @return Un objeto de tipo EntidadPelicula que representa la película
+     * consultada.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en
+     * la base de datos.
+     */
     @Override
     public EntidadPelicula consultarPeliculaPorID(int id) throws PersistenciaException {
         Connection conexion = null;
@@ -267,6 +315,17 @@ public class PeliculaDAO implements IPeliculaDAO {
         }
     }
 
+    /**
+     * Consulta todas las películas asociadas a una sucursal en particular.
+     *
+     * @param idSucursal ID de la sucursal.
+     * @param limit Límite de resultados a consultar.
+     * @param offset Desplazamiento de los resultados.
+     * @return Una lista de objetos de tipo EntidadPelicula que representan las
+     * películas consultadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta en
+     * la base de datos.
+     */
     @Override
     public List<EntidadPelicula> consultarPeliculasPorSucursal(int idSucursal, int limit, int offset) throws PersistenciaException {
         List<EntidadPelicula> sucursalLista = new ArrayList<>();
@@ -348,6 +407,14 @@ public class PeliculaDAO implements IPeliculaDAO {
         return sucursalLista;
     }
 
+    /**
+     * Calcula las ganancias totales generadas por una película específica.
+     *
+     * @param idPelicula ID de la película.
+     * @return Las ganancias totales generadas por la película.
+     * @throws PersistenciaException Si ocurre un error durante el cálculo en la
+     * base de datos.
+     */
     @Override
     public double calcularGananciasPorPelicula(int idPelicula) throws PersistenciaException {
         double ganancias = 0;

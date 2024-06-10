@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase que implementa la interfaz ISucursalDAO para realizar operaciones CRUD
+ * en la tabla Sucursal de la base de datos. Esta clase proporciona métodos para
+ * insertar, editar, eliminar y consultar sucursales. Además, contiene un método
+ * para calcular las ganancias totales de una sucursal.
  *
  * @author David Elier Campa Chaparro 245178 - Ruben
  */
@@ -22,10 +26,24 @@ public class SucursalDAO implements ISucursalDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase SucursalDAO.
+     *
+     * @param conexionBD Objeto que implementa la interfaz IConexionBD para
+     * establecer la conexión con la base de datos.
+     */
     public SucursalDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
+    /**
+     * Método para insertar una nueva sucursal en la base de datos.
+     *
+     * @param entidadSucursal Objeto de tipo EntidadSucursal que contiene la
+     * información de la sucursal a insertar.
+     * @throws PersistenciaException Si ocurre un error durante la inserción de
+     * la sucursal.
+     */
     @Override
     public void insertarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
         Connection conexion = null;
@@ -71,6 +89,14 @@ public class SucursalDAO implements ISucursalDAO {
         }
     } // fin metodo insertarSucursal
 
+    /**
+     * Método para editar una sucursal existente en la base de datos.
+     *
+     * @param entidadSucursal Objeto de tipo EntidadSucursal que contiene la
+     * información actualizada de la sucursal.
+     * @throws PersistenciaException Si ocurre un error durante la actualización
+     * de la sucursal.
+     */
     @Override
     public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
         Connection conexion = null;
@@ -117,6 +143,14 @@ public class SucursalDAO implements ISucursalDAO {
         }
     } // fin metodo editarSucursal
 
+    /**
+     * Método para eliminar una sucursal de la base de datos.
+     *
+     * @param entidadSucursal Objeto de tipo EntidadSucursal que contiene la
+     * información de la sucursal a eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación
+     * de la sucursal.
+     */
     @Override
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException {
         Connection conexion = null;
@@ -158,6 +192,17 @@ public class SucursalDAO implements ISucursalDAO {
         }
     } // fin metodo eliminarSucursal
 
+    /**
+     * Método para consultar todas las sucursales almacenadas en la base de
+     * datos.
+     *
+     * @param limit Límite de resultados por página.
+     * @param offset Índice de inicio de los resultados.
+     * @return Una lista de objetos de tipo EntidadSucursal que representan las
+     * sucursales consultadas.
+     * @throws PersistenciaException Si ocurre un error durante la consulta de
+     * las sucursales.
+     */
     @Override
     public List<EntidadSucursal> consultarSucursales(int limit, int offset) throws PersistenciaException {
         try
@@ -187,6 +232,15 @@ public class SucursalDAO implements ISucursalDAO {
         }
     } // fin metodo buscarSucursales
 
+    /**
+     * Método para consultar una sucursal por su ID en la base de datos.
+     *
+     * @param id El ID de la sucursal a consultar.
+     * @return Un objeto de tipo EntidadSucursal que representa la sucursal
+     * consultada.
+     * @throws PersistenciaException Si la sucursal con el ID especificado no
+     * existe.
+     */
     @Override
     public EntidadSucursal consultarSucursalPorID(int id) throws PersistenciaException {
         Connection conexion = null;
@@ -230,6 +284,15 @@ public class SucursalDAO implements ISucursalDAO {
         }
     }
 
+    /**
+     * Método para calcular las ganancias totales de una sucursal.
+     *
+     * @param idSucursal El ID de la sucursal para la cual se calcularán las
+     * ganancias.
+     * @return Las ganancias totales de la sucursal especificada.
+     * @throws PersistenciaException Si ocurre un error durante el cálculo de
+     * las ganancias.
+     */
     @Override
     public double calcularGananciasPorSucursal(int idSucursal) throws PersistenciaException {
         double ganancias = 0;

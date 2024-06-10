@@ -11,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
+ * Clase que implementa la interfaz IVentaDAO para realizar operaciones
+ * relacionadas con las ventas en la base de datos. Esta clase proporciona un
+ * método para insertar una nueva venta en la base de datos.
  *
  * @author rramirez
  */
@@ -18,10 +21,24 @@ public class VentaDAO implements IVentaDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor de la clase VentaDAO.
+     *
+     * @param conexionBD Objeto que implementa la interfaz IConexionBD para
+     * establecer la conexión con la base de datos.
+     */
     public VentaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
+    /**
+     * Método para insertar una nueva venta en la base de datos.
+     *
+     * @param idCliente El ID del cliente que realizó la compra.
+     * @param idFuncion El ID de la función para la cual se realizó la compra.
+     * @throws PersistenciaException Si ocurre un error durante la inserción de
+     * la venta.
+     */
     @Override
     public void insertarVenta(int idCliente, int idFuncion) throws PersistenciaException {
         Connection conexion = null;

@@ -10,6 +10,8 @@ import persistencia.IClienteDAO;
 import persistencia.PersistenciaException;
 
 /**
+ * Esta clase implementa la interfaz IClienteNegocio y proporciona métodos para
+ * manipular clientes en la base de datos.
  *
  * @author rramirez
  */
@@ -18,10 +20,23 @@ public class ClienteNegocio implements IClienteNegocio {
     private IClienteDAO clienteDAO;
     private static final Logger LOGGER = Logger.getLogger(ClienteNegocio.class.getName());
 
+    /**
+     * Constructor de la clase ClienteNegocio.
+     *
+     * @param clienteDAO Una instancia de la interfaz IClienteDAO que se
+     * utilizará para interactuar con la capa de persistencia.
+     */
     public ClienteNegocio(IClienteDAO clienteDAO) {
         this.clienteDAO = clienteDAO;
     }
 
+    /**
+     * Convierte una instancia de EntidadCliente en un objeto ClienteDTO.
+     *
+     * @param cliente La instancia de EntidadCliente a ser convertida.
+     * @return El objeto ClienteDTO correspondiente a la entidad cliente.
+     * @throws NegocioException Si la entidad cliente proporcionada es nula.
+     */
     private ClienteDTO convertirClienteDTO(EntidadCliente cliente) throws NegocioException {
         if (cliente == null)
         {
@@ -41,6 +56,14 @@ public class ClienteNegocio implements IClienteNegocio {
         return dto;
     }
 
+    /**
+     * Convierte un objeto ClienteDTO en una instancia de EntidadCliente.
+     *
+     * @param clienteDTO El objeto ClienteDTO a ser convertido.
+     * @return La instancia de EntidadCliente correspondiente al objeto
+     * clienteDTO.
+     * @throws NegocioException Si el objeto clienteDTO proporcionado es nulo.
+     */
     private EntidadCliente convertirDTOAEntidad(ClienteDTO clienteDTO) throws NegocioException {
         if (clienteDTO == null)
         {
@@ -60,6 +83,14 @@ public class ClienteNegocio implements IClienteNegocio {
         return cliente;
     }
 
+    /**
+     * Inserta un nuevo cliente en la base de datos.
+     *
+     * @param clienteDTO El objeto ClienteDTO que contiene la información del
+     * cliente a insertar.
+     * @throws NegocioException Si ocurre un error durante la inserción del
+     * cliente.
+     */
     @Override
     public void insertarCliente(ClienteDTO clienteDTO) throws NegocioException {
         try
@@ -94,6 +125,14 @@ public class ClienteNegocio implements IClienteNegocio {
         }
     }
 
+    /**
+     * Edita un cliente existente en la base de datos.
+     *
+     * @param clienteDTO El objeto ClienteDTO que contiene la información
+     * actualizada del cliente.
+     * @throws NegocioException Si ocurre un error durante la edición del
+     * cliente.
+     */
     @Override
     public void editarCliente(ClienteDTO clienteDTO) throws NegocioException {
         try
@@ -118,7 +157,7 @@ public class ClienteNegocio implements IClienteNegocio {
             {
                 throw new NegocioException("El correo del cliente no puede exceder los 50 caracteres");
             }
-            
+
             EntidadCliente cliente = convertirDTOAEntidad(clienteDTO);
             this.clienteDAO.editarCliente(cliente);
         } catch (PersistenciaException ex)
@@ -128,6 +167,14 @@ public class ClienteNegocio implements IClienteNegocio {
         }
     }
 
+    /**
+     * Elimina un cliente existente de la base de datos.
+     *
+     * @param clienteDTO El objeto ClienteDTO que contiene la información del
+     * cliente a eliminar.
+     * @throws NegocioException Si ocurre un error durante la eliminación del
+     * cliente.
+     */
     @Override
     public void eliminarCliente(ClienteDTO clienteDTO) throws NegocioException {
         try
@@ -141,6 +188,15 @@ public class ClienteNegocio implements IClienteNegocio {
         }
     }
 
+    /**
+     * Consulta una lista de clientes desde la base de datos.
+     *
+     * @param limit El número máximo de resultados a retornar.
+     * @param offset El número de resultados a omitir al principio.
+     * @return Una lista de objetos ClienteDTO.
+     * @throws NegocioException Si ocurre un error durante la consulta de
+     * clientes.
+     */
     @Override
     public List<ClienteDTO> consultarClientes(int limit, int offset) throws NegocioException {
         try
@@ -159,6 +215,14 @@ public class ClienteNegocio implements IClienteNegocio {
         }
     }
 
+    /**
+     * Consulta un cliente por su ID en la base de datos.
+     *
+     * @param id El ID del cliente a consultar.
+     * @return El objeto ClienteDTO correspondiente al cliente encontrado.
+     * @throws NegocioException Si no se encuentra el cliente o si ocurre un
+     * error durante la consulta.
+     */
     @Override
     public ClienteDTO consultarClientePorID(int id) throws NegocioException {
         try
@@ -167,7 +231,7 @@ public class ClienteNegocio implements IClienteNegocio {
             return convertirClienteDTO(cliente);
         } catch (PersistenciaException ex)
         {
-            LOGGER.log( Level.SEVERE, "Error al consultar cliente por ID", ex);
+            LOGGER.log(Level.SEVERE, "Error al consultar cliente por ID", ex);
             throw new NegocioException("Error al consultar cliente por ID: " + ex.getMessage());
         }
     }
