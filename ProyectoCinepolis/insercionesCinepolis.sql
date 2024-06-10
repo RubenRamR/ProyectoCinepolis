@@ -118,27 +118,3 @@ INSERT INTO Sala (nombre, asientos, idSucursal) values
 CALL InsertarFuncionesSemana();
 
 
-select * from cliente;
-select * from peliculas;
-select * from sala;
-select * from funcion;
-select * from Sucursal_Tiene_Pelicula;
-
-select p.id as 'ID Pelicula', p.titulo, s.nombre, s.id as 'ID Sucursal' from Sucursal_Tiene_Pelicula as sp inner join Pelicula as p inner join Sucursal as s
-on s.id = sp.idSucursal and p.id = sp.idPelicula
-order by sp.id;
-
-select f.id as 'Funcion' , f.precio, p.titulo, s.nombre, f.dia, f.inicio, f.fin, f.asientosDisponibles as 'asientos ', f.idPelicula, f.idSala from Funcion f
-inner join Sala s on s.id = f.idSala
-inner join Pelicula p on p.id = f.idPelicula
-inner join Sucursal su on su.id = s.idSucursal
-order by f.id
-;
-
-select * from Cliente_Compra_Funcion;
-
-CALL InsertarFuncion(1);
-
-
-
-

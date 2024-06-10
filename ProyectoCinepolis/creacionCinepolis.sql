@@ -1,7 +1,6 @@
 create database cinepolis;
 use cinepolis;
 
-
 CREATE TABLE Ciudad(
 	nombre varchar(20) primary key
 );
@@ -221,9 +220,6 @@ BEGIN
     END WHILE;
 END //
 DELIMITER ;
-
-select * from pelicula;
-
 
 -- sp restar num asiento cuando se hace una venta
 DELIMITER //
