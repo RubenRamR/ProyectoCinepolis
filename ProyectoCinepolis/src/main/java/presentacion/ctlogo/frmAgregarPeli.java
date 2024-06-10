@@ -32,6 +32,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import negocio.IClienteNegocio;
@@ -55,12 +56,6 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     
     private IPeliculaNegocio peliculaNegocio;
     
- 
-
-    
-    
-    
-    
     public frmAgregarPeli(IPeliculaNegocio peliculaNegocio) {
         this.peliculaNegocio = peliculaNegocio;
         initComponents();
@@ -68,10 +63,25 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
-    
-    
-    
+    public static byte[] imageToBytes(Image image, String format) {
+        BufferedImage bufferedImage = new BufferedImage(
+                image.getWidth(null),
+                image.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bufferedImage, format, baos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return baos.toByteArray();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -274,42 +284,41 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                         .addGap(79, 79, 79))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAgregarPeli))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtPaisOrigenPeli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(txtLinkTrailerPeli, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel8)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cmbxGeneroPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbxClasificacionPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtPaisOrigenPeli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                                        .addComponent(txtLinkTrailerPeli, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(jLabel8)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cmbxGeneroPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cmbxClasificacionPeli, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addGap(12, 12, 12)
-                                                .addComponent(jLabel4))
-                                            .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel11))
-                                    .addComponent(txtTituloPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addGap(16, 16, 16))
-                                    .addComponent(btnExaminar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jLabel4))
+                                    .addComponent(cmbxDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11))
+                            .addComponent(txtTituloPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(16, 16, 16))
+                            .addComponent(btnExaminar, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1)
-                                    .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(69, 69, 69)
+                                        .addComponent(btnAgregarPeli)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,12 +346,12 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPaisOrigenPeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel8)
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(btnAgregarPeli))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtLinkTrailerPeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarPeli))
+                        .addComponent(txtLinkTrailerPeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -364,8 +373,8 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnExaminar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))))
+                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -395,27 +404,9 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-      public static byte[] imageToBytes(Image image, String format) {
-        BufferedImage bufferedImage = new BufferedImage(
-                image.getWidth(null),
-                image.getHeight(null),
-                BufferedImage.TYPE_INT_ARGB
-        );
-        Graphics2D g2d = bufferedImage.createGraphics();
-        g2d.drawImage(image, 0, 0, null);
-        g2d.dispose();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(bufferedImage, format, baos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return baos.toByteArray();
-      }
-        
     
     private void cmbxGeneroPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxGeneroPeliActionPerformed
         // TODO add your handling code here:
@@ -434,56 +425,47 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLinkTrailerPeliActionPerformed
 
     private void btnAgregarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliActionPerformed
- PeliculaDTO pelicula = new PeliculaDTO();
-    pelicula.setTitulo(txtTituloPeli.getText());
-    pelicula.setGenero((String) cmbxGeneroPeli.getSelectedItem());
-    pelicula.setClasificacion((String) cmbxClasificacionPeli.getSelectedItem());
-    pelicula.setSinopsis(txtAREASinopsisPeli.getText());
-    pelicula.setDuracion(Time.valueOf(cmbxDuracion.getSelectedItem().toString())); // Asegúrate de que el formato de tiempo sea correcto
-    pelicula.setPaisOrigen(txtPaisOrigenPeli.getText());
-    pelicula.setTrailerLink(txtLinkTrailerPeli.getText());
-       Icon icon = lblFoto.getIcon();
-    BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-
-    Graphics g = bi.createGraphics();
-    icon.paintIcon(null, g, 0,0);
-    g.dispose();
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-    try {
-        ImageIO.write(bi, "PNG", baos);
-        baos.flush();
+        PeliculaDTO peliculaDTO = new PeliculaDTO();
+        peliculaDTO.setTitulo(txtTituloPeli.getText());
+        peliculaDTO.setGenero((String) cmbxGeneroPeli.getSelectedItem());
+        peliculaDTO.setClasificacion((String) cmbxClasificacionPeli.getSelectedItem());
+        peliculaDTO.setSinopsis(txtAREASinopsisPeli.getText());
+        peliculaDTO.setDuracion(Time.valueOf(cmbxDuracion.getSelectedItem().toString())); // Asegúrate de que el formato de tiempo sea correcto
+        peliculaDTO.setPaisOrigen(txtPaisOrigenPeli.getText());
+        peliculaDTO.setTrailerLink(txtLinkTrailerPeli.getText());
         
-        byte[] imageInByte = baos.toByteArray();
-        pelicula.setImagen(imageInByte);
-        baos.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-   
+        Icon icon = lblFoto.getIcon();
+        if (icon instanceof ImageIcon) {
+            ImageIcon imageIcon = (ImageIcon) icon;
+            Image image = imageIcon.getImage();
+            byte[] bytes = imageToBytes(image, "png");
+            peliculaDTO.setImagen(bytes);
+        }
+        try {
+            peliculaNegocio.insertarPelicula(peliculaDTO, 1);
+            JOptionPane.showMessageDialog(this, "Pelicula añadida exitosamente a la sucursal");
+            this.dispose();
+        } catch (NegocioException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex);
+        }
         
-
-   
-    
-
-
+        
     }//GEN-LAST:event_btnAgregarPeliActionPerformed
 
     private void btnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarActionPerformed
- File archivo;
- JFileChooser flcAbrirArchivo = new JFileChooser();
- flcAbrirArchivo.setFileFilter(new FileNameExtensionFilter("archivo de imagen","jpg","jpeg","png") );
- int respuesta = flcAbrirArchivo.showOpenDialog(this);
- 
- if (respuesta==JFileChooser.APPROVE_OPTION ){
-     archivo= flcAbrirArchivo.getSelectedFile();
-     txtRuta.setText(archivo.getAbsolutePath());
-     Image foto= getToolkit().getImage(txtRuta.getText());
-     foto=foto.getScaledInstance(262, 234, 1);
-     lblFoto.setIcon(new ImageIcon(foto));
-     
- }
- 
+        File archivo;
+        JFileChooser flcAbrirArchivo = new JFileChooser();
+        flcAbrirArchivo.setFileFilter(new FileNameExtensionFilter("archivo de imagen","jpg","jpeg","png") );
+        int respuesta = flcAbrirArchivo.showOpenDialog(this);
+
+        if (respuesta==JFileChooser.APPROVE_OPTION ){
+            archivo= flcAbrirArchivo.getSelectedFile();
+            txtRuta.setText(archivo.getAbsolutePath());
+            Image foto= getToolkit().getImage(txtRuta.getText());
+            foto=foto.getScaledInstance(262, 234, 1);
+            lblFoto.setIcon(new ImageIcon(foto));
+        }
     }//GEN-LAST:event_btnExaminarActionPerformed
 
     private void cmbxDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxDuracionActionPerformed
@@ -495,13 +477,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPaisOrigenPeliActionPerformed
 
     private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
-        frmMenuCatalogo catMen = new frmMenuCatalogo();
-
-        // Hace visible el nuevo formulario
-        catMen.setVisible(true);
-
-        // Oculta el formulario actual
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_BtnRegresarActionPerformed
 
     /**

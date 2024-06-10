@@ -8,6 +8,7 @@ import dtos.ClienteDTO;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import negocio.IClienteNegocio;
 import negocio.NegocioException;
 
@@ -121,7 +122,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
 
         jLabel8.setText("Fecha de nacimiento:");
 
-        txtFecha.setText("yyyy/mm/dd");
+        txtFecha.setText("yyyy-mm-dd");
         txtFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaActionPerformed(evt);
@@ -294,6 +295,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
@@ -301,13 +303,7 @@ public class frmRegistroUsu extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFechaActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       frmInicioSesion men = new frmInicioSesion();
-    
-    // Hace visible el nuevo formulario
-    men.setVisible(true);
-    
-    // Oculta el formulario actual
-    this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
@@ -323,8 +319,10 @@ public class frmRegistroUsu extends javax.swing.JFrame {
         
         try {
             clienteNegocio.insertarCliente(cliente);
+            JOptionPane.showMessageDialog(this, "Cliente registrado exitosamente");
+            this.dispose();
         } catch (NegocioException ex) {
-            Logger.getLogger(frmRegistroUsu.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error de negocio" + ex.getMessage());
         }
         
         

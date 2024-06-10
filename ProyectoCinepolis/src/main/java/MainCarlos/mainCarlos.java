@@ -16,6 +16,7 @@ import persistencia.IPeliculaDAO;
 import persistencia.PeliculaDAO;
 import presentacion.ctlogo.frmAgregarPeli;
 import presentacion.ctlogo.frmInicioSesion;
+import presentacion.ctlogo.frmMenuCatalogo;
 import presentacion.ctlogo.frmRegistroUsu;
 
 
@@ -30,18 +31,13 @@ public class mainCarlos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        IConexionBD conexion = new ConexionBD();
+        IConexionBD conexionBD = new ConexionBD();
+        IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+        IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
         
-        IPeliculaDAO peliculaDAO = new PeliculaDAO(conexion);
-        
-        IPeliculaNegocio peliculaNegocio = new PeliculaNegocio(peliculaDAO);
-        
-        frmAgregarPeli registro = new frmAgregarPeli(peliculaNegocio);
+        frmInicioSesion fis = new frmInicioSesion(clienteNegocio);
+        fis.setVisible(true);
 
-        // Hace visible el nuevo formulario
-        registro.setVisible(true);
-
-        
     }
 }
 

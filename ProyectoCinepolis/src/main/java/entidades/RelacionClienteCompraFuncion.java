@@ -12,6 +12,7 @@ public class RelacionClienteCompraFuncion {
     int id;
     int idCliente;
     int idFuncion;
+    
 
     public RelacionClienteCompraFuncion() {
     }

@@ -23,4 +23,6 @@ public interface IClienteNegocio {
 
     public ClienteDTO consultarClientePorID(int id) throws NegocioException;
     
+    public boolean consultarClienteLogin(String correo, String contrasena) throws NegocioException;
+    
 }

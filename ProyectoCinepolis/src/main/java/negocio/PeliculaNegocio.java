@@ -62,7 +62,7 @@ public class PeliculaNegocio implements IPeliculaNegocio {
         pelicula.setDuracion(peliculaDTO.getDuracion());
         pelicula.setPaisOrigen(peliculaDTO.getPaisOrigen());
         pelicula.setTrailerLink(peliculaDTO.getTrailerLink());
-        pelicula.setImagen(pelicula.getImagen());
+        pelicula.setImagen(peliculaDTO.getImagen());
 
         return pelicula;
     }
