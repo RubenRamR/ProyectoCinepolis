@@ -207,9 +207,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnComprarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnComprarFuncionActionPerformed
-        frmCompraBoletos catMen = new frmCompraBoletos();
-        catMen.setVisible(true);
-        this.setVisible(false);
+
     }//GEN-LAST:event_BtnComprarFuncionActionPerformed
 
     private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed

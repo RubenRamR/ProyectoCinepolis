@@ -175,11 +175,6 @@ END//
 DELIMITER ;
 
 -- SP para insertar 5 funciones por dia por cada sala durante la siguiente semana
-
-CALL InsertarFuncionesSemana();
-
-
-
 DELIMITER //
 CREATE PROCEDURE InsertarFuncionesSemana()
 BEGIN
@@ -226,7 +221,24 @@ END //
 DELIMITER ;
 
 
-select * from funcion;
-select * from pelicula;
+-- sp restar num asiento cuando se hace una venta
+DELIMITER //
+
+CREATE PROCEDURE InsertarVenta(
+    IN p_idCliente INT,
+    IN p_idFuncion INT
+)
+BEGIN
+    -- Insertar la venta
+    INSERT INTO Cliente_Compra_Funcion (idCliente, idFuncion) VALUES (p_idCliente, p_idFuncion);
+
+    -- Actualizar el número de asientos disponibles en la función
+    UPDATE Funcion
+    SET asientosDisponibles = asientosDisponibles - 1
+    WHERE id = p_idFuncion;
+END//
+
+DELIMITER ;
+
 
 

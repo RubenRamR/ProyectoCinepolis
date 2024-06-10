@@ -135,6 +135,8 @@ inner join Sucursal su on su.id = s.idSucursal
 order by f.id
 ;
 
+select * from Cliente_Compra_Funcion;
+
 CALL InsertarFuncion(1);
 
 
