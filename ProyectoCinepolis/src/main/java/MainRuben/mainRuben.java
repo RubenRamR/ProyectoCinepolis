@@ -6,7 +6,12 @@ package MainRuben;
 
 import dtos.FuncionDTO;
 import entidades.EntidadSucursal;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
 import negocio.FuncionNegocio;
@@ -18,8 +23,11 @@ import persistencia.FuncionDAO;
 import persistencia.IConexionBD;
 import persistencia.IFuncionDAO;
 import persistencia.ISucursalDAO;
+import persistencia.IVentaDAO;
+import persistencia.PeliculaDAO;
 import persistencia.PersistenciaException;
 import persistencia.SucursalDAO;
+import persistencia.VentaDAO;
 
 /**
  *
@@ -28,52 +36,50 @@ import persistencia.SucursalDAO;
 public class mainRuben {
 
     public static void main(String[] args) {
-        IConexionBD conexionBD = new ConexionBD();
-
-        // Crear una instancia de la implementación de la interfaz IFuncionDAO
-        IFuncionDAO funcionDAO = new FuncionDAO(conexionBD);
-
-        // Crear una instancia de FuncionNegocio pasando la instancia de IFuncionDAO
-        FuncionNegocio negocio = new FuncionNegocio(funcionDAO);
-
-        // Pruebas de inserción, edición, eliminación y consulta
-        try
-        {
-            // Insertar una nueva función
-            FuncionDTO nuevaFuncion = new FuncionDTO(10.5f, new Date(0, 0, 0), new Time(0, 0, 0), new Time(0, 0, 0), new Time(0, 0, 0), 100, 1, 1);
-            negocio.insertarFuncion(nuevaFuncion);
-
-            // Editar una función existente
-            FuncionDTO funcionEditada = new FuncionDTO(1, 15.5f, new Date(0, 0, 0), new Time(0, 0, 0), new Time(0, 0, 0), new Time(0, 0, 0), 100, 1, 1);
-            negocio.editarFuncion(funcionEditada);
-
-            // Eliminar una función existente
-            FuncionDTO funcionAEliminar = new FuncionDTO();
-            funcionAEliminar.setId(1); // ID de la función a eliminar
-            negocio.eliminarFuncion(funcionAEliminar);
-
-            // Consultar todas las funciones
-            List<FuncionDTO> funciones = negocio.consultarFunciones(10, 0);
-            for (FuncionDTO funcion : funciones)
-            {
-                System.out.println(funcion.toString());
-            }
-
-            // Consultar una función por su ID
-            FuncionDTO funcionConsultada = negocio.consultarFuncionPorID(2); // ID de la función a consultar
-            System.out.println("Función consultada por ID: " + funcionConsultada.toString());
-
-            // Consultar funciones por película y sucursal
-            List<FuncionDTO> funcionesPorPeliculaYSucursal = negocio.consultarFuncionesPorPeliculaYSucursal(1, 1, 10, 0); // IDs de la sucursal y la película
-            for (FuncionDTO funcion : funcionesPorPeliculaYSucursal)
-            {
-                System.out.println(funcion.toString());
-            }
-        } catch (NegocioException ex)
-        {
-            // Manejar las excepciones de negocio
-            ex.printStackTrace();
-        }
+        
+//        Ganancias sucursales
+//        ConexionBD conexionBD = new ConexionBD(); // Implementación de IConexionBD
+//        SucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
+//
+//        int idSucursal = 1; // ID de la sucursal que quieres probar
+//        try {
+//            double ganancias = sucursalDAO.calcularGananciasPorSucursal(idSucursal);
+//            System.out.println("Las ganancias totales para la sucursal con ID " + idSucursal + " son: " + ganancias);
+//        } catch (PersistenciaException e) {
+//            System.out.println("Error al calcular las ganancias: " + e.getMessage());
+//        }
+        
+//        Ganancias peliculas
+//        IConexionBD conexionBD = new ConexionBD(); // Implementación de IConexionBD
+//        PeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD);
+//
+//        int idPelicula = 1; // ID de la película que quieres probar
+//        try {
+//            double ganancias = peliculaDAO.calcularGananciasPorPelicula(idPelicula);
+//            System.out.println("Las ganancias totales para la pelicula con ID " + idPelicula + " son: " + ganancias);
+//        } catch (PersistenciaException e) {
+//            System.out.println("Error al calcular las ganancias: " + e.getMessage());
+//        }
+        
+        
+//        // Simulando la conexión a la base de datos
+//        IConexionBD conexionBD = new ConexionBD(); // Reemplaza "MiConexionBD" con tu clase de conexión real
+//
+//        // Crear una instancia de VentaDAO
+//        VentaDAO ventaDAO = new VentaDAO(conexionBD);
+//
+//        // ID del cliente y función de prueba
+//        int idCliente = 1;
+//        int idFuncion = 7; // Reemplaza este valor con el ID de la función que desees probar
+//
+//        try {
+//            // Insertar la venta
+//            ventaDAO.insertarVenta(idCliente, idFuncion);
+//            System.out.println("Venta realizada con éxito.");
+//
+//        } catch (PersistenciaException e) {
+//            System.out.println("Error al insertar la venta: " + e.getMessage());
+//        }
 //        IConexionBD conexionBD = new ConexionBD();
 //        ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
 //        ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
@@ -81,5 +87,4 @@ public class mainRuben {
 //        frmCrudSucursal frmCrud = new frmCrudSucursal(sucursalNegocio);
 //        frmCrud.show();
     }
-
-}
+    }
