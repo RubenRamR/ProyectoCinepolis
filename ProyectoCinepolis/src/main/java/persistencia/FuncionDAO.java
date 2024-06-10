@@ -104,10 +104,9 @@ public class FuncionDAO implements IFuncionDAO{
         try {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
-            String codigoSQL = "UPDATE Funcion SET eliminado = b'0' WHERE id = ?;";
+            String codigoSQL = "UPDATE Funcion SET eliminado = b'1' WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             preparedStatement.setInt(1, entidadFuncion.getId());
-            
             preparedStatement.executeUpdate();
             conexion.commit();
         } catch (SQLException ex) {

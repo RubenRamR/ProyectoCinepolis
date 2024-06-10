@@ -150,6 +150,15 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     
     public void eliminarFuncion(){
         int idFuncion = (int) tblFuncionesPeli.getValueAt(tblFuncionesPeli.getSelectedRow(), 0);
+        FuncionDTO funcion = new FuncionDTO();
+        funcion.setId(idFuncion);
+        
+        try {
+            this.funcionNegocio.eliminarFuncion(funcion);
+            cargarFuncionesEnTabla();
+        } catch (NegocioException ex) {
+            System.out.println("Error al eliminar: " + ex.getMessage());
+        }
     }
     
     @SuppressWarnings("unchecked")
