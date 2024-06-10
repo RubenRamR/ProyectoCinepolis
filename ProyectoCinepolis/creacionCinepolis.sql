@@ -82,10 +82,6 @@ CREATE TABLE Cliente_Compra_Funcion(
 	foreign key (idFuncion) references Funcion (id)
 );
 
-SELECT id, precio, dia, inicio, fin, asientosDisponibles, idPelicula, idSala FROM Funcion WHERE eliminado = b'0' and idSala = 2 and idPelicula = 2;
-select * from Funcion;
-UPDATE Funcion SET eliminado = b'0' WHERE id = 1;
-
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
 -- STORED PROCEDURES -------------------------------------------------------------------------------------------------
 
@@ -178,6 +174,58 @@ BEGIN
     LIMIT p_limit OFFSET p_offset;
 END//
 DELIMITER ;
+
+-- SP para insertar 5 funciones por dia por cada sala durante la siguiente semana
+
+CALL InsertarFuncionesSemana();
+
+
+DELIMITER //
+CREATE PROCEDURE InsertarFuncionesSemana()
+BEGIN
+	DECLARE precio FLOAT;
+    DECLARE currentt_date DATE;
+    DECLARE end_date DATE;
+    DECLARE sala_id INT;
+    DECLARE pelicula_id INT;
+    DECLARE hora_inicio TIME;
+    DECLARE i INT;
+    DECLARE k INT;
+    DECLARE random_index INT;
+    DECLARE pelicula_count INT;
+    SET currentt_date = CURDATE();
+    SET end_date = DATE_ADD(currentt_date, INTERVAL 7 DAY);
+    SET pelicula_count = (SELECT COUNT(*) FROM Pelicula);
+    -- Ciclo a través de cada sala
+    SET i = 1;
+    WHILE i <= (SELECT COUNT(*) FROM Sala) DO
+        SET sala_id = i;
+        -- Ciclo a través de cada día de la semana
+        SET currentt_date = CURDATE();
+        WHILE currentt_date < end_date DO
+            -- Insertar 5 funciones por día para cada sala
+            SET k = 1;
+            WHILE k <= 5 DO
+                -- Generar hora de inicio aleatoria entre 8:00 y 18:00
+                SET hora_inicio = SEC_TO_TIME(28800 + FLOOR(RAND() * 36000)); -- 28800s = 8hrs, 36000s = 10hrs
+                -- Seleccionar una película aleatoria
+                SET random_index = FLOOR(RAND() * pelicula_count);
+                SET pelicula_id = (SELECT id FROM Pelicula LIMIT random_index, 1);
+                -- Generar precio aleatorio entre 100 y 400
+                SET precio = 100 + FLOOR(RAND() * 301); -- 301 es el rango de números entre 100 y 400
+                -- Insertar la función
+                CALL InsertarFuncion(pelicula_id, sala_id, precio, currentt_date, hora_inicio);
+                SET k = k + 1;
+            END WHILE;
+            -- Incrementar fecha al siguiente día
+            SET currentt_date = DATE_ADD(currentt_date, INTERVAL 1 DAY);
+        END WHILE;
+        SET i = i + 1;
+    END WHILE;
+END //
+DELIMITER ;
+
+
 
 
 

@@ -6,15 +6,14 @@ INSERT INTO Ciudad (nombre) values ('Obregon'),
 									('Mazatlan'),
 									('Culiacan');
 
-INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values ('Cinepolis bella vista', 'Obregon', 100, 200);
-INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values ('Cinepolis de hermosillo', 'Hermosillo', -1555, 1000);
-INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values ('Cinepolis de navojoa', 'Navojoa', -555, -400);
-INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values ('Cinepolis de culiacan', 'Culiacan', 1044, 545);
-INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values ('Cinepolis de mazatlan', 'Mazatlan', 3000, -3000);
-select * from sucursal;
+INSERT INTO Sucursal(nombre, nombreCiudad, coordenadaX, coordenadaY) values 
+('Cinepolis bella vista', 'Obregon', 100, 200),
+('Cinepolis de hermosillo', 'Hermosillo', -1555, 1000),
+('Cinepolis de navojoa', 'Navojoa', -555, -400),
+('Cinepolis de culiacan', 'Culiacan', 1044, 545),
+('Cinepolis de mazatlan', 'Mazatlan', 3000, -3000);
 
--- pruebas con la entidad Pelicula
--- Sucursal 1: Cinepolis bella vista
+-- insertando peliculas en Sucursal 1: Cinepolis bella vista
 CALL InsertPeliculaConSucursal('Inception', 'Sci-Fi', 'B', 'A thief who steals corporate secrets through the use of dream-sharing technology.', '02:28:00', 'USA', 'link1', 'imagenURL', 1);
 CALL InsertPeliculaConSucursal('The Dark Knight', 'Action', 'B15', 'When the menace known as the Joker emerges from his mysterious past.', '02:32:00', 'USA', 'link2', 'imagen2', 1);
 CALL InsertPeliculaConSucursal('Interstellar', 'Adventure', 'B', 'A team of explorers travel through a wormhole in space.', '02:49:00', 'USA', 'link3', 'imagen3', 1);
@@ -26,7 +25,7 @@ CALL InsertPeliculaConSucursal('Titanic', 'Romance', 'B', 'A seventeen-year-old 
 CALL InsertPeliculaConSucursal('Pulp Fiction', 'Crime', 'C', 'The lives of two mob hitmen, a boxer, a gangster and his wife.', '02:34:00', 'USA', 'link9', 'imagen9', 1);
 CALL InsertPeliculaConSucursal('Forrest Gump', 'Drama', 'B', 'The presidencies of Kennedy and Johnson, Vietnam, Watergate, and other history unfold.', '02:22:00', 'USA', 'link10', 'imagen10', 1);
 
--- Sucursal 2: Cinepolis de hermosillo
+-- insertando peliculas en Sucursal 2: Cinepolis de hermosillo
 CALL InsertPeliculaConSucursal('Shrek', 'Animation', 'A', 'A mean lord exiles fairy tale creatures to the swamp of a grumpy ogre.', '01:30:00', 'USA', 'link11', 'imagen11', 2);
 CALL InsertPeliculaConSucursal('Toy Story', 'Animation', 'A', 'A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him.', '01:21:00', 'USA', 'link12', 'imagen12', 2);
 CALL InsertPeliculaConSucursal('Finding Nemo', 'Animation', 'A', 'After his son is captured in the Great Barrier Reef and taken to Sydney.', '01:40:00', 'USA', 'link13', 'imagen13', 2);
@@ -38,7 +37,7 @@ CALL InsertPeliculaConSucursal('Frozen', 'Animation', 'A', 'When the newly crown
 CALL InsertPeliculaConSucursal('Zootopia', 'Animation', 'A', 'In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox.', '01:48:00', 'USA', 'link19', 'imagen19', 2);
 CALL InsertPeliculaConSucursal('Inside Out', 'Animation', 'A', 'After young Riley is uprooted from her Midwest life and moved to San Francisco.', '01:35:00', 'USA', 'link20', 'imagen20', 2);
 
--- Sucursal 3: Cinepolis de navojoa
+-- insertando peliculas en Sucursal 3: Cinepolis de navojoa
 CALL InsertPeliculaConSucursal('Star Wars: A New Hope', 'Sci-Fi', 'B', 'Luke Skywalker joins forces with a Jedi Knight, a cocky pilot.', '02:01:00', 'USA', 'link21', 'imagen21', 3);
 CALL InsertPeliculaConSucursal('The Empire Strikes Back', 'Sci-Fi', 'B', 'After the Rebels are brutally overpowered by the Empire on the ice planet Hoth.', '02:04:00', 'USA', 'link22', 'imagen22', 3);
 CALL InsertPeliculaConSucursal('Return of the Jedi', 'Sci-Fi', 'B', 'After a daring mission to rescue Han Solo from Jabba the Hutt.', '02:11:00', 'USA', 'link23', 'imagen23', 3);
@@ -50,7 +49,7 @@ CALL InsertPeliculaConSucursal('Harry Potter and the Chamber of Secrets', 'Fanta
 CALL InsertPeliculaConSucursal('Harry Potter and the Prisoner of Azkaban', 'Fantasy', 'A', 'Harry Potter, Ron and Hermione return to Hogwarts School of Witchcraft and Wizardry.', '02:22:00', 'USA', 'link29', 'imagen29', 3);
 CALL InsertPeliculaConSucursal('Harry Potter and the Goblet of Fire', 'Fantasy', 'A', 'Harry Potter finds himself competing in a hazardous tournament between rival schools.', '02:37:00', 'USA', 'link30', 'imagen30', 3);
 
--- Sucursal 4: Cinepolis de culiacan
+-- insertando peliculas en Sucursal 4: Cinepolis de culiacan
 CALL InsertPeliculaConSucursal('The Lion King', 'Animation', 'A', 'Lion prince Simba and his father are targeted by his bitter uncle.', '01:28:00', 'USA', 'link31', 'imagen31', 4);
 CALL InsertPeliculaConSucursal('Aladdin', 'Animation', 'A', 'A kind-hearted street urchin and a power-hungry Grand Vizier.', '01:30:00', 'USA', 'link32', 'imagen32', 4);
 CALL InsertPeliculaConSucursal('Beauty and the Beast', 'Animation', 'A', 'A young woman whose father has been imprisoned by a terrifying beast.', '01:24:00', 'USA', 'link33', 'imagen33', 4);
@@ -62,7 +61,7 @@ CALL InsertPeliculaConSucursal('Hercules', 'Animation', 'A', 'The son of the Gre
 CALL InsertPeliculaConSucursal('Cinderella', 'Animation', 'A', 'When Cinderella s cruel stepmother prevents her from attending the Royal Ball.', '01:14:00', 'USA', 'link39', 'imagen39', 4);
 CALL InsertPeliculaConSucursal('Snow White and the Seven Dwarfs', 'Animation', 'A', 'Exiled into the dangerous forest by her wicked stepmother.', '01:23:00', 'USA', 'link40', 'imagen40', 4);
 
--- Sucursal 5: Cinepolis de mazatlan
+-- insertando peliculas en Sucursal 5: Cinepolis de mazatlan
 CALL InsertPeliculaConSucursal('The Godfather', 'Crime', 'C', 'The aging patriarch of an organized crime dynasty transfers control of his empire.', '02:55:00', 'USA', 'link41', 'imagen41', 5);
 CALL InsertPeliculaConSucursal('Goodfellas', 'Crime', 'C', 'The story of Henry Hill and his life in the mob.', '02:26:00', 'USA', 'link42', 'imagen42', 5);
 CALL InsertPeliculaConSucursal('Scarface', 'Crime', 'C', 'In 1980 Miami, a determined Cuban immigrant takes over a drug cartel.', '02:50:00', 'USA', 'link43', 'imagen43', 5);
@@ -74,51 +73,69 @@ CALL InsertPeliculaConSucursal('Reservoir Dogs', 'Crime', 'A', 'After a simple j
 CALL InsertPeliculaConSucursal('Léon: The Professional', 'Crime', 'C', 'Mathilda, a 12-year-old girl, is reluctantly taken in by Léon.', '01:50:00', 'France', 'link49', 'imagen49', 5);
 CALL InsertPeliculaConSucursal('Casino', 'Crime', 'C', 'A tale of greed, deception, money, power, and murder.', '02:58:00', 'USA', 'link50', 'imagen50', 5);
 
--- pruebas cliente
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('David Elier', 'Campa Chaparro', 'Ciudad Obregon', 'davidelier@gmail.com', '2004-10-07', '123456', 50, 200);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Carlos damian', 'garcia', 'Navojoa', 'carlos@gmail.com', '2004-08-07', '123456', -500, -300);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Ruben', 'ramirez', 'Hermosillo', 'ruben@gmail.com', '2004-01-07', '123456', 1000, 1000);
-INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values ('Edgar', 'Solano', 'Guaymas', 'edgar@gmail.com', '2000-04-01', '123456', 200, 300);
+INSERT INTO Cliente(nombre, apellidos, ciudad, correo, fechaNacimiento, contrasena, coordenadaX, coordenadaY) values 
+('David Elier', 'Campa Chaparro', 'Ciudad Obregon', 'davidelier@gmail.com', '2004-10-07', '123456', 50, 200),
+('Carlos damian', 'garcia', 'Navojoa', 'carlos@gmail.com', '2004-08-07', '123456', -500, -300),
+('Ruben', 'ramirez', 'Hermosillo', 'ruben@gmail.com', '2004-01-07', '123456', 1000, 1000),
+('Edgar', 'Solano', 'Guaymas', 'edgar@gmail.com', '2000-04-01', '123456', 200, 300);
 
--- pruebas sala
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 1);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 1);
+-- las 5 salas de obregon
+INSERT INTO Sala (nombre, asientos, idSucursal) values 
+('Sala Kids', 50, 1),
+('Sala Tradicional', 45, 1),
+('Sala Premium', 30, 1),
+('Sala VIP', 15, 1),
+('Sala ITSON', 100, 1);
+-- las 5 salas de hermosillo
+INSERT INTO Sala (nombre, asientos, idSucursal) values 
+('Sala Kids', 50, 2),
+('Sala Tradicional', 45, 2),
+('Sala Premium', 30, 2),
+('Sala VIP', 15, 2),
+('Sala ITSON', 100, 2);
+-- las 5 salas de navojoa
+INSERT INTO Sala (nombre, asientos, idSucursal) values 
+('Sala Kids', 50, 3),
+('Sala Tradicional', 45, 3),
+('Sala Premium', 30, 3),
+('Sala VIP', 15, 3),
+('Sala ITSON', 100, 3);
+-- las 5 salas de culiacan
+INSERT INTO Sala (nombre, asientos, idSucursal) values 
+('Sala Kids', 50, 4),
+('Sala Tradicional', 45, 4),
+('Sala Premium', 30, 4),
+('Sala VIP', 15, 4),
+('Sala ITSON', 100, 4);
+-- las 5 salas de mazatlan
+INSERT INTO Sala (nombre, asientos, idSucursal) values 
+('Sala Kids', 50, 5),
+('Sala Tradicional', 45, 5),
+('Sala Premium', 30, 5),
+('Sala VIP', 15, 5),
+('Sala ITSON', 100, 5);
 
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 2);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 2);
+CALL InsertarFuncionesSemana();
 
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 3);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 3);
-
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 4);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 4);
-
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Kids', 50, 5);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Tradicional', 45, 5);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala Premium', 30, 5);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala VIP', 15, 5);
-INSERT INTO Sala (nombre, asientos, idSucursal) values ('Sala ITSON', 100, 5);
 
 
 select * from peliculas;
 select * from sala;
 select * from funcion;
 select * from Sucursal_Tiene_Pelicula;
+
 select p.id as 'ID Pelicula', p.titulo, s.nombre, s.id as 'ID Sucursal' from Sucursal_Tiene_Pelicula as sp inner join Pelicula as p inner join Sucursal as s
 on s.id = sp.idSucursal and p.id = sp.idPelicula
 order by sp.id;
+
+select f.id as 'Funcion' , f.precio, p.titulo, s.nombre, f.dia, f.inicio, f.fin, f.asientosDisponibles as 'asientos ', f.idPelicula, f.idSala from Funcion f
+inner join Sala s on s.id = f.idSala
+inner join Pelicula p on p.id = f.idPelicula
+inner join Sucursal su on su.id = s.idSucursal
+order by f.id
+;
+
+CALL InsertarFuncion(1);
 
 
 CREATE PROCEDURE InsertarFuncion(
@@ -128,11 +145,4 @@ CREATE PROCEDURE InsertarFuncion(
     IN p_dia DATE,
     IN p_inicio TIME
 )
-
-
-
-
-select 
-
--- pruebas sucursal tiene peliculas
 
