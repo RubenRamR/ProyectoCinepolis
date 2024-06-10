@@ -25,4 +25,6 @@ public interface ISucursalNegocio {
     public void editarSucursal(SucursalDTO sucursal) throws NegocioException;
 
     public void eliminarSucursal(SucursalDTO sucursal) throws NegocioException;
+    
+    public double calcularGananciasPorSucursal(int idSucursal) throws NegocioException;
 }

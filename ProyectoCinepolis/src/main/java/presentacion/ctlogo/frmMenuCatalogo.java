@@ -17,11 +17,15 @@ import javax.swing.table.TableColumnModel;
 import negocio.ClienteNegocio;
 import negocio.IClienteNegocio;
 import negocio.IPeliculaNegocio;
+import negocio.ISucursalNegocio;
 import negocio.NegocioException;
+import negocio.SucursalNegocio;
 import persistencia.ClienteDAO;
 import persistencia.ConexionBD;
 import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
+import persistencia.ISucursalDAO;
+import persistencia.SucursalDAO;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
 
@@ -33,6 +37,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
+    private IConexionBD conexionBD;
     private int idSucursal;
     private int limit;
     private int offset;
@@ -43,13 +48,29 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         this.idCliente = idCliente;
         this.peliculaNegocio = peliculaNegocio;
         this.frameAnterior = frameAnterior;
+        
+
         idSucursal = 1;
         limit = 5;
         offset = 0;
         pagina = 1;
-
+        
         initComponents();
         cargarMetodosIniciales();
+        conseguirGananciasDeLaSucursal();
+    }
+    
+    private void conseguirGananciasDeLaSucursal(){
+        conexionBD = new ConexionBD();
+        ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
+        ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
+        
+        try {
+            lblGanancias.setText(String.valueOf(sucursalNegocio.calcularGananciasPorSucursal(idSucursal)));
+        } catch (NegocioException ex) {
+            System.out.println("Erroren :" + ex.getMessage());
+        }
+        
     }
     
     private void llenarTablaPeliculas(List<PeliculaDTO> peliculasLista) {
@@ -130,6 +151,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         tblCatalogo = new javax.swing.JTable();
         comboSucursales = new javax.swing.JComboBox<>();
         lblPagina = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblGanancias = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -267,11 +290,10 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(info1))
-                    .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addComponent(info1)
+                        .addGap(111, 111, 111)
                         .addComponent(jLabel2)))
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addGap(0, 54, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(btnCerrarSesion1)
@@ -298,7 +320,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
-                .addGap(93, 93, 93)
+                .addGap(121, 121, 121)
                 .addComponent(btnCerrarSesion1)
                 .addGap(8, 8, 8))
         );
@@ -399,6 +421,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         lblPagina.setText("1");
 
+        jLabel5.setText("Ganancias de esta sucursal:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -412,13 +436,21 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(186, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -431,9 +463,13 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(107, Short.MAX_VALUE)
+                .addContainerGap(103, Short.MAX_VALUE)
                 .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -509,6 +545,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private void comboSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSucursalesActionPerformed
         // TODO add your handling code here:
         idSucursal = comboSucursales.getSelectedIndex() + 1;
+        conseguirGananciasDeLaSucursal();
         cargarPeliculasEnTabla();
     }//GEN-LAST:event_comboSucursalesActionPerformed
 
@@ -555,9 +592,11 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelPeliculas1;
+    private javax.swing.JLabel lblGanancias;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;

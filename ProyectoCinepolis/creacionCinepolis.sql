@@ -1,6 +1,7 @@
 create database cinepolis;
 use cinepolis;
 
+
 CREATE TABLE Ciudad(
 	nombre varchar(20) primary key
 );
@@ -242,6 +243,22 @@ BEGIN
 END//
 
 DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE CalcularGananciasPorSucursal(
+    IN p_idSucursal INT
+)
+BEGIN
+    DECLARE totalGanancias FLOAT;
+    SELECT SUM(f.precio) INTO totalGanancias
+    FROM Funcion f
+    JOIN Sucursal_Tiene_Pelicula stp ON f.idPelicula = stp.idPelicula
+    WHERE stp.idSucursal = p_idSucursal;
+
+    SELECT totalGanancias AS GananciasTotales;
+END//
+DELIMITER ;
+
 
 
 

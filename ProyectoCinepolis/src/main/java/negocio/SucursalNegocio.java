@@ -170,5 +170,16 @@ public class SucursalNegocio implements ISucursalNegocio {
             throw new NegocioException("Error al eliminar sucursal: " + ex.getMessage());
         }
     }
+    
+    @Override
+    public double calcularGananciasPorSucursal(int idSucursal) throws NegocioException {
+        try{
+            return this.sucursalDAO.calcularGananciasPorSucursal(idSucursal);
+        } catch (PersistenciaException ex){
+            LOGGER.log(Level.SEVERE, "Error al calcular ganancias por sucursal", ex);
+            throw new NegocioException("Error al calcular ganancias por sucursal: " + ex.getMessage());}
+    }
+    
+    
 
 }

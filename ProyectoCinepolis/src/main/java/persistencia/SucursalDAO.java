@@ -5,6 +5,7 @@
 package persistencia;
 
 import entidades.EntidadSucursal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -189,6 +190,53 @@ public class SucursalDAO implements ISucursalDAO{
             }
         }
     } // fin metodo consultarSucursalPorId
+    
+    @Override
+    public double calcularGananciasPorSucursal(int idSucursal) throws PersistenciaException {
+        double ganancias = 0;
+        Connection conexion = null;
+        CallableStatement callableStatement = null;
 
+            try
+            {
+                conexion = conexionBD.crearConexion();
+                callableStatement = conexion.prepareCall("{CALL CalcularGananciasPorSucursal(?)}");
+                callableStatement.setInt(1, idSucursal);
+                ResultSet resultSet = callableStatement.executeQuery();
+
+                if (resultSet.next())
+                {
+                    ganancias = resultSet.getDouble("GananciasTotales");
+                }
+            } catch (SQLException e)
+            {
+                throw new PersistenciaException("Error al calcular las ganancias por sucursal: " + e.getMessage());
+            } finally
+            {
+                if (callableStatement != null)
+                {
+                    try
+                    {
+                        callableStatement.close();
+                    } catch (SQLException e)
+                    {
+                        System.out.println("Error al cerrar el CallableStatement: " + e.getMessage());
+                    }
+                }
+                if (conexion != null)
+                {
+                    try
+                    {
+                        conexion.close();
+                    } catch (SQLException e)
+                    {
+                        System.out.println("Error al cerrar la conexión: " + e.getMessage());
+                    }
+                }
+            }
+
+            return ganancias;
+        }    
+    
     
 }
