@@ -515,7 +515,10 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnCrearFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearFuncionActionPerformed
-        // TODO add your handling code here:
+
+        frmAgregarFunciones faf = new frmAgregarFunciones();
+        faf.setVisible(true);
+        
     }//GEN-LAST:event_btnCrearFuncionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
