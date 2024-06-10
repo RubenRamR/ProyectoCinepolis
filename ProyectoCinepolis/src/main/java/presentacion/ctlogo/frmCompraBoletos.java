@@ -42,17 +42,34 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private int idFuncion;
     private int idCliente;
     
+    
+     @SuppressWarnings("unchecked")
     public frmCompraBoletos(IFuncionNegocio funcionNegocio, int idFuncion, int idCliente) {
+       initComponents();
+        btnGenerarPDF = new javax.swing.JButton();
+    btnGenerarPDF.setEnabled(false); // Deshabilitar el botón al iniciar
+        
         this.idFuncion = idFuncion;
         this.idCliente = idCliente;
         this.funcionNegocio = funcionNegocio; 
         IConexionBD conexionBD = new ConexionBD();
         IVentaDAO ventaDAO = new VentaDAO(conexionBD);
         ventaNegocio = new VentaNegocio(ventaDAO);
+        btnGenerarPDF = new javax.swing.JButton();
+        btnGenerarPDF.setText("GenerarPDF");
+        btnGenerarPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPDFActionPerformed(evt);
+            }
+        });
+        btnGenerarPDF.setEnabled(false); // Deshabilitar el botón al iniciar
+
         initComponents();
         consultarFuncionEInicializarTextFields();
-
     }
+    
+   
+    
     
     private void consultarFuncionEInicializarTextFields(){
         
@@ -299,13 +316,14 @@ public class frmCompraBoletos extends javax.swing.JFrame {
 
     private void btnConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCompraActionPerformed
 
-        try {
-            ventaNegocio.insertarVenta(idCliente, idFuncion);
-            JOptionPane.showMessageDialog(this, "Usted ha comprado su boleto!");
-            this.dispose();
-        } catch (NegocioException ex) {
-            System.out.println("Ocurrio un error en " + ex.getMessage());
-        }
+       try {
+        ventaNegocio.insertarVenta(idCliente, idFuncion);
+        JOptionPane.showMessageDialog(this, "Usted ha comprado su boleto!");
+        btnGenerarPDF.setEnabled(true); // Habilitar el botón después de confirmar la compra
+        
+    } catch (NegocioException ex) {
+        System.out.println("Ocurrio un error en " + ex.getMessage());
+    }
         
     }//GEN-LAST:event_btnConfirmarCompraActionPerformed
 
