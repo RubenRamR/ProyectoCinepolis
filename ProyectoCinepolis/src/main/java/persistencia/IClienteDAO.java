@@ -23,5 +23,5 @@ public interface IClienteDAO {
 
     public EntidadCliente consultarClientePorID(int id) throws PersistenciaException;
 
-    public boolean consultarClienteLogin(String correo, String contrasena) throws PersistenciaException;
+    public int consultarClienteLogin(String correo, String contrasena) throws PersistenciaException;
 }

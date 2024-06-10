@@ -179,7 +179,7 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     @Override
-    public boolean consultarClienteLogin(String correo, String contrasena) throws NegocioException {
+    public int consultarClienteLogin(String correo, String contrasena) throws NegocioException {
         try {
             return clienteDAO.consultarClienteLogin(correo, contrasena);
         } catch (PersistenciaException ex){

@@ -190,7 +190,7 @@ public class PeliculaDAO implements IPeliculaDAO {
         Connection conexion = null;
         try {
             conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagenURL, eliminado FROM Pelicula WHERE id = ?;";
+            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen, eliminado FROM Pelicula WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             preparedStatement.setInt(1, id);
             ResultSet resultado = preparedStatement.executeQuery();

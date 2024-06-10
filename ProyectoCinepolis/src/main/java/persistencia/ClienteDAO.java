@@ -212,7 +212,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public boolean consultarClienteLogin(String correo, String contrasena) throws PersistenciaException {
+    public int consultarClienteLogin(String correo, String contrasena) throws PersistenciaException {
         Connection conexion = null;
         try {
             conexion = this.conexionBD.crearConexion();
@@ -224,7 +224,8 @@ public class ClienteDAO implements IClienteDAO {
             
             if (resultado.next()) {
                 
-                return true;
+                
+                return resultado.getInt("id");
             } else {
                 throw new PersistenciaException("No se encontró el cliente con correo: " + correo);
             }

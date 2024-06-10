@@ -105,8 +105,9 @@ BEGIN
     VALUES (p_idSucursal, @newPeliculaID);
 END//
 DELIMITER ;
-select * from Sucursal_Tiene_Pelicula;
-select * from pelicula;
+
+
+
 -- sp para insertar la funcion y que se calcula el tiempo fin con el tiempo de limpieza y la duracion de la pelicula
 DELIMITER //
 CREATE PROCEDURE InsertarFuncion(

@@ -167,9 +167,13 @@ public class FuncionDAO implements IFuncionDAO{
         try {
             List<EntidadFuncion> funcionesLista = new ArrayList<>();
             Connection conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "call ConsultarFuncionesPorSucursalYPelicula(1, 2, 1000, 0);";
-            Statement comandoSQL = conexion.createStatement();
-            ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
+            String codigoSQL = "call ConsultarFuncionesPorSucursalYPelicula(?, ?, ?, ?);";
+            PreparedStatement comandoSQL = conexion.prepareStatement(codigoSQL);
+            comandoSQL.setInt(1, idSucursal);
+            comandoSQL.setInt(2, idPelicula);
+            comandoSQL.setInt(3, limit);
+            comandoSQL.setInt(4, offset);
+            ResultSet resultado = comandoSQL.executeQuery();
             while (resultado.next()) {
                 EntidadFuncion funcion = new EntidadFuncion();
                 funcion.setId(resultado.getInt("id"));

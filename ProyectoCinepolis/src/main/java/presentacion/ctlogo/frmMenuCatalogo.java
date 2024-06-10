@@ -14,8 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import negocio.ClienteNegocio;
+import negocio.IClienteNegocio;
 import negocio.IPeliculaNegocio;
 import negocio.NegocioException;
+import persistencia.ClienteDAO;
+import persistencia.ConexionBD;
+import persistencia.IClienteDAO;
+import persistencia.IConexionBD;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
 
@@ -27,17 +33,26 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
-    private List<PeliculaDTO> listaPeliculas;
+    private int idSucursal;
+    private int limit;
+    private int offset;
+    private int pagina;
+    private int idCliente;
     
-    public frmMenuCatalogo(JFrame frameAnterior, IPeliculaNegocio peliculaNegocio) {
+    public frmMenuCatalogo(JFrame frameAnterior, IPeliculaNegocio peliculaNegocio, int idCliente) {
+        this.idCliente = idCliente;
         this.peliculaNegocio = peliculaNegocio;
         this.frameAnterior = frameAnterior;
-        inicializarListaPelis();
+        idSucursal = 1;
+        limit = 5;
+        offset = 0;
+        pagina = 1;
+
         initComponents();
         cargarMetodosIniciales();
     }
     
-    private void llenarTablaAlumnos(List<PeliculaDTO> peliculasLista) {
+    private void llenarTablaPeliculas(List<PeliculaDTO> peliculasLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCatalogo.getModel();
         if (modeloTabla.getRowCount() > 0) {
             for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
@@ -56,18 +71,10 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
      
     private void cargarPeliculasEnTabla() {
         try {
-            List<PeliculaDTO> alumnos = this.peliculaNegocio.consultarPeliculasPorSucursal(1, 3, 0);
-            this.llenarTablaAlumnos(alumnos);
+            List<PeliculaDTO> peliculas = this.peliculaNegocio.consultarPeliculasPorSucursal(idSucursal, limit, offset);
+            this.llenarTablaPeliculas(peliculas);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void inicializarListaPelis() {
-        try {
-            listaPeliculas = peliculaNegocio.consultarPeliculasPorSucursal(1, 3, 0);
-        } catch (NegocioException ex) {
-            System.out.println("Error en " + ex.getMessage());
         }
     }
     
@@ -87,7 +94,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }
 
     public void verFunciones(){
-        frmFuncionesPelis fun = new frmFuncionesPelis();
+        int idPelicula = (int) tblCatalogo.getValueAt(tblCatalogo.getSelectedRow(), 0);
+        frmFuncionesPelis fun = new frmFuncionesPelis(this, idSucursal, idPelicula, idCliente);
         fun.setVisible(true);
         this.setVisible(false);
     }
@@ -111,7 +119,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnCerrarSesion1 = new javax.swing.JButton();
         btnAgregarPeliculas = new javax.swing.JButton();
         btnAgregarPeliculas1 = new javax.swing.JButton();
-        btnIrPorSucursal = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
@@ -122,6 +129,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCatalogo = new javax.swing.JTable();
         comboSucursales = new javax.swing.JComboBox<>();
+        lblPagina = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -236,15 +244,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
-        btnIrPorSucursal.setBackground(new java.awt.Color(0, 0, 102));
-        btnIrPorSucursal.setForeground(new java.awt.Color(255, 255, 255));
-        btnIrPorSucursal.setText("Ver peliculas");
-        btnIrPorSucursal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIrPorSucursalActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout sidePane1Layout = new javax.swing.GroupLayout(sidePane1);
         sidePane1.setLayout(sidePane1Layout);
         sidePane1Layout.setHorizontalGroup(
@@ -275,9 +274,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addGap(0, 4, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnIrPorSucursal)
-                    .addComponent(btnCerrarSesion1))
+                .addComponent(btnCerrarSesion1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
@@ -297,9 +294,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(btnAgregarPeliculas1)
                 .addGap(78, 78, 78)
                 .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(159, 159, 159)
-                .addComponent(btnIrPorSucursal)
-                .addGap(28, 28, 28)
+                .addGap(210, 210, 210)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
@@ -364,10 +359,20 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         );
 
         btnSiguiente.setText(">");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         btnAtras.setText("<");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("Pagina No. 1");
+        jLabel1.setText("Pagina No.");
 
         tblCatalogo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -392,6 +397,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
+        lblPagina.setText("1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -401,12 +408,14 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(190, 190, 190)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95)
+                        .addGap(60, 60, 60)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(186, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -422,15 +431,16 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addContainerGap(107, Short.MAX_VALUE)
                 .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSiguiente)
                     .addComponent(btnAtras)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(lblPagina))
                 .addGap(22, 22, 22))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -457,7 +467,12 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_info1MouseClicked
 
     private void btnCatalogoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoClientesActionPerformed
-
+        IConexionBD conexionBD = new ConexionBD();
+        IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+        IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+        
+        frmCatalogoClientes fcc = new frmCatalogoClientes(clienteNegocio);
+        fcc.setVisible(true);
     }//GEN-LAST:event_btnCatalogoClientesActionPerformed
 
     private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
@@ -483,7 +498,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
 
-        frmAgregarPeli fap = new frmAgregarPeli(this.peliculaNegocio);
+        frmAgregarPeli fap = new frmAgregarPeli(this.peliculaNegocio, idSucursal);
         fap.setVisible(true);
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
@@ -491,17 +506,33 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarPeliculas1ActionPerformed
 
-    private void btnIrPorSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrPorSucursalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnIrPorSucursalActionPerformed
-
     private void comboSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSucursalesActionPerformed
         // TODO add your handling code here:
+        idSucursal = comboSucursales.getSelectedIndex() + 1;
+        cargarPeliculasEnTabla();
     }//GEN-LAST:event_comboSucursalesActionPerformed
 
     private void comboSucursalesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboSucursalesFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_comboSucursalesFocusGained
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        offset = offset + limit;
+        pagina = pagina + 1;
+        lblPagina.setText(String.valueOf(pagina));
+        cargarPeliculasEnTabla();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        if(offset - limit >= 0){
+            offset = offset - limit;
+            pagina = pagina - 1;
+            lblPagina.setText(String.valueOf(pagina));
+            cargarPeliculasEnTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, "Pagina minima alcanzada ");
+        }
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -511,7 +542,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCatalogoClientes;
     private javax.swing.JButton btnCerrarSesion1;
-    private javax.swing.JButton btnIrPorSucursal;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JComboBox<String> comboSucursales;
     private javax.swing.JLabel iconoCerrar1;
@@ -528,6 +558,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelPeliculas1;
+    private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;
     private javax.swing.JTable tblCatalogo;

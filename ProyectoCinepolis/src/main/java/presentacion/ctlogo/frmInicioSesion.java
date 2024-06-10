@@ -220,19 +220,20 @@ public class frmInicioSesion extends javax.swing.JFrame {
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setCorreo(txtCorreo.getText());
         clienteDTO.setContrasena(txtContrasena.getText());
-        boolean clienteValido = false;
+        int clienteID = -1;
         
         try {
-            clienteValido = clienteNegocio.consultarClienteLogin(clienteDTO.getCorreo(), clienteDTO.getContrasena());
+            clienteID = clienteNegocio.consultarClienteLogin(clienteDTO.getCorreo(), clienteDTO.getContrasena());
+            
         } catch (NegocioException ex) {
             System.out.println("Error de negocio" + ex.getMessage());
         }
         
-        if(clienteValido){
+        if(clienteID != -1){
             IConexionBD conexionBD = new ConexionBD();
             IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD);
             IPeliculaNegocio peliculaNegocio = new PeliculaNegocio(peliculaDAO);
-            frmMenuCatalogo fmc = new frmMenuCatalogo(this, peliculaNegocio);
+            frmMenuCatalogo fmc = new frmMenuCatalogo(this, peliculaNegocio, clienteID);
             this.setVisible(false);
             fmc.setVisible(true);
             

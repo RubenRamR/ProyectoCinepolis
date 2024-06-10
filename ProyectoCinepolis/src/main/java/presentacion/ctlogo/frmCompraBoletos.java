@@ -27,8 +27,12 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private FuncionDTO funcion;
     private IFuncionNegocio funcionNegocio;
     private IVentaNegocio ventaNegocio;
+    private int idFuncion;
+    private int idCliente;
     
-    public frmCompraBoletos(IFuncionNegocio funcionNegocio) {
+    public frmCompraBoletos(IFuncionNegocio funcionNegocio, int idFuncion, int idCliente) {
+        this.idFuncion = idFuncion;
+        this.idCliente = idCliente;
         this.funcionNegocio = funcionNegocio; 
         IConexionBD conexionBD = new ConexionBD();
         IVentaDAO ventaDAO = new VentaDAO(conexionBD);
@@ -41,7 +45,7 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private void consultarFuncionEInicializarTextFields(){
         
         try {
-            funcion = this.funcionNegocio.consultarFuncionPorID(1);
+            funcion = this.funcionNegocio.consultarFuncionPorID(idFuncion);
         } catch (NegocioException ex) {
             System.out.println("Ocurrio un error " + ex.getMessage());
         }
@@ -50,7 +54,6 @@ public class frmCompraBoletos extends javax.swing.JFrame {
         lblAsientosDisp.setText(String.valueOf(funcion.getAsientosDisponibles()));
         lblPrecio.setText(String.valueOf(funcion.getPrecio()));
     }
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -64,10 +67,8 @@ public class frmCompraBoletos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnVolver = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        lblNombreFuncion = new javax.swing.JLabel();
         lblAsientosDisp = new javax.swing.JLabel();
         lblDia = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -137,13 +138,9 @@ public class frmCompraBoletos extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("Nombre:");
-
         jLabel4.setText("Asientos disponibles:");
 
         jLabel5.setText("Dia");
-
-        lblNombreFuncion.setText("(Nombre de la funcion)");
 
         lblAsientosDisp.setText("(cantidad)");
 
@@ -195,54 +192,50 @@ public class frmCompraBoletos extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(102, 102, 102)
-                                    .addComponent(jLabel4))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(lblNombreFuncion)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(lblAsientosDisp, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(lblDia))
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblHora)
-                            .addComponent(jLabel3))))
-                .addContainerGap(128, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addComponent(btnCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnConfirmarCompra)
                 .addGap(94, 94, 94))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(85, 85, 85)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(lblAsientosDisp, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDia))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(99, 99, 99)
+                                    .addComponent(jLabel5)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblHora))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(249, 249, 249)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(144, 144, 144)
+                            .addComponent(jLabel3))))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAsientosDisp, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNombreFuncion)
-                    .addComponent(lblDia)
-                    .addComponent(lblHora))
+                    .addComponent(lblHora)
+                    .addComponent(lblDia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -280,7 +273,7 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private void btnConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCompraActionPerformed
 
         try {
-            ventaNegocio.insertarVenta(1, 1);
+            ventaNegocio.insertarVenta(idCliente, idFuncion);
             JOptionPane.showMessageDialog(this, "Usted ha comprado su boleto!");
             this.dispose();
         } catch (NegocioException ex) {
@@ -304,7 +297,6 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -318,7 +310,6 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private javax.swing.JLabel lblAsientosDisp;
     private javax.swing.JLabel lblDia;
     private javax.swing.JLabel lblHora;
-    private javax.swing.JLabel lblNombreFuncion;
     private javax.swing.JLabel lblPrecio;
     // End of variables declaration//GEN-END:variables
 }
