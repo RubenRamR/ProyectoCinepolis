@@ -4,11 +4,18 @@
  */
 package presentacion.ctlogo;
 
+import dtos.PeliculaDTO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import negocio.IPeliculaNegocio;
+import negocio.NegocioException;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
 
@@ -20,17 +27,48 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
+    private List<PeliculaDTO> listaPeliculas;
     
     public frmMenuCatalogo(JFrame frameAnterior, IPeliculaNegocio peliculaNegocio) {
         this.peliculaNegocio = peliculaNegocio;
         this.frameAnterior = frameAnterior;
+        inicializarListaPelis();
         initComponents();
-        cargarConfiguracionInicialTablaPelicula();
-    
+        cargarMetodosIniciales();
     }
     
-    public void cargarPeliculasEnTabla(){
-        
+    private void llenarTablaAlumnos(List<PeliculaDTO> peliculasLista) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCatalogo.getModel();
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+        if (peliculasLista != null) {
+            peliculasLista.forEach(row -> {
+                Object[] fila = new Object[5];
+                fila[0] = row.getId();
+                fila[1] = row.getTitulo();
+                modeloTabla.addRow(fila);
+            });
+        }
+    }
+     
+    private void cargarPeliculasEnTabla() {
+        try {
+            List<PeliculaDTO> alumnos = this.peliculaNegocio.consultarPeliculasPorSucursal(1, 3, 0);
+            this.llenarTablaAlumnos(alumnos);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void inicializarListaPelis() {
+        try {
+            listaPeliculas = peliculaNegocio.consultarPeliculasPorSucursal(1, 3, 0);
+        } catch (NegocioException ex) {
+            System.out.println("Error en " + ex.getMessage());
+        }
     }
     
     private void cargarMetodosIniciales(){
@@ -42,15 +80,13 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         ActionListener onVerFuncionesClickListener = (ActionEvent e) -> {
             verFunciones();
         };
-        int indiceColumnaVerFunciones = 1;
+        int indiceColumnaVerFunciones = 2;
         TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
         modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellRenderer(new JButtonRenderer("Ver funciones"));
         modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellEditor(new JButtonCellEditor("Ver funciones",onVerFuncionesClickListener));
     }
 
-    
     public void verFunciones(){
-        
         frmFuncionesPelis fun = new frmFuncionesPelis();
         fun.setVisible(true);
         this.setVisible(false);
@@ -226,8 +262,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnAgregarPeliculas)
-                                    .addComponent(btnAgregarPeliculas1))))
-                        .addGap(4, 4, 4))
+                                    .addComponent(btnAgregarPeliculas1)))))
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -237,7 +272,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLabel2)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,11 +371,11 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         tblCatalogo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Peliculas", "Funciones"
+                "ID", "Titulo", "Ver Funcion"
             }
         ));
         jScrollPane2.setViewportView(tblCatalogo);

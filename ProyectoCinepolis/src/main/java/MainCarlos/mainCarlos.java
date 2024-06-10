@@ -37,11 +37,11 @@ public class mainCarlos {
      */
     public static void main(String[] args) {
         IConexionBD conexionBD = new ConexionBD();
-        IFuncionDAO funcionDAO = new FuncionDAO(conexionBD);
-        IFuncionNegocio funcionNegocio = new FuncionNegocio(funcionDAO);
-        frmCompraBoletos fcb = new frmCompraBoletos(funcionNegocio);
-        fcb.setVisible(true);
-
+        IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+        IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+        
+        frmInicioSesion fis = new frmInicioSesion(clienteNegocio);
+        fis.setVisible(true);
     }
 }
 
