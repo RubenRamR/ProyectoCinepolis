@@ -26,7 +26,7 @@ public class ClienteDAO implements IClienteDAO {
     }
     
     @Override
-    public void insertarCliente(EntidadCliente entidadCliente) throws PersistenciaException {
+    public void registrarCliente(EntidadCliente entidadCliente) throws PersistenciaException {
         Connection conexion = null;
         try {
             conexion = this.conexionBD.crearConexion();
@@ -207,6 +207,37 @@ public class ClienteDAO implements IClienteDAO {
                 } catch (SQLException e){
                     System.out.println(e.getMessage());
                }
+            }
+        }
+    }
+
+    @Override
+    public boolean consultarClienteLogin(String correo, String contrasena) throws PersistenciaException {
+        Connection conexion = null;
+        try {
+            conexion = this.conexionBD.crearConexion();
+            String codigoSQL = "SELECT * FROM Cliente WHERE correo = ? and contrasena = ?;";
+            PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
+            preparedStatement.setString(1, correo);
+            preparedStatement.setString(2, contrasena);
+            ResultSet resultado = preparedStatement.executeQuery();
+            
+            if (resultado.next()) {
+                
+                return true;
+            } else {
+                throw new PersistenciaException("No se encontró el cliente con correo: " + correo);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new PersistenciaException("Ocurrió un error al buscar el cliente");
+        } finally {
+            if (conexion != null){
+                try {
+                    conexion.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }

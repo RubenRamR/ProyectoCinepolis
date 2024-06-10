@@ -35,7 +35,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblFuncionesPeli = new javax.swing.JTable();
         PosterPelicula = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -80,20 +80,20 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Editr pelicul");
+        jButton1.setText("Editar Pelicula");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFuncionesPeli.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblFuncionesPeli);
 
         PosterPelicula.setText("jLabel1");
 
@@ -103,7 +103,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("aladin");
+        jLabel8.setText("Nombre");
 
         BtnComprarFuncion.setBackground(new java.awt.Color(0, 0, 102));
         BtnComprarFuncion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -172,7 +172,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(78, 78, 78))
+                .addGap(62, 62, 62))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,9 +202,9 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnComprarFuncion)
                     .addComponent(BtnRegresar))
-                .addGap(28, 28, 28)
+                .addGap(29, 29, 29)
                 .addComponent(jButton1)
-                .addGap(6, 6, 6)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,10 +216,24 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
     private void BtnComprarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnComprarFuncionActionPerformed
 
+        
+        frmCompraBoletos catMen = new frmCompraBoletos();
+
+        // Hace visible el nuevo formulario
+        catMen.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_BtnComprarFuncionActionPerformed
 
     private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
-      
+      frmMenuCatalogo catMen = new frmMenuCatalogo();
+
+        // Hace visible el nuevo formulario
+        catMen.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_BtnRegresarActionPerformed
 
     /**
@@ -273,7 +287,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblFuncionesPeli;
     private javax.swing.JTextArea textAreaSinopsis;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,7 +4,7 @@
  */
 package presentacion.ctlogo;
 
-import presentacion.CarteleraClienteView;
+
 
 /**
  *
@@ -41,7 +41,7 @@ public class frmTicket extends javax.swing.JFrame {
         txtHoraFuncion = new javax.swing.JTextField();
         totalPago = new javax.swing.JTextField();
         btnVolverMenu = new javax.swing.JButton();
-        BtnGenerarPDFTicket = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,13 +81,13 @@ public class frmTicket extends javax.swing.JFrame {
             }
         });
 
-        BtnGenerarPDFTicket.setText("GenerarPDF");
+        jButton1.setText("Generar PDF");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(109, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,14 +106,13 @@ public class frmTicket extends javax.swing.JFrame {
                                 .addComponent(txtHoraFuncion))
                             .addGap(122, 122, 122)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(totalPago, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(144, 144, 144)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnVolverMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnGenerarPDFTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnVolverMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(totalPago, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(123, 123, 123))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +140,7 @@ public class frmTicket extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnVolverMenu)
                 .addGap(18, 18, 18)
-                .addComponent(BtnGenerarPDFTicket)
+                .addComponent(jButton1)
                 .addGap(16, 16, 16))
         );
 
@@ -164,7 +163,7 @@ public class frmTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-       CarteleraClienteView crt = new CarteleraClienteView();
+       frmMenuCatalogo crt = new frmMenuCatalogo();
     
     // Hace visible el nuevo formulario
     crt.setVisible(true);
@@ -209,8 +208,8 @@ public class frmTicket extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnGenerarPDFTicket;
     private javax.swing.JButton btnVolverMenu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

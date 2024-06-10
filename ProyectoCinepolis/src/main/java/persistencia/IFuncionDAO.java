@@ -17,4 +17,6 @@ public interface IFuncionDAO {
     public void eliminarFuncion(EntidadFuncion entidadFuncion) throws PersistenciaException;
     public List<EntidadFuncion> consultarFunciones(int limit, int offset) throws PersistenciaException;
     public EntidadFuncion consultarFuncionPorID(int id) throws PersistenciaException;
+    public List<EntidadFuncion> consultarFuncionesPorPeliculaYSucursal(int idSucursal, int idPelicula, int limit, int offset) throws PersistenciaException;
+
 }

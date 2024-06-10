@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package presentacion;
+package presentacion.ctlogo;
 
 
 
@@ -277,11 +277,23 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCompraActionPerformed
-        
+        frmTicket catMen = new frmTicket();
+
+        // Hace visible el nuevo formulario
+        catMen.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnConfirmarCompraActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        frmFuncionesPelis catMen = new frmFuncionesPelis();
+
+        // Hace visible el nuevo formulario
+        catMen.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**

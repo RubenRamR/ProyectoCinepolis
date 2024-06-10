@@ -25,18 +25,19 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }
     
     private void cargarConfiguracionInicialTablaPelicula() {
-        ActionListener onVerFuncionesClickListener = (ActionEvent e) ->
-        {
-            verFunciones();
-        };
-        int indiceColumnaVerFunciones = 1;
-        TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
-        modeloColumnas.getColumn(indiceColumnaVerFunciones)
-                .setCellRenderer(new JButtonRenderer("Ver funciones"));
-        modeloColumnas.getColumn(indiceColumnaVerFunciones)
-                .setCellEditor(new JButtonCellEditor("Ver funciones",
-                        onVerFuncionesClickListener));
-    }
+       
+    ActionListener onVerFuncionesClickListener = (ActionEvent e) -> {
+        verFunciones();
+    };
+    int indiceColumnaVerFunciones = 1;
+    TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
+    modeloColumnas.getColumn(indiceColumnaVerFunciones)
+            .setCellRenderer(new JButtonRenderer("Ver funciones"));
+    modeloColumnas.getColumn(indiceColumnaVerFunciones)
+            .setCellEditor(new JButtonCellEditor("Ver funciones",
+                    onVerFuncionesClickListener));
+}
+
     
     public void verFunciones(){
         frmFuncionesPelis fun = new frmFuncionesPelis();
@@ -58,17 +59,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private void initComponents() {
 
         sidePane1 = new javax.swing.JPanel();
-        botonPrincipal1 = new javax.swing.JPanel();
-        labelPrincipal1 = new javax.swing.JLabel();
-        iconoPrincipal1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        botonClientes1 = new javax.swing.JPanel();
-        indicador5 = new javax.swing.JPanel();
-        labelClientes1 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        iconoClientes1 = new javax.swing.JLabel();
         botonPeliculas1 = new javax.swing.JPanel();
         labelPeliculas1 = new javax.swing.JLabel();
         indicador6 = new javax.swing.JPanel();
@@ -79,123 +69,26 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        btnAgregarFunciones = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        btnCatalogoClientes = new javax.swing.JButton();
         btnCerrarSesion1 = new javax.swing.JButton();
         btnAgregarPeliculas = new javax.swing.JButton();
+        btnAgregarFunciones1 = new javax.swing.JButton();
+        btnAgregarPeliculas1 = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblCatalogo = new javax.swing.JTable();
         btnSiguiente = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCatalogo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         sidePane1.setBackground(new java.awt.Color(0, 0, 102));
         sidePane1.setForeground(new java.awt.Color(255, 255, 255));
         sidePane1.setAutoscrolls(true);
-
-        botonPrincipal1.setBackground(new java.awt.Color(0, 0, 102));
-        botonPrincipal1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                botonPrincipal1MousePressed(evt);
-            }
-        });
-
-        labelPrincipal1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        labelPrincipal1.setForeground(new java.awt.Color(204, 204, 204));
-        labelPrincipal1.setText("Principal");
-
-        iconoPrincipal1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        iconoPrincipal1.setForeground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout botonPrincipal1Layout = new javax.swing.GroupLayout(botonPrincipal1);
-        botonPrincipal1.setLayout(botonPrincipal1Layout);
-        botonPrincipal1Layout.setHorizontalGroup(
-            botonPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(botonPrincipal1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel5)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(iconoPrincipal1)
-                .addGap(0, 0, 0)
-                .addComponent(labelPrincipal1)
-                .addContainerGap())
-        );
-        botonPrincipal1Layout.setVerticalGroup(
-            botonPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(iconoPrincipal1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(labelPrincipal1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(botonPrincipal1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(botonPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        botonClientes1.setBackground(new java.awt.Color(0, 0, 102));
-        botonClientes1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                botonClientes1MousePressed(evt);
-            }
-        });
-
-        indicador5.setOpaque(false);
-        indicador5.setPreferredSize(new java.awt.Dimension(3, 0));
-
-        javax.swing.GroupLayout indicador5Layout = new javax.swing.GroupLayout(indicador5);
-        indicador5.setLayout(indicador5Layout);
-        indicador5Layout.setHorizontalGroup(
-            indicador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-        indicador5Layout.setVerticalGroup(
-            indicador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        labelClientes1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        labelClientes1.setForeground(new java.awt.Color(204, 204, 204));
-
-        iconoClientes1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        iconoClientes1.setForeground(new java.awt.Color(204, 204, 204));
-        iconoClientes1.setText("Clientes");
-
-        javax.swing.GroupLayout botonClientes1Layout = new javax.swing.GroupLayout(botonClientes1);
-        botonClientes1.setLayout(botonClientes1Layout);
-        botonClientes1Layout.setHorizontalGroup(
-            botonClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(botonClientes1Layout.createSequentialGroup()
-                .addComponent(indicador5, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(iconoClientes1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelClientes1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        botonClientes1Layout.setVerticalGroup(
-            botonClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(indicador5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-            .addComponent(labelClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(botonClientes1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(botonClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(iconoClientes1)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel6))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
 
         botonPeliculas1.setBackground(new java.awt.Color(0, 0, 51));
         botonPeliculas1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -268,19 +161,12 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         jLabel3.setMinimumSize(new java.awt.Dimension(300, 300));
 
-        btnAgregarFunciones.setBackground(new java.awt.Color(0, 0, 102));
-        btnAgregarFunciones.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarFunciones.setText("Agregar Funciones");
-        btnAgregarFunciones.addActionListener(new java.awt.event.ActionListener() {
+        btnCatalogoClientes.setBackground(new java.awt.Color(0, 0, 102));
+        btnCatalogoClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnCatalogoClientes.setText("Catalogo Clientes");
+        btnCatalogoClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarFuncionesActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal Bella Vista", "Sucursal Sendero", " ", " " }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                btnCatalogoClientesActionPerformed(evt);
             }
         });
 
@@ -302,21 +188,43 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
+        btnAgregarFunciones1.setBackground(new java.awt.Color(0, 0, 102));
+        btnAgregarFunciones1.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarFunciones1.setText("Agregar Funciones");
+        btnAgregarFunciones1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarFunciones1ActionPerformed(evt);
+            }
+        });
+
+        btnAgregarPeliculas1.setBackground(new java.awt.Color(0, 0, 102));
+        btnAgregarPeliculas1.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarPeliculas1.setText("Modulo Reportes");
+        btnAgregarPeliculas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPeliculas1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sidePane1Layout = new javax.swing.GroupLayout(sidePane1);
         sidePane1.setLayout(sidePane1Layout);
         sidePane1Layout.setHorizontalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sidePane1Layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addComponent(botonPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(botonPeliculas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(sidePane1Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(btnCatalogoClientes))
+                            .addGroup(sidePane1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAgregarPeliculas)
+                                    .addComponent(btnAgregarFunciones1)
+                                    .addComponent(btnAgregarPeliculas1)))))
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -326,41 +234,36 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLabel2)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarFunciones)
-                    .addComponent(btnCerrarSesion1)
-                    .addComponent(btnAgregarPeliculas))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(btnCerrarSesion1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel16)
-                .addGap(32, 32, 32)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addComponent(botonPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCatalogoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(botonClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(7, 7, 7)
+                        .addComponent(btnAgregarFunciones1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarPeliculas)
+                        .addGap(29, 29, 29)))
+                .addGap(1, 1, 1)
+                .addComponent(btnAgregarPeliculas1)
+                .addGap(54, 54, 54)
                 .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113)
+                .addGap(210, 210, 210)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAgregarFunciones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAgregarPeliculas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(93, 93, 93)
                 .addComponent(btnCerrarSesion1)
                 .addGap(8, 8, 8))
         );
@@ -404,7 +307,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(iconoMinimizar1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoCerrar1)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
         panelHerramientas1Layout.setVerticalGroup(
             panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,64 +323,54 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tblCatalogo.setBackground(new java.awt.Color(65, 65, 65));
-        tblCatalogo.setForeground(new java.awt.Color(65, 65, 65));
-        tblCatalogo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Pelicula", "Ver funciones"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblCatalogo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tblCatalogo.setSelectionForeground(new java.awt.Color(211, 211, 211));
-        jScrollPane1.setViewportView(tblCatalogo);
-
         btnSiguiente.setText(">");
 
         btnAtras.setText("<");
 
         jLabel1.setText("Pagina No. 1");
 
+        tblCatalogo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Peliculas", "Funciones"
+            }
+        ));
+        jScrollPane2.setViewportView(tblCatalogo);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(190, 190, 190)
-                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(95, 95, 95)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(panelHerramientas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(panelHerramientas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(565, Short.MAX_VALUE)
+                .addContainerGap(112, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(110, 110, 110)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSiguiente)
                     .addComponent(btnAtras)
@@ -489,9 +382,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(37, 37, 37)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(76, Short.MAX_VALUE))
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(sidePane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(3, 3, 3)))))
@@ -499,14 +390,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonPrincipal1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipal1MousePressed
-
-    }//GEN-LAST:event_botonPrincipal1MousePressed
-
-    private void botonClientes1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonClientes1MousePressed
-
-    }//GEN-LAST:event_botonClientes1MousePressed
 
     private void botonPeliculas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPeliculas1MousePressed
 
@@ -516,13 +399,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_info1MouseClicked
 
-    private void btnAgregarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFuncionesActionPerformed
+    private void btnCatalogoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoClientesActionPerformed
 
-    }//GEN-LAST:event_btnAgregarFuncionesActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_btnCatalogoClientesActionPerformed
 
     private void btnCerrarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesion1ActionPerformed
         // TODO add your handling code here:
@@ -545,14 +424,23 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_panelHerramientas1MousePressed
 
     private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
-        frmAgregarPeli agpeli = new frmAgregarPeli();
+        
+    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
+
+    private void btnAgregarFunciones1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFunciones1ActionPerformed
+        
+                     frmAgregarFunciones agfun = new frmAgregarFunciones();
 
         // Hace visible el nuevo formulario
-        agpeli.setVisible(true);
+        agfun.setVisible(true);
 
         // Oculta el formulario actual
         this.setVisible(false);
-    }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
+    }//GEN-LAST:event_btnAgregarFunciones1ActionPerformed
+
+    private void btnAgregarPeliculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculas1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarPeliculas1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,38 +478,28 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JPanel botonClientes1;
     public javax.swing.JPanel botonPeliculas1;
-    public javax.swing.JPanel botonPrincipal1;
-    private javax.swing.JButton btnAgregarFunciones;
+    private javax.swing.JButton btnAgregarFunciones1;
     private javax.swing.JButton btnAgregarPeliculas;
+    private javax.swing.JButton btnAgregarPeliculas1;
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnCatalogoClientes;
     private javax.swing.JButton btnCerrarSesion1;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel iconoCerrar1;
-    private javax.swing.JLabel iconoClientes1;
     private javax.swing.JLabel iconoMinimizar1;
     private javax.swing.JLabel iconoPeliculas1;
-    private javax.swing.JLabel iconoPrincipal1;
-    public javax.swing.JPanel indicador5;
     public javax.swing.JPanel indicador6;
     private javax.swing.JLabel info1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelClientes1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelPeliculas1;
-    private javax.swing.JLabel labelPrincipal1;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;
     private javax.swing.JTable tblCatalogo;

@@ -4,8 +4,7 @@
  */
 package presentacion.ctlogo;
 
-import presentacion.CarteleraAdminView;
-import presentacion.CarteleraClienteView;
+
 
 /**
  *
@@ -199,13 +198,7 @@ public class frmInicioSesion extends javax.swing.JFrame {
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         // Crea una nueva instancia del formulario frmRegistroUsu
-        frmRegistroUsu registro = new frmRegistroUsu();
-
-        // Hace visible el nuevo formulario
-        registro.setVisible(true);
-
-        // Oculta el formulario actual
-        this.setVisible(false);
+        
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed

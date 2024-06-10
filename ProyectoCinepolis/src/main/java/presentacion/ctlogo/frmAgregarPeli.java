@@ -4,7 +4,10 @@
  */
 package presentacion.ctlogo;
 
+import dtos.PeliculaDTO;
 import entidades.EntidadPelicula;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,12 +15,15 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.util.logging.Level;
@@ -28,7 +34,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import negocio.IClienteNegocio;
+import negocio.IPeliculaNegocio;
+import negocio.NegocioException;
+import negocio.PeliculaNegocio;
+import persistencia.ConexionBD;
 import persistencia.IConexionBD;
+import persistencia.IPeliculaDAO;
+import persistencia.PeliculaDAO;
 
 /**
  *
@@ -40,14 +53,16 @@ public class frmAgregarPeli extends javax.swing.JFrame {
      * Creates new form frmAgregarPeli
      */
     
-    private IConexionBD conectar;
-     private InputStream fis;
-    private int longitudBytes;
+    private IPeliculaNegocio peliculaNegocio;
+    
+ 
+
     
     
     
     
-    public frmAgregarPeli() {
+    public frmAgregarPeli(IPeliculaNegocio peliculaNegocio) {
+        this.peliculaNegocio = peliculaNegocio;
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -67,6 +82,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        BtnRegresar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -97,15 +113,30 @@ public class frmAgregarPeli extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 255));
 
+        BtnRegresar.setBackground(new java.awt.Color(0, 0, 102));
+        BtnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        BtnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        BtnRegresar.setText("Regresar");
+        BtnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(BtnRegresar))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(BtnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 102));
@@ -267,7 +298,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                     .addComponent(txtTituloPeli, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel9)
@@ -366,7 +397,24 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-      
+      public static byte[] imageToBytes(Image image, String format) {
+        BufferedImage bufferedImage = new BufferedImage(
+                image.getWidth(null),
+                image.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bufferedImage, format, baos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return baos.toByteArray();
+      }
         
     
     private void cmbxGeneroPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxGeneroPeliActionPerformed
@@ -386,89 +434,38 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLinkTrailerPeliActionPerformed
 
     private void btnAgregarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliActionPerformed
-   
-       
-   Connection cn = null; // Obtén tu conexión a la base de datos
-        JFileChooser se = new JFileChooser();
-        int returnValue = se.showOpenDialog(null);
+ PeliculaDTO pelicula = new PeliculaDTO();
+    pelicula.setTitulo(txtTituloPeli.getText());
+    pelicula.setGenero((String) cmbxGeneroPeli.getSelectedItem());
+    pelicula.setClasificacion((String) cmbxClasificacionPeli.getSelectedItem());
+    pelicula.setSinopsis(txtAREASinopsisPeli.getText());
+    pelicula.setDuracion(Time.valueOf(cmbxDuracion.getSelectedItem().toString())); // Asegúrate de que el formato de tiempo sea correcto
+    pelicula.setPaisOrigen(txtPaisOrigenPeli.getText());
+    pelicula.setTrailerLink(txtLinkTrailerPeli.getText());
+       Icon icon = lblFoto.getIcon();
+    BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
 
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try {
-                fis = new FileInputStream(se.getSelectedFile());
-                longitudBytes = (int) se.getSelectedFile().length();
-                Image icono = ImageIO.read(se.getSelectedFile()).getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT);
-                lblFoto.setIcon(new ImageIcon(icono));
-                lblFoto.updateUI();
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error al leer la imagen: " + e.getMessage());
-                return;
-            }
-        }
+    Graphics g = bi.createGraphics();
+    icon.paintIcon(null, g, 0,0);
+    g.dispose();
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        EntidadPelicula ep = new EntidadPelicula();
-        ep.setTitulo(txtTituloPeli.getText());
-        ep.setClasificacion((String) cmbxClasificacionPeli.getSelectedItem());
+    try {
+        ImageIO.write(bi, "PNG", baos);
+        baos.flush();
         
-        String duracionStr = (String) cmbxDuracion.getSelectedItem();
-        Time duracion = null;
-        try {
-            duracion = Time.valueOf(duracionStr);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "Duración inválida. Asegúrate de que esté en el formato HH:MM:SS");
-            return;
-        }
-        ep.setDuracion(duracion);
+        byte[] imageInByte = baos.toByteArray();
+        pelicula.setImagen(imageInByte);
+        baos.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+   
+        
 
-        ep.setGenero((String) cmbxGeneroPeli.getSelectedItem());
-        ep.setTrailerLink(txtLinkTrailerPeli.getText());
-        ep.setPaisOrigen(txtPaisOrigenPeli.getText());
-
-        try {
-            // Asegúrate de inicializar tu conexión aquí
-            String dbUrl = "jdbc:mysql://localhost:3306/cinepolis";
-            String dbUser = "root";
-            String dbPassword = "Bi0log1a1";
-            cn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-            // Preparar el PreparedStatement para insertar los datos
-            String sql = "INSERT INTO Pelicula (titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = cn.prepareStatement(sql);
-
-            pst.setString(1, ep.getTitulo());
-            pst.setString(2, ep.getGenero());
-            pst.setString(3, ep.getClasificacion());
-            pst.setString(4, ep.getSinopsis()); // Asegúrate de obtener la sinopsis si no está en el contexto proporcionado
-            pst.setTime(5, ep.getDuracion());
-            pst.setString(6, ep.getPaisOrigen());
-            pst.setString(7, ep.getTrailerLink());
-            pst.setBlob(8, fis, longitudBytes);
-
-            // Ejecutar la actualización
-            pst.executeUpdate();
-
-            // Mostrar mensaje de éxito
-            JOptionPane.showMessageDialog(null, "Registro Exitoso");
-
-        } catch (SQLException e) {
-            System.out.println("Error al guardar los datos: " + e);
-            JOptionPane.showMessageDialog(null, "¡¡Error al guardar los datos!!");
-        } finally {
-            // Asegúrate de cerrar el InputStream y la conexión si es necesario
-            try {
-                if (fis != null) {
-                    fis.close();
-                }
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (IOException | SQLException e) {
-                System.out.println("Error al cerrar recursos: " + e);
-            }
-        }
+   
     
-       
-       
-       
+
 
     }//GEN-LAST:event_btnAgregarPeliActionPerformed
 
@@ -497,42 +494,23 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPaisOrigenPeliActionPerformed
 
+    private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
+        frmMenuCatalogo catMen = new frmMenuCatalogo();
+
+        // Hace visible el nuevo formulario
+        catMen.setVisible(true);
+
+        // Oculta el formulario actual
+        this.setVisible(false);
+    }//GEN-LAST:event_BtnRegresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmAgregarPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmAgregarPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmAgregarPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmAgregarPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmAgregarPeli().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnRegresar;
     private javax.swing.JButton btnAgregarPeli;
     private javax.swing.JButton btnExaminar;
     private javax.swing.JComboBox<String> cmbxClasificacionPeli;

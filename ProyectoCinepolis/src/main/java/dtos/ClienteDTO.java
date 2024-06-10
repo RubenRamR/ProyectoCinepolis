@@ -2,32 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entidades;
+package dtos;
 
 import java.sql.Date;
 
 /**
  *
- * @author crazy
+ * @author rramirez
  */
-public class EntidadCliente {
+public class ClienteDTO {
 
-    int id;
-    String nombre;
-    String apellidos;
-    String ciudad;
-    String correo;
-    Date fechaNacimiento;
-    String contrasena;
-    int coordenadaX;
-    int coordenadaY;
+    private int id;
+    private String nombre;
+    private String apellidos;
+    private String ciudad;
+    private String correo;
+    private Date fechaNacimiento;
+    private String contrasena;
+    private int coordenadaX;
+    private int coordenadaY;
 
-    public EntidadCliente() {
+    public ClienteDTO() {
     }
 
-    // constructor con todos los atributos
-    public EntidadCliente(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
-        this.id = id;
+    public ClienteDTO(String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.ciudad = ciudad;
@@ -38,8 +36,8 @@ public class EntidadCliente {
         this.coordenadaY = coordenadaY;
     }
 
-    // constructor sin id
-    public EntidadCliente(String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
+    public ClienteDTO(int id, String nombre, String apellidos, String ciudad, String correo, Date fechaNacimiento, String contrasena, int coordenadaX, int coordenadaY) {
+        this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.ciudad = ciudad;
@@ -98,6 +96,14 @@ public class EntidadCliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
     public int getCoordenadaX() {
         return coordenadaX;
     }
@@ -113,18 +119,7 @@ public class EntidadCliente {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    @Override
-    public String toString() {
-        return "EntidadCliente{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", ciudad=" + ciudad + ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento + ", contrasena=" + contrasena + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
-    }
+    
+    
 
 }
