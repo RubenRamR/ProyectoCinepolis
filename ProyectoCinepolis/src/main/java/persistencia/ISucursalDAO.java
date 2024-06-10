@@ -9,12 +9,14 @@ import java.util.List;
 
 /**
  *
- * @author crazy
+ * @author David Elier Campa Chaparro 245178
  */
 public interface ISucursalDAO {
     public void insertarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public void editarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
     public void eliminarSucursal(EntidadSucursal entidadSucursal) throws PersistenciaException;
-    public List<EntidadSucursal> buscarSucursalesTabla(int limit, int offset) throws PersistenciaException;
+    public List<EntidadSucursal> consultarSucursales(int limit, int offset) throws PersistenciaException;
+    public EntidadSucursal consultarSucursalPorID(int id) throws PersistenciaException;
+    public double calcularGananciasPorSucursal(int idSucursal) throws PersistenciaException;
 
 }

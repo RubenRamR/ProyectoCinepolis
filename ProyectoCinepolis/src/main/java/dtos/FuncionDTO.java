@@ -2,32 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entidades;
+package dtos;
 
 import java.sql.Date;
 import java.sql.Time;
 
 /**
  *
- * @author crazy
+ * @author rramirez
  */
-public class EntidadFuncion {
-    int id;
-    float precio;
-    Date dia;
-    Time inicio;
-    Time fin;
-    Time tiempoLimpieza;
-    int asientosDisponibles;
-    int idPelicula;
-    int idSala;
+public class FuncionDTO {
 
-    public EntidadFuncion() {
+    private int id;
+    private float precio;
+    private Date dia;
+    private Time inicio;
+    private Time fin;
+    private Time tiempoLimpieza;
+    private int asientosDisponibles;
+    private int idPelicula;
+    private int idSala;
+
+    public FuncionDTO() {
     }
-    
-    // constructor con todos los atributos
-    public EntidadFuncion(int id, float precio, Date dia, Time inicio, Time fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
-        this.id = id;
+
+    public FuncionDTO(float precio, Date dia, Time inicio, Time fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
         this.precio = precio;
         this.dia = dia;
         this.inicio = inicio;
@@ -37,9 +36,9 @@ public class EntidadFuncion {
         this.idPelicula = idPelicula;
         this.idSala = idSala;
     }
-    
-    // Constructor sin id
-    public EntidadFuncion(float precio, Date dia, Time inicio, Time fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
+
+    public FuncionDTO(int id, float precio, Date dia, Time inicio, Time fin, Time tiempoLimpieza, int asientosDisponibles, int idPelicula, int idSala) {
+        this.id = id;
         this.precio = precio;
         this.dia = dia;
         this.inicio = inicio;
@@ -58,20 +57,20 @@ public class EntidadFuncion {
         this.id = id;
     }
 
-    public Date getDia() {
-        return dia;
-    }
-
-    public void setDia(Date dia) {
-        this.dia = dia;
-    }
-
     public float getPrecio() {
         return precio;
     }
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+
+    public Date getDia() {
+        return dia;
+    }
+
+    public void setDia(Date dia) {
+        this.dia = dia;
     }
 
     public Time getInicio() {
@@ -98,6 +97,14 @@ public class EntidadFuncion {
         this.tiempoLimpieza = tiempoLimpieza;
     }
 
+    public int getAsientosDisponibles() {
+        return asientosDisponibles;
+    }
+
+    public void setAsientosDisponibles(int asientosDisponibles) {
+        this.asientosDisponibles = asientosDisponibles;
+    }
+
     public int getIdPelicula() {
         return idPelicula;
     }
@@ -114,17 +121,4 @@ public class EntidadFuncion {
         this.idSala = idSala;
     }
 
-    public int getAsientosDisponibles() {
-        return asientosDisponibles;
-    }
-
-    public void setAsientosDisponibles(int asientosDisponibles) {
-        this.asientosDisponibles = asientosDisponibles;
-    }    
-    
-    @Override
-    public String toString() {
-        return "EntidadFuncion{" + "id=" + id + ", precio=" + precio + ", dia=" + dia + ", inicio=" + inicio + ", fin=" + fin + ", tiempoLimpieza=" + tiempoLimpieza + ", asientosDisponibles=" + asientosDisponibles + ", idPelicula=" + idPelicula + ", idSala=" + idSala + '}';
-    }
-    
 }

@@ -2,37 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entidades;
+package dtos;
 
 /**
  *
- * @author crazy
+ * @author rramirez
  */
-public class EntidadSala {
-    
-    int id;
-    String nombre;
-    int asientos;
-    int idSucursal;
+public class SalaDTO {
 
-    public EntidadSala() {
+    private int id;
+    private String nombre;
+    private int asientos;
+    private int idSucursal;
+
+    public SalaDTO() {
     }
 
-    // constructor con todos los atributos
-    public EntidadSala(int id, String nombre, int asientos, int idSucursal) {
+    public SalaDTO(int id, String nombre, int asientos, int idSucursal) {
         this.id = id;
         this.nombre = nombre;
         this.asientos = asientos;
         this.idSucursal = idSucursal;
     }
 
-    // constructor sin id
-    public EntidadSala(String nombre, int asientos, int asientosDisponibles, int idSucursal) {
+    public SalaDTO(String nombre, int asientos, int idSucursal) {
         this.nombre = nombre;
         this.asientos = asientos;
         this.idSucursal = idSucursal;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -57,7 +55,6 @@ public class EntidadSala {
         this.asientos = asientos;
     }
 
-
     public int getIdSucursal() {
         return idSucursal;
     }
@@ -65,13 +62,4 @@ public class EntidadSala {
     public void setIdSucursal(int idSucursal) {
         this.idSucursal = idSucursal;
     }
-
-    @Override
-    public String toString() {
-        return "EntidadSala{" + "id=" + id + ", nombre=" + nombre + ", asientos=" + asientos + ", idSucursal=" + idSucursal + '}';
-    }
-    
-    
-    
-    
 }

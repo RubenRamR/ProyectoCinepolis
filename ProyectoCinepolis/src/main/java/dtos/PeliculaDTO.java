@@ -2,30 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entidades;
+package dtos;
 
 import java.sql.Time;
 
 /**
  *
- * @author crazy
+ * @author rramirez
  */
-public class EntidadPelicula {
-    int id;
-    String titulo;
-    String genero;
-    String clasificacion;
-    String sinopsis;
-    Time duracion;
-    String paisOrigen;
-    String trailerLink;
-    byte[] imagen;
-    
-    public EntidadPelicula() {
+public class PeliculaDTO {
+    private int id;
+    private String titulo;
+    private String genero;
+    private String clasificacion;
+    private String sinopsis;
+    private Time duracion;
+    private String paisOrigen;
+    private String trailerLink;
+    private byte[] imagen;
+
+    public PeliculaDTO() {
     }
     
-    // constructor con todos los atributos
-    public EntidadPelicula(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
+    public PeliculaDTO(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
+        this.titulo = titulo;
+        this.genero = genero;
+        this.clasificacion = clasificacion;
+        this.sinopsis = sinopsis;
+        this.duracion = duracion;
+        this.paisOrigen = paisOrigen;
+        this.trailerLink = trailerLink;
+        this.imagen = imagen;
+    }
+
+    public PeliculaDTO(int id, String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
         this.id = id;
         this.titulo = titulo;
         this.genero = genero;
@@ -37,18 +47,6 @@ public class EntidadPelicula {
         this.imagen = imagen;
     }
 
-    // constructor sin ID
-    public EntidadPelicula(String titulo, String genero, String clasificacion, String sinopsis, Time duracion, String paisOrigen, String trailerLink, byte[] imagen) {
-        this.titulo = titulo;
-        this.genero = genero;
-        this.clasificacion = clasificacion;
-        this.sinopsis = sinopsis;
-        this.duracion = duracion;
-        this.paisOrigen = paisOrigen;
-        this.trailerLink = trailerLink;
-        this.imagen = imagen;
-    }
-    
     public int getId() {
         return id;
     }
@@ -121,10 +119,6 @@ public class EntidadPelicula {
         this.imagen = imagen;
     }
 
-    @Override
-    public String toString() {
-        return "EntidadPelicula{" + "id=" + id + ", titulo=" + titulo + ", genero=" + genero + ", clasificacion=" + clasificacion + ", sinopsis=" + sinopsis + ", duracion=" + duracion + ", paisOrigen=" + paisOrigen + ", trailerLink=" + trailerLink + ", imagen=" + imagen + '}';
-    }
     
     
 }
