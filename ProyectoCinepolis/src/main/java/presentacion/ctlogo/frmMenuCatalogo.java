@@ -269,7 +269,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         btnGenerarPDFSucursal.setBackground(new java.awt.Color(0, 0, 102));
         btnGenerarPDFSucursal.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarPDFSucursal.setText("GenerarPDF Ganacias por pelicula");
+        btnGenerarPDFSucursal.setText("PDF Ganacias por pelicula");
         btnGenerarPDFSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarPDFSucursalActionPerformed(evt);
@@ -278,7 +278,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         btnGenerarPDFSucursal1.setBackground(new java.awt.Color(0, 0, 102));
         btnGenerarPDFSucursal1.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarPDFSucursal1.setText("GenerarPDF Ganacias por sucursal");
+        btnGenerarPDFSucursal1.setText("PDF Ganacias por sucursal");
         btnGenerarPDFSucursal1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarPDFSucursal1ActionPerformed(evt);
@@ -390,7 +390,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(iconoMinimizar1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoCerrar1)
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
         panelHerramientas1Layout.setVerticalGroup(
             panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,7 +457,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(264, Short.MAX_VALUE)
+                .addContainerGap(282, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -508,14 +508,16 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(lblPagina)
                     .addComponent(btnSiguiente))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(3, 3, 3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 421, Short.MAX_VALUE))
+                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addContainerGap()))
         );
 
         pack();
