@@ -255,18 +255,14 @@ BEGIN
 END//
 DELIMITER ;
 
-select id from sala sa inner join sucursal su
-on sa.idSucursal = su.id
-;
-
-
+-- SP para insertar funciones cuando no le pasamos el id de la sala, sino el nombre, le tenemos que pasar el id de la pelicula
 DELIMITER //
 CREATE PROCEDURE InsertarFuncionPorNombreSala(
     IN p_idPelicula INT,
-    IN p_NombreSala VARCHAR(30),
     IN p_precio FLOAT,
     IN p_dia DATE,
-    IN p_inicio TIME
+    IN p_inicio TIME,
+	IN p_NombreSala VARCHAR(30)
 )
     
 BEGIN
@@ -275,13 +271,16 @@ BEGIN
     DECLARE p_fin TIME;
     DECLARE p_asientosDisponibles INT;
     
-    SET @idSala = (SELECT idSala)
+    SET @idSucursal = (SELECT idSucursal from Sucursal_Tiene_Pelicula WHERE idPelicula = p_idPelicula);
+    SET @idSala = (select sa.id from sala sa inner join sucursal su
+	on sa.idSucursal = su.id
+	WHERE sa.nombre = p_NombreSala and su.id = @idSucursal);
     
     SET p_duracion = (SELECT duracion FROM Pelicula WHERE id = p_idPelicula);
     SET p_fin = ADDTIME(ADDTIME(p_inicio, p_duracion), p_tiempoLimpieza);
-    SET p_asientosDisponibles = (SELECT asientos FROM Sala WHERE id = p_idSala);
+    SET p_asientosDisponibles = (SELECT asientos FROM Sala WHERE id = @idSala);
     INSERT INTO Funcion (precio, dia, inicio, fin, tiempoLimpieza, asientosDisponibles, idPelicula, idSala)
-    VALUES (p_precio, p_dia, p_inicio, p_fin, p_tiempoLimpieza, p_asientosDisponibles, p_idPelicula, p_idSala);
+    VALUES (p_precio, p_dia, p_inicio, p_fin, p_tiempoLimpieza, p_asientosDisponibles, p_idPelicula, @idSala);
 END//
 
 DELIMITER ;

@@ -47,11 +47,12 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     private int pagina;
     private int limit;
     private int offset;
-    JFrame frameAnterior; 
+    frmMenuCatalogo frameAnterior; 
     private int idCliente;
     
     
-    public frmFuncionesPelis(JFrame frameAnterior, int idSucursal, int idPelicula, int idCliente) {
+    
+    public frmFuncionesPelis(frmMenuCatalogo frameAnterior, int idSucursal, int idPelicula, int idCliente) {
         this.idCliente = idCliente;
         this.idSucursal = idSucursal;
         this.idPelicula = idPelicula;
@@ -119,7 +120,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         }
     }
     
-    private void cargarMetodosIniciales(){
+    protected void cargarMetodosIniciales(){
         this.cargarConfiguracionInicialTablaPelicula();
         this.cargarFuncionesEnTabla();
     }
@@ -480,6 +481,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         try {
             peliculaNegocio.editarPelicula(peliculaDTO);
             JOptionPane.showMessageDialog(this, "Se editó correctamente la pelicula ");
+            frameAnterior.cargarMetodosIniciales();
         } catch (NegocioException ex) {
             System.out.println("Error en " + ex.getMessage());
         }
@@ -516,7 +518,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
     private void btnCrearFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearFuncionActionPerformed
 
-        frmAgregarFunciones faf = new frmAgregarFunciones();
+        frmAgregarFunciones faf = new frmAgregarFunciones(this, funcionNegocio, idPelicula);
         faf.setVisible(true);
         
     }//GEN-LAST:event_btnCrearFuncionActionPerformed

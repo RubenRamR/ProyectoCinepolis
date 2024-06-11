@@ -56,9 +56,11 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     
     private IPeliculaNegocio peliculaNegocio;
     private int idSucursal;
+    private frmMenuCatalogo frameAnterior;
     
-    public frmAgregarPeli(IPeliculaNegocio peliculaNegocio, int idSucursal) {
+    public frmAgregarPeli(frmMenuCatalogo frameAnterior, IPeliculaNegocio peliculaNegocio, int idSucursal) {
         this.peliculaNegocio = peliculaNegocio;
+        this.frameAnterior = frameAnterior;
         this.idSucursal = idSucursal;
         initComponents();
         this.setResizable(false);
@@ -431,6 +433,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         try {
             peliculaNegocio.insertarPelicula(peliculaDTO, idSucursal);
             JOptionPane.showMessageDialog(this, "Pelicula añadida exitosamente a la sucursal");
+            frameAnterior.cargarMetodosIniciales();
             this.dispose();
         } catch (NegocioException ex) {
             System.out.println(ex.getMessage());

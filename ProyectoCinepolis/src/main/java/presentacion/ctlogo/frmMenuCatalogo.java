@@ -111,7 +111,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         }
     }
     
-    private void cargarMetodosIniciales(){
+    protected void cargarMetodosIniciales(){
         this.cargarConfiguracionInicialTablaPelicula();
         this.cargarPeliculasEnTabla();
     }
@@ -564,7 +564,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
 
-        frmAgregarPeli fap = new frmAgregarPeli(this.peliculaNegocio, idSucursal);
+        frmAgregarPeli fap = new frmAgregarPeli(this, this.peliculaNegocio, idSucursal);
         fap.setVisible(true);
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
