@@ -115,7 +115,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
         lblFoto = new javax.swing.JLabel();
         btnExaminar = new javax.swing.JButton();
         txtRuta = new javax.swing.JTextField();
-        txtGenero = new javax.swing.JTextField();
+        comboGenero = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -261,6 +261,8 @@ public class frmAgregarPeli extends javax.swing.JFrame {
 
         txtRuta.setText("Ruta de la imagen");
 
+        comboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Action", "Adventure", "Animation", "Crime", "Drama", "Fantasy", "Romance", "Sci-Fi" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -300,7 +302,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,11 +357,10 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(38, 38, 38))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(44, 44, 44))
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
                                 .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(271, 271, 271)
@@ -368,7 +369,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
                                 .addComponent(btnExaminar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -413,7 +414,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private void btnAgregarPeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliActionPerformed
         PeliculaDTO peliculaDTO = new PeliculaDTO();
         peliculaDTO.setTitulo(txtTituloPeli.getText());
-        peliculaDTO.setGenero(txtGenero.getText());
+        peliculaDTO.setGenero((String)comboGenero.getSelectedItem());
         peliculaDTO.setClasificacion((String)cmbxClasificacionPeli.getSelectedItem());
         peliculaDTO.setSinopsis(txtAREASinopsisPeli.getText());
         peliculaDTO.setDuracion(Time.valueOf(cmbxDuracion.getSelectedItem().toString())); // Asegúrate de que el formato de tiempo sea correcto
@@ -481,6 +482,7 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private javax.swing.JButton btnExaminar;
     private javax.swing.JComboBox<String> cmbxClasificacionPeli;
     private javax.swing.JComboBox<String> cmbxDuracion;
+    private javax.swing.JComboBox<String> comboGenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -498,7 +500,6 @@ public class frmAgregarPeli extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFoto;
     private javax.swing.JTextArea txtAREASinopsisPeli;
-    private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtLinkTrailerPeli;
     private javax.swing.JTextField txtPaisOrigenPeli;
     private javax.swing.JTextField txtRuta;

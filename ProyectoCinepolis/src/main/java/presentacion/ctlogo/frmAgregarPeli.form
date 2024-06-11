@@ -206,7 +206,7 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtGenero" min="-2" pref="93" max="-2" attributes="0"/>
+                                      <Component id="comboGenero" min="-2" pref="93" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -277,13 +277,12 @@
                                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="txtGenero" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="comboGenero" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jScrollPane1" min="-2" pref="198" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="lblFoto" min="-2" pref="204" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
@@ -297,7 +296,7 @@
                           <Component id="txtRuta" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -479,7 +478,24 @@
             <Property name="text" type="java.lang.String" value="Ruta de la imagen"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtGenero">
+        <Component class="javax.swing.JComboBox" name="comboGenero">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="8">
+                <StringItem index="0" value="Action"/>
+                <StringItem index="1" value="Adventure"/>
+                <StringItem index="2" value="Animation"/>
+                <StringItem index="3" value="Crime"/>
+                <StringItem index="4" value="Drama"/>
+                <StringItem index="5" value="Fantasy"/>
+                <StringItem index="6" value="Romance"/>
+                <StringItem index="7" value="Sci-Fi"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

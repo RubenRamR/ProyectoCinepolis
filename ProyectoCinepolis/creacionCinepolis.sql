@@ -255,6 +255,34 @@ BEGIN
 END//
 DELIMITER ;
 
+select id from sala sa inner join sucursal su
+on sa.idSucursal = su.id
+;
 
 
+DELIMITER //
+CREATE PROCEDURE InsertarFuncionPorNombreSala(
+    IN p_idPelicula INT,
+    IN p_NombreSala VARCHAR(30),
+    IN p_precio FLOAT,
+    IN p_dia DATE,
+    IN p_inicio TIME
+)
+    
+BEGIN
+    DECLARE p_duracion TIME;
+    DECLARE p_tiempoLimpieza TIME DEFAULT '00:30:00';
+    DECLARE p_fin TIME;
+    DECLARE p_asientosDisponibles INT;
+    
+    SET @idSala = (SELECT idSala)
+    
+    SET p_duracion = (SELECT duracion FROM Pelicula WHERE id = p_idPelicula);
+    SET p_fin = ADDTIME(ADDTIME(p_inicio, p_duracion), p_tiempoLimpieza);
+    SET p_asientosDisponibles = (SELECT asientos FROM Sala WHERE id = p_idSala);
+    INSERT INTO Funcion (precio, dia, inicio, fin, tiempoLimpieza, asientosDisponibles, idPelicula, idSala)
+    VALUES (p_precio, p_dia, p_inicio, p_fin, p_tiempoLimpieza, p_asientosDisponibles, p_idPelicula, p_idSala);
+END//
+
+DELIMITER ;
 

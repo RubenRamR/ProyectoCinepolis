@@ -84,7 +84,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     private void inicializarCamposTexto(){
         txtNombre.setText(pelicula.getTitulo());
         txtDuracion.setText(pelicula.getDuracion().toString());
-        txtGenero.setText(pelicula.getGenero());
+        comboGenero.setSelectedItem(pelicula.getGenero());
         textAreaSinopsis.setText(pelicula.getSinopsis());
         txtPaisOrigen.setText(pelicula.getPaisOrigen());
         txtTrailer.setText(pelicula.getTrailerLink());
@@ -183,7 +183,6 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         txtDuracion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtGenero = new javax.swing.JTextField();
         txtPaisOrigen = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtTrailer = new javax.swing.JTextField();
@@ -194,6 +193,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         btnAtras = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        comboGenero = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -300,8 +300,6 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
         jLabel6.setText("Genero");
 
-        txtGenero.setText(" ");
-
         jLabel8.setText("Pais origen");
 
         jLabel9.setText("Trailer");
@@ -332,6 +330,8 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
 
         jLabel11.setText("Pagina");
 
+        comboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Action", "Adventure", "Animation", "Crime", "Drama", "Fantasy", "Romance", "Sci-Fi" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -359,9 +359,9 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(60, 60, 60)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addGap(67, 67, 67)
+                                    .addComponent(jLabel6)
+                                    .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(73, 73, 73)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(comboClasificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -435,8 +435,8 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboClasificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboClasificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
@@ -473,7 +473,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
         peliculaDTO.setClasificacion( (String) comboClasificacion.getSelectedItem());
         peliculaDTO.setDuracion(Time.valueOf(txtDuracion.getText()));
         peliculaDTO.setPaisOrigen(txtPaisOrigen.getText());
-        peliculaDTO.setGenero(txtGenero.getText());
+        peliculaDTO.setGenero((String) comboGenero.getSelectedItem());
         peliculaDTO.setTrailerLink(txtTrailer.getText());
         peliculaDTO.setSinopsis(textAreaSinopsis.getText());
         
@@ -528,6 +528,7 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JComboBox<String> comboClasificacion;
+    private javax.swing.JComboBox<String> comboGenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -547,7 +548,6 @@ public class frmFuncionesPelis extends javax.swing.JFrame {
     private javax.swing.JTable tblFuncionesPeli;
     private javax.swing.JTextArea textAreaSinopsis;
     private javax.swing.JTextField txtDuracion;
-    private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPaisOrigen;
     private javax.swing.JTextField txtTrailer;
