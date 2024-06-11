@@ -43,13 +43,15 @@ public class frmCompraBoletos extends javax.swing.JFrame {
     private int idCliente;
     
     public frmCompraBoletos(IFuncionNegocio funcionNegocio, int idFuncion, int idCliente) {
+        initComponents(); // Supongo que este método inicializa tus componentes de la interfaz
+    btnGenerarPDF.setEnabled(false); // Desactivar el botón GenerarPDF al iniciar
         this.idFuncion = idFuncion;
         this.idCliente = idCliente;
         this.funcionNegocio = funcionNegocio; 
         IConexionBD conexionBD = new ConexionBD();
         IVentaDAO ventaDAO = new VentaDAO(conexionBD);
         ventaNegocio = new VentaNegocio(ventaDAO);
-        initComponents();
+       
         consultarFuncionEInicializarTextFields();
 
     }
@@ -70,7 +72,7 @@ public class frmCompraBoletos extends javax.swing.JFrame {
         lblPrecio.setText(String.valueOf(funcion.getPrecio()));
     }
     
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -305,7 +307,7 @@ public class frmCompraBoletos extends javax.swing.JFrame {
        try {
         ventaNegocio.insertarVenta(idCliente, idFuncion);
         JOptionPane.showMessageDialog(this, "Usted ha comprado su boleto!");
-        btnGenerarPDF.setEnabled(true); // Habilitar el botón después de confirmar la compra
+        btnGenerarPDF.setEnabled(true); // Habilitar el botón GenerarPDF después de comprar el boleto
         
     } catch (NegocioException ex) {
         System.out.println("Ocurrio un error en " + ex.getMessage());
