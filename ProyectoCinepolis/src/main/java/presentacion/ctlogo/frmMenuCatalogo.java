@@ -72,7 +72,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         conseguirGananciasDeLaSucursal();
     }
     
-    private void conseguirGananciasDeLaSucursal(){
+    public void conseguirGananciasDeLaSucursal(){
         conexionBD = new ConexionBD();
         ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
         ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
@@ -94,7 +94,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         }
         if (peliculasLista != null) {
             peliculasLista.forEach(row -> {
-                Object[] fila = new Object[5];
+                Object[] fila = new Object[3];
                 fila[0] = row.getId();
                 fila[1] = row.getTitulo();
                 modeloTabla.addRow(fila);
@@ -102,7 +102,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         }
     }
      
-    private void cargarPeliculasEnTabla() {
+    public void cargarPeliculasEnTabla() {
         try {
             List<PeliculaDTO> peliculas = this.peliculaNegocio.consultarPeliculasPorSucursal(idSucursal, limit, offset);
             this.llenarTablaPeliculas(peliculas);
@@ -130,6 +130,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         int idPelicula = (int) tblCatalogo.getValueAt(tblCatalogo.getSelectedRow(), 0);
         frmFuncionesPelis fun = new frmFuncionesPelis(this, idSucursal, idPelicula, idCliente);
         fun.setVisible(true);
+        
         this.setVisible(false);
     }
     
@@ -602,51 +603,51 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnGenerarPDFSucursal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFSucursal1ActionPerformed
-      String sucursalSeleccionada = (String) comboSucursales.getSelectedItem();
-    String ganancias = lblGanancias.getText();
+        String sucursalSeleccionada = (String) comboSucursales.getSelectedItem();
+        String ganancias = lblGanancias.getText();
 
-    Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
-    try {
-        PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
-        document.open();
-        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-        Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+        Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+            document.open();
+            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+            Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
 
-        // Título del documento
-        Paragraph titulo = new Paragraph("Reporte de Ganancias", fontTitulo);
-        titulo.setAlignment(Element.ALIGN_CENTER);
-        document.add(titulo);
+            // Título del documento
+            Paragraph titulo = new Paragraph("Reporte de Ganancias", fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo);
 
-        document.add(new Paragraph(" ")); // Espacio en blanco
+            document.add(new Paragraph(" ")); // Espacio en blanco
 
-        // Crear una tabla para los detalles del reporte
-        PdfPTable table = new PdfPTable(2);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(10f);
-        table.setSpacingAfter(10f);
+            // Crear una tabla para los detalles del reporte
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
 
-        // Configurar las celdas de la tabla
-        PdfPCell cell;
-        cell = new PdfPCell(new Phrase("Sucursal:", fontContenido));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase(sucursalSeleccionada, fontContenido));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase(ganancias, fontContenido));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(cell);
+            // Configurar las celdas de la tabla
+            PdfPCell cell;
+            cell = new PdfPCell(new Phrase("Sucursal:", fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase(sucursalSeleccionada, fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase(ganancias, fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
 
-        document.add(table);
-    } catch (DocumentException | FileNotFoundException e) {
-        e.printStackTrace();
-    } finally {
-        document.close();
-        JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
-    }
+            document.add(table);
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+            JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+        }
     }//GEN-LAST:event_btnGenerarPDFSucursal1ActionPerformed
 
 

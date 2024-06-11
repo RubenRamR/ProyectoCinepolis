@@ -222,35 +222,41 @@ END //
 DELIMITER ;
 
 -- sp restar num asiento cuando se hace una venta
+-- sp restar num asiento cuando se hace una venta y se suma a la sucursal
 DELIMITER //
-
 CREATE PROCEDURE InsertarVenta(
     IN p_idCliente INT,
     IN p_idFuncion INT
 )
 BEGIN
-    -- Insertar la venta
+    DECLARE v_precio FLOAT;
+    DECLARE v_idSala INT;
+    DECLARE v_idSucursal INT;
+    SELECT precio INTO v_precio FROM Funcion WHERE id = p_idFuncion;
     INSERT INTO Cliente_Compra_Funcion (idCliente, idFuncion) VALUES (p_idCliente, p_idFuncion);
-
-    -- Actualizar el número de asientos disponibles en la función
     UPDATE Funcion
     SET asientosDisponibles = asientosDisponibles - 1
     WHERE id = p_idFuncion;
+    SELECT idSala INTO v_idSala FROM Funcion WHERE id = p_idFuncion;
+    SELECT idSucursal INTO v_idSucursal FROM Sala WHERE id = v_idSala;
+    CALL CalcularGananciasPorSucursal(v_idSucursal);
 END//
-
 DELIMITER ;
 
-DELIMITER // 
+
+
+
+DELIMITER //
 CREATE PROCEDURE CalcularGananciasPorSucursal(
     IN p_idSucursal INT
 )
 BEGIN
     DECLARE totalGanancias FLOAT;
     SELECT SUM(f.precio) INTO totalGanancias
-    FROM Funcion f
-    JOIN Sucursal_Tiene_Pelicula stp ON f.idPelicula = stp.idPelicula
-    WHERE stp.idSucursal = p_idSucursal;
-
+    FROM Cliente_Compra_Funcion ccf
+    JOIN Funcion f ON ccf.idFuncion = f.id
+    JOIN Sala s ON f.idSala = s.id
+    WHERE s.idSucursal = p_idSucursal;
     SELECT totalGanancias AS GananciasTotales;
 END//
 DELIMITER ;
