@@ -4,9 +4,21 @@
  */
 package presentacion.ctlogo;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import dtos.PeliculaDTO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -127,11 +139,11 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         sidePane1 = new javax.swing.JPanel();
         botonPeliculas1 = new javax.swing.JPanel();
-        labelPeliculas1 = new javax.swing.JLabel();
         indicador6 = new javax.swing.JPanel();
         iconoPeliculas1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        labelPeliculas1 = new javax.swing.JLabel();
         info1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -139,7 +151,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnCatalogoClientes = new javax.swing.JButton();
         btnCerrarSesion1 = new javax.swing.JButton();
         btnAgregarPeliculas = new javax.swing.JButton();
-        btnAgregarPeliculas1 = new javax.swing.JButton();
+        btnGenerarPDFSucursal = new javax.swing.JButton();
+        btnGenerarPDFSucursal1 = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
@@ -168,10 +181,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
-        labelPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        labelPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
-        labelPeliculas1.setText("Películas");
-
         indicador6.setOpaque(false);
         indicador6.setPreferredSize(new java.awt.Dimension(3, 0));
 
@@ -189,6 +198,10 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         iconoPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         iconoPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
 
+        labelPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        labelPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
+        labelPeliculas1.setText("Películas");
+
         javax.swing.GroupLayout botonPeliculas1Layout = new javax.swing.GroupLayout(botonPeliculas1);
         botonPeliculas1.setLayout(botonPeliculas1Layout);
         botonPeliculas1Layout.setHorizontalGroup(
@@ -199,29 +212,24 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoPeliculas1)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelPeliculas1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         botonPeliculas1Layout.setVerticalGroup(
             botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(indicador6, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(indicador6, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
             .addComponent(iconoPeliculas1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(botonPeliculas1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel7))
+            .addGroup(botonPeliculas1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(botonPeliculas1Layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addComponent(jLabel7))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, botonPeliculas1Layout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(labelPeliculas1)))
-                    .addGroup(botonPeliculas1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(labelPeliculas1)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         info1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -259,12 +267,21 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
-        btnAgregarPeliculas1.setBackground(new java.awt.Color(0, 0, 102));
-        btnAgregarPeliculas1.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarPeliculas1.setText("Modulo Reportes");
-        btnAgregarPeliculas1.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerarPDFSucursal.setBackground(new java.awt.Color(0, 0, 102));
+        btnGenerarPDFSucursal.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPDFSucursal.setText("GenerarPDF Ganacias por pelicula");
+        btnGenerarPDFSucursal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPeliculas1ActionPerformed(evt);
+                btnGenerarPDFSucursalActionPerformed(evt);
+            }
+        });
+
+        btnGenerarPDFSucursal1.setBackground(new java.awt.Color(0, 0, 102));
+        btnGenerarPDFSucursal1.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPDFSucursal1.setText("GenerarPDF Ganacias por sucursal");
+        btnGenerarPDFSucursal1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPDFSucursal1ActionPerformed(evt);
             }
         });
 
@@ -272,58 +289,66 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         sidePane1.setLayout(sidePane1Layout);
         sidePane1Layout.setHorizontalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(botonPeliculas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(sidePane1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(btnCatalogoClientes))
-                            .addGroup(sidePane1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAgregarPeliculas)
-                                    .addComponent(btnAgregarPeliculas1)))))
+                            .addComponent(btnCatalogoClientes)
+                            .addComponent(btnAgregarPeliculas)))
                     .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addContainerGap()
+                        .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(info1)
                         .addGap(111, 111, 111)
                         .addComponent(jLabel2)))
-                .addGap(0, 54, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(btnCerrarSesion1)
+                .addContainerGap()
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGenerarPDFSucursal1)
+                    .addComponent(btnGenerarPDFSucursal)
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(btnCerrarSesion1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePane1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel16)
-                .addGap(18, 18, 18)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addComponent(btnCatalogoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel16))
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidePane1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCatalogoClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAgregarPeliculas)
-                        .addGap(29, 29, 29)))
-                .addGap(1, 1, 1)
-                .addComponent(btnAgregarPeliculas1)
-                .addGap(78, 78, 78)
-                .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(210, 210, 210)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(btnGenerarPDFSucursal1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGenerarPDFSucursal)
+                .addGap(185, 185, 185)
+                .addComponent(btnCerrarSesion1)
+                .addGap(169, 169, 169)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
-                .addGap(121, 121, 121)
-                .addComponent(btnCerrarSesion1)
-                .addGap(8, 8, 8))
+                .addGap(152, 152, 152))
         );
 
         panelHerramientas1.setBackground(new java.awt.Color(0, 0, 102));
@@ -365,7 +390,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(iconoMinimizar1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoCerrar1)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
         panelHerramientas1Layout.setVerticalGroup(
             panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,37 +457,34 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(264, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addGap(81, 81, 81)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(btnUbicarme)))))))
+                                    .addComponent(jLabel5)
+                                    .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(btnUbicarme)))
+                        .addGap(115, 115, 115)))
                 .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(panelHerramientas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
@@ -470,7 +492,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
+                .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUbicarme))
@@ -478,25 +500,22 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSiguiente)
                     .addComponent(btnAtras)
                     .addComponent(jLabel1)
-                    .addComponent(lblPagina))
-                .addGap(22, 22, 22))
+                    .addComponent(lblPagina)
+                    .addComponent(btnSiguiente))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(3, 3, 3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(sidePane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(3, 3, 3)))))
+                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -547,9 +566,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         fap.setVisible(true);
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
-    private void btnAgregarPeliculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculas1ActionPerformed
+    private void btnGenerarPDFSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFSucursalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarPeliculas1ActionPerformed
+    }//GEN-LAST:event_btnGenerarPDFSucursalActionPerformed
 
     private void comboSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSucursalesActionPerformed
         // TODO add your handling code here:
@@ -580,14 +599,63 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void btnGenerarPDFSucursal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFSucursal1ActionPerformed
+      String sucursalSeleccionada = (String) comboSucursales.getSelectedItem();
+    String ganancias = lblGanancias.getText();
+
+    Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+    try {
+        PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+        document.open();
+        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+        Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+        // Título del documento
+        Paragraph titulo = new Paragraph("Reporte de Ganancias", fontTitulo);
+        titulo.setAlignment(Element.ALIGN_CENTER);
+        document.add(titulo);
+
+        document.add(new Paragraph(" ")); // Espacio en blanco
+
+        // Crear una tabla para los detalles del reporte
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+
+        // Configurar las celdas de la tabla
+        PdfPCell cell;
+        cell = new PdfPCell(new Phrase("Sucursal:", fontContenido));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase(sucursalSeleccionada, fontContenido));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase(ganancias, fontContenido));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        table.addCell(cell);
+
+        document.add(table);
+    } catch (DocumentException | FileNotFoundException e) {
+        e.printStackTrace();
+    } finally {
+        document.close();
+        JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+    }
+    }//GEN-LAST:event_btnGenerarPDFSucursal1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel botonPeliculas1;
     private javax.swing.JButton btnAgregarPeliculas;
-    private javax.swing.JButton btnAgregarPeliculas1;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCatalogoClientes;
     private javax.swing.JButton btnCerrarSesion1;
+    private javax.swing.JButton btnGenerarPDFSucursal;
+    private javax.swing.JButton btnGenerarPDFSucursal1;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUbicarme;
     private javax.swing.JComboBox<String> comboSucursales;
