@@ -13,7 +13,7 @@ import java.util.List;
  * @author rramirez
  */
 public interface IPeliculaNegocio {
-    
+
     public void insertarPelicula(PeliculaDTO peliculaDTO, int idSucursal) throws NegocioException;
 
     public void editarPelicula(PeliculaDTO peliculaDTO) throws NegocioException;
@@ -25,4 +25,7 @@ public interface IPeliculaNegocio {
     public PeliculaDTO consultarPeliculaPorID(int id) throws NegocioException;
 
     public List<PeliculaDTO> consultarPeliculasPorSucursal(int idSucursal, int limit, int offset) throws NegocioException;
+
+    public double calcularGananciasPorPelicula(int idPelicula) throws NegocioException;
+
 }

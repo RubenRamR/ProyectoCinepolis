@@ -24,6 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import negocio.ClienteNegocio;
@@ -31,12 +33,15 @@ import negocio.IClienteNegocio;
 import negocio.IPeliculaNegocio;
 import negocio.ISucursalNegocio;
 import negocio.NegocioException;
+import negocio.PeliculaNegocio;
 import negocio.SucursalNegocio;
 import persistencia.ClienteDAO;
 import persistencia.ConexionBD;
 import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
+import persistencia.IPeliculaDAO;
 import persistencia.ISucursalDAO;
+import persistencia.PeliculaDAO;
 import persistencia.SucursalDAO;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
@@ -46,54 +51,84 @@ import utilerias.JButtonRenderer;
  * @author caarl
  */
 public class frmMenuCatalogo extends javax.swing.JFrame {
-    
+
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
     private IConexionBD conexionBD;
     private int idSucursal;
+    private int idPelicula;
     private int limit;
     private int offset;
     private int pagina;
     private int idCliente;
-    
+
     public frmMenuCatalogo(JFrame frameAnterior, IPeliculaNegocio peliculaNegocio, int idCliente) {
         this.idCliente = idCliente;
         this.peliculaNegocio = peliculaNegocio;
         this.frameAnterior = frameAnterior;
-        
 
+        idPelicula = 1;
         idSucursal = 1;
         limit = 5;
         offset = 0;
         pagina = 1;
-        
+
         initComponents();
         cargarMetodosIniciales();
         conseguirGananciasDeLaSucursal();
+        conseguirGananciasDeLaPeliculaSeleccionada();
     }
-    
-    public void conseguirGananciasDeLaSucursal(){
+
+    public void conseguirGananciasDeLaSucursal() {
         conexionBD = new ConexionBD();
         ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
         ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
-        
-        try {
+
+        try
+        {
             lblGanancias.setText(String.valueOf(sucursalNegocio.calcularGananciasPorSucursal(idSucursal)));
-        } catch (NegocioException ex) {
+        } catch (NegocioException ex)
+        {
             System.out.println("Erroren :" + ex.getMessage());
         }
-        
+
     }
-    
+
+    public void conseguirGananciasDeLaPeliculaSeleccionada() {
+        // Obtener la fila seleccionada
+        int selectedRow = tblCatalogo.getSelectedRow();
+        if (selectedRow != -1)
+        {
+            // Obtener el ID de la película desde la fila seleccionada
+            idPelicula = (int) tblCatalogo.getValueAt(selectedRow, 0);
+
+            conexionBD = new ConexionBD();
+            IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD);
+            IPeliculaNegocio peliculaNegocio = new PeliculaNegocio(peliculaDAO);
+
+            try
+            {
+                lblGananciasPelicula.setText(String.valueOf(peliculaNegocio.calcularGananciasPorPelicula(idPelicula)));
+            } catch (NegocioException ex)
+            {
+                System.out.println("Error: " + ex.getMessage());
+            }
+        }
+    }
+
     private void llenarTablaPeliculas(List<PeliculaDTO> peliculasLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCatalogo.getModel();
-        if (modeloTabla.getRowCount() > 0) {
-            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+        if (modeloTabla.getRowCount() > 0)
+        {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--)
+            {
                 modeloTabla.removeRow(i);
             }
         }
-        if (peliculasLista != null) {
-            peliculasLista.forEach(row -> {
+        if (peliculasLista != null)
+        {
+            peliculasLista.forEach(row ->
+            {
                 Object[] fila = new Object[3];
                 fila[0] = row.getId();
                 fila[1] = row.getTitulo();
@@ -101,39 +136,52 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             });
         }
     }
-     
+
     public void cargarPeliculasEnTabla() {
-        try {
+        try
+        {
             List<PeliculaDTO> peliculas = this.peliculaNegocio.consultarPeliculasPorSucursal(idSucursal, limit, offset);
             this.llenarTablaPeliculas(peliculas);
-        } catch (NegocioException ex) {
+        } catch (NegocioException ex)
+        {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    protected void cargarMetodosIniciales(){
+
+    protected void cargarMetodosIniciales() {
         this.cargarConfiguracionInicialTablaPelicula();
         this.cargarPeliculasEnTabla();
+
+        tblCatalogo.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting())
+                {
+                    conseguirGananciasDeLaPeliculaSeleccionada();
+                }
+            }
+        });
     }
-    
+
     private void cargarConfiguracionInicialTablaPelicula() {
-        ActionListener onVerFuncionesClickListener = (ActionEvent e) -> {
+        ActionListener onVerFuncionesClickListener = (ActionEvent e) ->
+        {
             verFunciones();
         };
         int indiceColumnaVerFunciones = 2;
         TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
         modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellRenderer(new JButtonRenderer("Ver funciones"));
-        modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellEditor(new JButtonCellEditor("Ver funciones",onVerFuncionesClickListener));
+        modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellEditor(new JButtonCellEditor("Ver funciones", onVerFuncionesClickListener));
     }
 
-    public void verFunciones(){
+    public void verFunciones() {
         int idPelicula = (int) tblCatalogo.getValueAt(tblCatalogo.getSelectedRow(), 0);
         frmFuncionesPelis fun = new frmFuncionesPelis(this, idSucursal, idPelicula, idCliente);
         fun.setVisible(true);
-        
+
         this.setVisible(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -168,6 +216,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         lblGanancias = new javax.swing.JLabel();
         btnUbicarme = new javax.swing.JButton();
+        LblGanPel = new javax.swing.JLabel();
+        lblGananciasPelicula = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -453,14 +503,15 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnUbicarme.setBackground(new java.awt.Color(255, 51, 255));
         btnUbicarme.setText("Ubicarme");
 
+        LblGanPel.setText("Ganancias de la pelicula seleccionada:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(282, Short.MAX_VALUE)
+                .addContainerGap(245, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(81, 81, 81)
@@ -470,17 +521,25 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel5)))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(btnUbicarme)))
-                        .addGap(115, 115, 115)))
+                                    .addComponent(LblGanPel)
+                                    .addComponent(btnUbicarme)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(41, 41, 41)
+                                        .addComponent(lblGananciasPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(54, 54, 54)))))
                 .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -498,9 +557,13 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                     .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUbicarme))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(LblGanPel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblGananciasPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
@@ -517,7 +580,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(0, 421, Short.MAX_VALUE))
-                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE))
                     .addContainerGap()))
         );
 
@@ -537,7 +600,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         IConexionBD conexionBD = new ConexionBD();
         IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
         IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
-        
+
         frmCatalogoClientes fcc = new frmCatalogoClientes(clienteNegocio);
         fcc.setVisible(true);
     }//GEN-LAST:event_btnCatalogoClientesActionPerformed
@@ -592,12 +655,14 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        if(offset - limit >= 0){
+        if (offset - limit >= 0)
+        {
             offset = offset - limit;
             pagina = pagina - 1;
             lblPagina.setText(String.valueOf(pagina));
             cargarPeliculasEnTabla();
-        } else {
+        } else
+        {
             JOptionPane.showMessageDialog(this, "Pagina minima alcanzada ");
         }
     }//GEN-LAST:event_btnAtrasActionPerformed
@@ -607,7 +672,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         String ganancias = lblGanancias.getText();
 
         Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
-        try {
+        try
+        {
             PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
             document.open();
             Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
@@ -642,9 +708,11 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             table.addCell(cell);
 
             document.add(table);
-        } catch (DocumentException | FileNotFoundException e) {
+        } catch (DocumentException | FileNotFoundException e)
+        {
             e.printStackTrace();
-        } finally {
+        } finally
+        {
             document.close();
             JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
         }
@@ -652,6 +720,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LblGanPel;
     public javax.swing.JPanel botonPeliculas1;
     private javax.swing.JButton btnAgregarPeliculas;
     private javax.swing.JButton btnAtras;
@@ -678,6 +747,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelPeliculas1;
     private javax.swing.JLabel lblGanancias;
+    private javax.swing.JLabel lblGananciasPelicula;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;
