@@ -4,14 +4,31 @@
  */
 package presentacion.ctlogo;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import dtos.ClienteDTO;
 import dtos.PeliculaDTO;
+import dtos.SucursalDTO;
+import entidades.EntidadCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import negocio.ClienteNegocio;
@@ -19,12 +36,16 @@ import negocio.IClienteNegocio;
 import negocio.IPeliculaNegocio;
 import negocio.ISucursalNegocio;
 import negocio.NegocioException;
+import negocio.PeliculaNegocio;
 import negocio.SucursalNegocio;
 import persistencia.ClienteDAO;
 import persistencia.ConexionBD;
 import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
+import persistencia.IPeliculaDAO;
 import persistencia.ISucursalDAO;
+import persistencia.PeliculaDAO;
+import persistencia.PersistenciaException;
 import persistencia.SucursalDAO;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
@@ -34,104 +55,149 @@ import utilerias.JButtonRenderer;
  * @author caarl
  */
 public class frmMenuCatalogo extends javax.swing.JFrame {
-    
+
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
+    private IClienteNegocio clienteNegocio;
     private IConexionBD conexionBD;
     private int idSucursal;
+    private int idPelicula;
     private int limit;
     private int offset;
     private int pagina;
     private int idCliente;
-    
+
     public frmMenuCatalogo(JFrame frameAnterior, IPeliculaNegocio peliculaNegocio, int idCliente) {
         this.idCliente = idCliente;
         this.peliculaNegocio = peliculaNegocio;
         this.frameAnterior = frameAnterior;
-        
 
+        idPelicula = 1;
         idSucursal = 1;
         limit = 5;
         offset = 0;
         pagina = 1;
-        
+
         initComponents();
         cargarMetodosIniciales();
         conseguirGananciasDeLaSucursal();
+        conseguirGananciasDeLaPeliculaSeleccionada();
     }
-    
-    private void conseguirGananciasDeLaSucursal(){
+
+    public void conseguirGananciasDeLaSucursal() {
         conexionBD = new ConexionBD();
         ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
         ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
-        
-        try {
+
+        try
+        {
             lblGanancias.setText(String.valueOf(sucursalNegocio.calcularGananciasPorSucursal(idSucursal)));
-        } catch (NegocioException ex) {
+        } catch (NegocioException ex)
+        {
             System.out.println("Erroren :" + ex.getMessage());
         }
-        
+
     }
-    
+
+    public void conseguirGananciasDeLaPeliculaSeleccionada() {
+        // Obtener la fila seleccionada
+        int selectedRow = tblCatalogo.getSelectedRow();
+        if (selectedRow != -1)
+        {
+            // Obtener el ID de la película desde la fila seleccionada
+            idPelicula = (int) tblCatalogo.getValueAt(selectedRow, 0);
+
+            conexionBD = new ConexionBD();
+            IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD);
+            IPeliculaNegocio peliculaNegocio = new PeliculaNegocio(peliculaDAO);
+
+            try
+            {
+                lblGananciasPelicula.setText(String.valueOf(peliculaNegocio.calcularGananciasPorPelicula(idPelicula)));
+            } catch (NegocioException ex)
+            {
+                System.out.println("Error: " + ex.getMessage());
+            }
+        }
+    }
+
     private void llenarTablaPeliculas(List<PeliculaDTO> peliculasLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCatalogo.getModel();
-        if (modeloTabla.getRowCount() > 0) {
-            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+        if (modeloTabla.getRowCount() > 0)
+        {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--)
+            {
                 modeloTabla.removeRow(i);
             }
         }
-        if (peliculasLista != null) {
-            peliculasLista.forEach(row -> {
-                Object[] fila = new Object[5];
+        if (peliculasLista != null)
+        {
+            peliculasLista.forEach(row ->
+            {
+                Object[] fila = new Object[3];
                 fila[0] = row.getId();
                 fila[1] = row.getTitulo();
                 modeloTabla.addRow(fila);
             });
         }
     }
-     
-    private void cargarPeliculasEnTabla() {
-        try {
+
+    public void cargarPeliculasEnTabla() {
+        try
+        {
             List<PeliculaDTO> peliculas = this.peliculaNegocio.consultarPeliculasPorSucursal(idSucursal, limit, offset);
             this.llenarTablaPeliculas(peliculas);
-        } catch (NegocioException ex) {
+        } catch (NegocioException ex)
+        {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void cargarMetodosIniciales(){
+
+    protected void cargarMetodosIniciales() {
         this.cargarConfiguracionInicialTablaPelicula();
         this.cargarPeliculasEnTabla();
+
+        tblCatalogo.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting())
+                {
+                    conseguirGananciasDeLaPeliculaSeleccionada();
+                }
+            }
+        });
     }
-    
+
     private void cargarConfiguracionInicialTablaPelicula() {
-        ActionListener onVerFuncionesClickListener = (ActionEvent e) -> {
+        ActionListener onVerFuncionesClickListener = (ActionEvent e) ->
+        {
             verFunciones();
         };
         int indiceColumnaVerFunciones = 2;
         TableColumnModel modeloColumnas = this.tblCatalogo.getColumnModel();
         modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellRenderer(new JButtonRenderer("Ver funciones"));
-        modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellEditor(new JButtonCellEditor("Ver funciones",onVerFuncionesClickListener));
+        modeloColumnas.getColumn(indiceColumnaVerFunciones).setCellEditor(new JButtonCellEditor("Ver funciones", onVerFuncionesClickListener));
     }
 
-    public void verFunciones(){
+    public void verFunciones() {
         int idPelicula = (int) tblCatalogo.getValueAt(tblCatalogo.getSelectedRow(), 0);
         frmFuncionesPelis fun = new frmFuncionesPelis(this, idSucursal, idPelicula, idCliente);
         fun.setVisible(true);
+
         this.setVisible(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         sidePane1 = new javax.swing.JPanel();
         botonPeliculas1 = new javax.swing.JPanel();
-        labelPeliculas1 = new javax.swing.JLabel();
         indicador6 = new javax.swing.JPanel();
         iconoPeliculas1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        labelPeliculas1 = new javax.swing.JLabel();
         info1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -139,7 +205,8 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnCatalogoClientes = new javax.swing.JButton();
         btnCerrarSesion1 = new javax.swing.JButton();
         btnAgregarPeliculas = new javax.swing.JButton();
-        btnAgregarPeliculas1 = new javax.swing.JButton();
+        btnGenerarPDFPelicula = new javax.swing.JButton();
+        btnGenerarPDFSucursal1 = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
         iconoCerrar1 = new javax.swing.JLabel();
@@ -153,6 +220,9 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         lblPagina = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblGanancias = new javax.swing.JLabel();
+        btnUbicarme = new javax.swing.JButton();
+        LblGanPel = new javax.swing.JLabel();
+        lblGananciasPelicula = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -166,10 +236,6 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 botonPeliculas1MousePressed(evt);
             }
         });
-
-        labelPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        labelPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
-        labelPeliculas1.setText("Películas");
 
         indicador6.setOpaque(false);
         indicador6.setPreferredSize(new java.awt.Dimension(3, 0));
@@ -188,6 +254,10 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         iconoPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         iconoPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
 
+        labelPeliculas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        labelPeliculas1.setForeground(new java.awt.Color(204, 204, 204));
+        labelPeliculas1.setText("Películas");
+
         javax.swing.GroupLayout botonPeliculas1Layout = new javax.swing.GroupLayout(botonPeliculas1);
         botonPeliculas1.setLayout(botonPeliculas1Layout);
         botonPeliculas1Layout.setHorizontalGroup(
@@ -198,29 +268,24 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoPeliculas1)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelPeliculas1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         botonPeliculas1Layout.setVerticalGroup(
             botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(indicador6, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(indicador6, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
             .addComponent(iconoPeliculas1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(botonPeliculas1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel7))
+            .addGroup(botonPeliculas1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(botonPeliculas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(botonPeliculas1Layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addComponent(jLabel7))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, botonPeliculas1Layout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(labelPeliculas1)))
-                    .addGroup(botonPeliculas1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(labelPeliculas1)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         info1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -258,12 +323,21 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
-        btnAgregarPeliculas1.setBackground(new java.awt.Color(0, 0, 102));
-        btnAgregarPeliculas1.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarPeliculas1.setText("Modulo Reportes");
-        btnAgregarPeliculas1.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerarPDFPelicula.setBackground(new java.awt.Color(0, 0, 102));
+        btnGenerarPDFPelicula.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPDFPelicula.setText("PDF Ganacias por pelicula");
+        btnGenerarPDFPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPeliculas1ActionPerformed(evt);
+                btnGenerarPDFPeliculaActionPerformed(evt);
+            }
+        });
+
+        btnGenerarPDFSucursal1.setBackground(new java.awt.Color(0, 0, 102));
+        btnGenerarPDFSucursal1.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPDFSucursal1.setText("PDF Ganacias por sucursal");
+        btnGenerarPDFSucursal1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPDFSucursal1ActionPerformed(evt);
             }
         });
 
@@ -271,58 +345,66 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         sidePane1.setLayout(sidePane1Layout);
         sidePane1Layout.setHorizontalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(botonPeliculas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(sidePane1Layout.createSequentialGroup()
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(sidePane1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(btnCatalogoClientes))
-                            .addGroup(sidePane1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAgregarPeliculas)
-                                    .addComponent(btnAgregarPeliculas1)))))
+                            .addComponent(btnCatalogoClientes)
+                            .addComponent(btnAgregarPeliculas)))
                     .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addContainerGap()
+                        .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(info1)
                         .addGap(111, 111, 111)
                         .addComponent(jLabel2)))
-                .addGap(0, 54, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(sidePane1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(btnCerrarSesion1)
+                .addContainerGap()
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGenerarPDFSucursal1)
+                    .addComponent(btnGenerarPDFPelicula)
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(btnCerrarSesion1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePane1Layout.setVerticalGroup(
             sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePane1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel16)
-                .addGap(18, 18, 18)
-                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sidePane1Layout.createSequentialGroup()
-                        .addComponent(btnCatalogoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel16))
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sidePane1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidePane1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCatalogoClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAgregarPeliculas)
-                        .addGap(29, 29, 29)))
-                .addGap(1, 1, 1)
-                .addComponent(btnAgregarPeliculas1)
-                .addGap(78, 78, 78)
-                .addComponent(botonPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(210, 210, 210)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(btnGenerarPDFSucursal1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGenerarPDFPelicula)
+                .addGap(185, 185, 185)
+                .addComponent(btnCerrarSesion1)
+                .addGap(169, 169, 169)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(info1)
-                .addGap(121, 121, 121)
-                .addComponent(btnCerrarSesion1)
-                .addGap(8, 8, 8))
+                .addGap(152, 152, 152))
         );
 
         panelHerramientas1.setBackground(new java.awt.Color(0, 0, 102));
@@ -364,7 +446,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addComponent(iconoMinimizar1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iconoCerrar1)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
         panelHerramientas1Layout.setVerticalGroup(
             panelHerramientas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,39 +505,56 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         jLabel5.setText("Ganancias de esta sucursal:");
 
+        btnUbicarme.setBackground(new java.awt.Color(255, 51, 255));
+        btnUbicarme.setText("Ubicarme");
+        btnUbicarme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbicarmeActionPerformed(evt);
+            }
+        });
+
+        LblGanPel.setText("Ganancias de la pelicula seleccionada:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(245, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addGap(81, 81, 81)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel5)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LblGanPel)
+                                    .addComponent(btnUbicarme)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                                        .addGap(41, 41, 41)
+                                        .addComponent(lblGananciasPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(54, 54, 54)))))
                 .addGap(24, 24, 24))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(panelHerramientas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
@@ -463,31 +562,36 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
-                .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSiguiente)
+                    .addComponent(comboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUbicarme))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(LblGanPel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblGanancias, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblGananciasPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAtras)
                     .addComponent(jLabel1)
-                    .addComponent(lblPagina))
-                .addGap(22, 22, 22))
+                    .addComponent(lblPagina)
+                    .addComponent(btnSiguiente))
+                .addContainerGap(60, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(3, 3, 3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(panelHerramientas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(sidePane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(3, 3, 3)))))
+                            .addGap(0, 421, Short.MAX_VALUE))
+                        .addComponent(sidePane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE))
+                    .addContainerGap()))
         );
 
         pack();
@@ -506,7 +610,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         IConexionBD conexionBD = new ConexionBD();
         IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
         IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
-        
+
         frmCatalogoClientes fcc = new frmCatalogoClientes(clienteNegocio);
         fcc.setVisible(true);
     }//GEN-LAST:event_btnCatalogoClientesActionPerformed
@@ -534,13 +638,85 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     private void btnAgregarPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculasActionPerformed
 
-        frmAgregarPeli fap = new frmAgregarPeli(this.peliculaNegocio, idSucursal);
+        frmAgregarPeli fap = new frmAgregarPeli(this, this.peliculaNegocio, idSucursal);
         fap.setVisible(true);
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
-    private void btnAgregarPeliculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculas1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarPeliculas1ActionPerformed
+    private void btnGenerarPDFPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFPeliculaActionPerformed
+        int filaSeleccionada = tblCatalogo.getSelectedRow();
+        if (filaSeleccionada != -1)
+        {
+            int idPelicula = (int) tblCatalogo.getValueAt(filaSeleccionada, 0); // Asumiendo que la primera columna contiene el ID de la película
+            double gananciasPelicula = Double.parseDouble(lblGananciasPelicula.getText());
+            IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD); // Reemplaza con la instancia correcta de PeliculaDAO
+
+            try
+            {
+                double gananciaTitulo = peliculaDAO.calcularGananciasPorPelicula(idPelicula);
+
+                if (gananciaTitulo > 0)
+                {
+                    gananciasPelicula -= gananciaTitulo;
+                    lblGananciasPelicula.setText(String.valueOf(gananciasPelicula));
+
+                    Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+                    try
+                    {
+                        PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+                        document.open();
+                        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+                        Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+                        // Título del documento
+                        Paragraph titulo_documento = new Paragraph("Reporte de Ganancias", fontTitulo);
+                        titulo_documento.setAlignment(Element.ALIGN_CENTER);
+                        document.add(titulo_documento);
+                        document.add(new Paragraph(" ")); // Espacio en blanco
+
+                        // Crear una tabla para los detalles del reporte
+                        PdfPTable table = new PdfPTable(2);
+                        table.setWidthPercentage(100);
+                        table.setSpacingBefore(10f);
+                        table.setSpacingAfter(10f);
+
+                        // Configurar las celdas de la tabla
+                        PdfPCell cell;
+                        cell = new PdfPCell(new Phrase("ID de Película:", fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase(String.valueOf(idPelicula), fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase(String.valueOf(gananciasPelicula), fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        document.add(table);
+                    } catch (DocumentException | FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    } finally
+                    {
+                        document.close();
+                        JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+                    }
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "No se encontraron ganancias para la película seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (PersistenciaException e)
+            {
+                JOptionPane.showMessageDialog(null, "Error al obtener las ganancias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else
+        {
+            JOptionPane.showMessageDialog(null, "Seleccione una película de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_btnGenerarPDFPeliculaActionPerformed
 
     private void comboSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSucursalesActionPerformed
         // TODO add your handling code here:
@@ -561,25 +737,125 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        if(offset - limit >= 0){
+        if (offset - limit >= 0)
+        {
             offset = offset - limit;
             pagina = pagina - 1;
             lblPagina.setText(String.valueOf(pagina));
             cargarPeliculasEnTabla();
-        } else {
+        } else
+        {
             JOptionPane.showMessageDialog(this, "Pagina minima alcanzada ");
         }
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void btnGenerarPDFSucursal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFSucursal1ActionPerformed
+        String sucursalSeleccionada = (String) comboSucursales.getSelectedItem();
+        String ganancias = lblGanancias.getText();
+
+        Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+        try
+        {
+            PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+            document.open();
+            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+            Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+            // Título del documento
+            Paragraph titulo = new Paragraph("Reporte de Ganancias", fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo);
+
+            document.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Crear una tabla para los detalles del reporte
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            // Configurar las celdas de la tabla
+            PdfPCell cell;
+            cell = new PdfPCell(new Phrase("Sucursal:", fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase(sucursalSeleccionada, fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+            cell = new PdfPCell(new Phrase(ganancias, fontContenido));
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+
+            document.add(table);
+        } catch (DocumentException | FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            document.close();
+            JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+        }
+    }//GEN-LAST:event_btnGenerarPDFSucursal1ActionPerformed
+
+    private void btnUbicarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbicarmeActionPerformed
+        try
+        {
+            IConexionBD conexionBD = new ConexionBD();
+            IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+            IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+
+            ClienteDTO cliente = clienteNegocio.obtenerCoordenadasClientePorId(idCliente);
+            int coordenadaX = cliente.getCoordenadaX();
+            int coordenadaY = cliente.getCoordenadaY();
+
+            ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
+            ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
+
+            SucursalDTO sucursalCercana = sucursalNegocio.encontrarSucursalMasCercana(coordenadaX, coordenadaY);
+
+            // Encontrar el índice de la sucursal más cercana en el ComboBox
+            int closestSucursalIndex = -1;
+            for (int i = 0; i < comboSucursales.getItemCount(); i++)
+            {
+                if (comboSucursales.getItemAt(i).equals(sucursalCercana.getNombre()))
+                {
+                    closestSucursalIndex = i;
+                    break;
+                }
+            }
+
+            // Seleccionar la sucursal más cercana
+            if (closestSucursalIndex != -1)
+            {
+                comboSucursales.setSelectedIndex(closestSucursalIndex);
+            }
+
+            // Actualizar el ID de la sucursal seleccionada
+            idSucursal = sucursalCercana.getId();
+            conseguirGananciasDeLaSucursal();
+            cargarPeliculasEnTabla();
+
+        } catch (NegocioException ex)
+        {
+            JOptionPane.showMessageDialog(this, "Error al ubicarme: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUbicarmeActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LblGanPel;
     public javax.swing.JPanel botonPeliculas1;
     private javax.swing.JButton btnAgregarPeliculas;
-    private javax.swing.JButton btnAgregarPeliculas1;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCatalogoClientes;
     private javax.swing.JButton btnCerrarSesion1;
+    private javax.swing.JButton btnGenerarPDFPelicula;
+    private javax.swing.JButton btnGenerarPDFSucursal1;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnUbicarme;
     private javax.swing.JComboBox<String> comboSucursales;
     private javax.swing.JLabel iconoCerrar1;
     private javax.swing.JLabel iconoMinimizar1;
@@ -597,6 +873,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelPeliculas1;
     private javax.swing.JLabel lblGanancias;
+    private javax.swing.JLabel lblGananciasPelicula;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelHerramientas1;
     private javax.swing.JPanel sidePane1;

@@ -233,5 +233,42 @@ public class FuncionDAO implements IFuncionDAO{
             }
         }
     }
+
+    @Override
+    public void insertarFuncionPorNombreSala(EntidadFuncion entidadFuncion, String nombreSala) throws PersistenciaException {
+        Connection conexion = null;
+        try {
+            conexion = this.conexionBD.crearConexion();
+            conexion.setAutoCommit(false);
+            String codigoSQL =  "CALL InsertarFuncionPorNombreSala(?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
+            preparedStatement.setInt(1, entidadFuncion.getIdPelicula());
+            preparedStatement.setFloat(2, entidadFuncion.getPrecio());
+            preparedStatement.setDate(3, entidadFuncion.getDia());
+            preparedStatement.setTime(4, entidadFuncion.getInicio());
+            preparedStatement.setString(5, nombreSala);
+            
+            preparedStatement.executeUpdate();
+            conexion.commit();
+        } catch (SQLException ex) {
+            if (conexion != null){
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            System.out.println(ex.getMessage());
+            throw new PersistenciaException("Ocurrio un error en el rollback");
+        } finally {
+            if (conexion != null){
+                try {
+                    conexion.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+        }        
+    }
     
 }

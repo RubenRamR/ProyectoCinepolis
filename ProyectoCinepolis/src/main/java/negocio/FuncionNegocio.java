@@ -151,4 +151,15 @@ public class FuncionNegocio implements IFuncionNegocio {
             throw new NegocioException("Error al consultar funciones por película y sucursal: " + ex.getMessage());
         }
     }
+
+    @Override
+    public void insertarFuncionPorNombreSala(FuncionDTO funcion, String nombreSala) throws NegocioException {
+        EntidadFuncion entidadFuncion = convertirDTOAEntidad(funcion);
+        try {
+            funcionDAO.insertarFuncionPorNombreSala(entidadFuncion, nombreSala);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FuncionNegocio.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException ("Error al insertar la funcion: " + ex.getMessage());
+        }
+    }
 }

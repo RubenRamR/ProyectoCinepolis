@@ -10,8 +10,7 @@ import java.util.List;
 /**
  *
  * @author rramirez
- */
-public interface IClienteNegocio {
+ */public interface IClienteNegocio {
 
     public void insertarCliente(ClienteDTO clienteDTO) throws NegocioException;
 
@@ -24,5 +23,8 @@ public interface IClienteNegocio {
     public ClienteDTO consultarClientePorID(int id) throws NegocioException;
     
     public int consultarClienteLogin(String correo, String contrasena) throws NegocioException;
+    
+    public ClienteDTO obtenerCoordenadasClientePorId(int id) throws NegocioException;
+
     
 }

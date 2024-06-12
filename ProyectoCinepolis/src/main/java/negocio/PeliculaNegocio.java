@@ -232,4 +232,13 @@ public class PeliculaNegocio implements IPeliculaNegocio {
             throw new NegocioException("Error al consultar peliculas por sucursal: " + ex.getMessage());
         }
     }
+    
+    @Override
+    public double calcularGananciasPorPelicula(int idPelicula) throws NegocioException {
+        try{
+            return this.peliculaDAO.calcularGananciasPorPelicula(idPelicula);
+        } catch (PersistenciaException ex){
+            LOGGER.log(Level.SEVERE, "Error al calcular ganancias por pelicula", ex);
+            throw new NegocioException("Error al calcular ganancias por pelicula: " + ex.getMessage());}
+    }
 }

@@ -10,29 +10,33 @@ package dtos;
  */
 public class SucursalDTO {
 
-    private int idSucursal;
+    private int id;
     private String nombre;
-    private String ciudad;
     private int coordenadaX;
     private int coordenadaY;
+    private String nombreCiudad;
+    private boolean eliminado;
 
     public SucursalDTO() {
     }
 
-    public SucursalDTO(int idSucursal, String nombre, String cuidad, int coordenadaX, int coordenadaY) {
-        this.idSucursal = idSucursal;
+    // Constructor
+    public SucursalDTO(int id, String nombre, int coordenadaX, int coordenadaY, String nombreCiudad, boolean eliminado) {
+        this.id = id;
         this.nombre = nombre;
-        this.ciudad = cuidad;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
+        this.nombreCiudad = nombreCiudad;
+        this.eliminado = eliminado;
     }
 
-    public int getIdSucursal() {
-        return idSucursal;
+    // Getters y setters
+    public int getId() {
+        return id;
     }
 
-    public void setIdSucursal(int idSucursal) {
-        this.idSucursal = idSucursal;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -41,14 +45,6 @@ public class SucursalDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String cuidad) {
-        this.ciudad = cuidad;
     }
 
     public int getCoordenadaX() {
@@ -65,5 +61,21 @@ public class SucursalDTO {
 
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
+    }
+
+    public String getNombreCiudad() {
+        return nombreCiudad;
+    }
+
+    public void setNombreCiudad(String nombreCiudad) {
+        this.nombreCiudad = nombreCiudad;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 }

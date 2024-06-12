@@ -19,18 +19,19 @@ import java.util.List;
  * @author David Elier Campa Chaparro 245178
  */
 public class PeliculaDAO implements IPeliculaDAO {
-    
+
     private IConexionBD conexionBD;
-    
-    public PeliculaDAO(IConexionBD conexionBD){
+
+    public PeliculaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
-    
+
     @Override
     public void insertarPelicula(EntidadPelicula entidadPelicula, int idSucursal) throws PersistenciaException {
         Connection conexion = null;
         CallableStatement callableStatement = null;
-        try {
+        try
+        {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
 
@@ -51,28 +52,39 @@ public class PeliculaDAO implements IPeliculaDAO {
 
             // Confirmar la transacción
             conexion.commit();
-        } catch (SQLException ex) {
-            if (conexion != null) {
-                try {
+        } catch (SQLException ex)
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.rollback();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
             System.out.println(ex.getMessage());
             throw new PersistenciaException("Ocurrió un error al realizar el rollback");
-        } finally {
-            if (callableStatement != null) {
-                try {
+        } finally
+        {
+            if (callableStatement != null)
+            {
+                try
+                {
                     callableStatement.close();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
-            if (conexion != null) {
-                try {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.close();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
@@ -82,12 +94,13 @@ public class PeliculaDAO implements IPeliculaDAO {
     @Override
     public void editarPelicula(EntidadPelicula entidadPelicula) throws PersistenciaException {
         Connection conexion = null;
-        try {
+        try
+        {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
             String codigoSQL = "UPDATE Pelicula SET titulo = ?, genero = ?, clasificacion = ?, sinopsis = ?, duracion = ?, paisOrigen = ?, trailerLink = ?, imagen = ? WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
-            
+
             preparedStatement.setString(1, entidadPelicula.getTitulo());
             preparedStatement.setString(2, entidadPelicula.getGenero());
             preparedStatement.setString(3, entidadPelicula.getClasificacion());
@@ -99,22 +112,30 @@ public class PeliculaDAO implements IPeliculaDAO {
             preparedStatement.setInt(9, entidadPelicula.getId());
             preparedStatement.executeUpdate();
             conexion.commit();
-        } catch (SQLException ex) {
-            if (conexion != null){
-                try {
+        } catch (SQLException ex)
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.rollback();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
             System.out.println(ex.getMessage());
             throw new PersistenciaException("Ocurrió un error al realizar el rollback");
-            
-        } finally {
-            if (conexion != null){
-                try {
+
+        } finally
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.close();
-                } catch (SQLException e){
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
@@ -124,7 +145,8 @@ public class PeliculaDAO implements IPeliculaDAO {
     @Override
     public void eliminarPelicula(EntidadPelicula entidadPelicula) throws PersistenciaException {
         Connection conexion = null;
-        try {
+        try
+        {
             conexion = this.conexionBD.crearConexion();
             conexion.setAutoCommit(false);
             String codigoSQL = "UPDATE Pelicula SET eliminado = b'1' WHERE id = ?;";
@@ -132,22 +154,30 @@ public class PeliculaDAO implements IPeliculaDAO {
             preparedStatement.setInt(1, entidadPelicula.getId());
             preparedStatement.executeUpdate();
             conexion.commit();
-        } catch (SQLException ex) {
-            if (conexion != null){
-                try {
+        } catch (SQLException ex)
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.rollback();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
             System.out.println(ex.getMessage());
             throw new PersistenciaException("Ocurrió un error al realizar el rollback");
-            
-        } finally {
-            if (conexion != null){
-                try {
+
+        } finally
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.close();
-                } catch (SQLException e){
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
@@ -156,13 +186,15 @@ public class PeliculaDAO implements IPeliculaDAO {
 
     @Override
     public List<EntidadPelicula> consultarPeliculas(int limit, int offset) throws PersistenciaException {
-        try {
+        try
+        {
             List<EntidadPelicula> sucursalLista = new ArrayList<>();
             Connection conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT " +  limit + " OFFSET " + offset;
+            String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen, eliminado FROM Pelicula WHERE eliminado = b'0' LIMIT " + limit + " OFFSET " + offset;
             Statement comandoSQL = conexion.createStatement();
             ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
-            while (resultado.next()) {
+            while (resultado.next())
+            {
                 EntidadPelicula pelicula = new EntidadPelicula();
                 pelicula.setId(resultado.getInt("id"));
                 pelicula.setTitulo(resultado.getString("titulo"));
@@ -173,13 +205,14 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
                 pelicula.setImagen(resultado.getBytes("imagen"));
-                
+
                 sucursalLista.add(pelicula);
                 System.out.println(pelicula.toString());
             }
             conexion.close();
             return sucursalLista;
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println(e.getMessage());
             throw new PersistenciaException("Ocurrió un error");
         }
@@ -188,14 +221,16 @@ public class PeliculaDAO implements IPeliculaDAO {
     @Override
     public EntidadPelicula consultarPeliculaPorID(int id) throws PersistenciaException {
         Connection conexion = null;
-        try {
+        try
+        {
             conexion = this.conexionBD.crearConexion();
             String codigoSQL = "SELECT id, titulo, genero, clasificacion, sinopsis, duracion, paisOrigen, trailerLink, imagen, eliminado FROM Pelicula WHERE id = ?;";
             PreparedStatement preparedStatement = conexion.prepareStatement(codigoSQL);
             preparedStatement.setInt(1, id);
             ResultSet resultado = preparedStatement.executeQuery();
-            
-            if (resultado.next()) {
+
+            if (resultado.next())
+            {
                 EntidadPelicula pelicula = new EntidadPelicula();
                 pelicula.setId(resultado.getInt("id"));
                 pelicula.setTitulo(resultado.getString("titulo"));
@@ -206,26 +241,32 @@ public class PeliculaDAO implements IPeliculaDAO {
                 pelicula.setPaisOrigen(resultado.getString("paisOrigen"));
                 pelicula.setTrailerLink(resultado.getString("trailerLink"));
                 pelicula.setImagen(resultado.getBytes("imagen"));
-                
+
                 System.out.println(pelicula.toString());
                 return pelicula;
-            } else {
+            } else
+            {
                 throw new PersistenciaException("No se encontró la sucursal con ID: " + id);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
             throw new PersistenciaException("Ocurrió un error al buscar la sucursal");
-        } finally {
-            if (conexion != null){
-                try {
+        } finally
+        {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.close();
-                } catch (SQLException e){
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
         }
     }
-    
+
     @Override
     public List<EntidadPelicula> consultarPeliculasPorSucursal(int idSucursal, int limit, int offset) throws PersistenciaException {
         List<EntidadPelicula> sucursalLista = new ArrayList<>();
@@ -233,13 +274,14 @@ public class PeliculaDAO implements IPeliculaDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultado = null;
 
-        try {
+        try
+        {
             conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT p.id, p.titulo, p.genero, p.clasificacion, p.sinopsis, p.duracion, p.paisOrigen, p.trailerLink, p.imagen, p.eliminado " +
-                               "FROM Pelicula p " +
-                               "JOIN Sucursal_Tiene_Pelicula stp ON p.id = stp.idPelicula " +
-                               "WHERE stp.idSucursal = ? AND p.eliminado = b'0' " +
-                               "LIMIT ? OFFSET ?";
+            String codigoSQL = "SELECT p.id, p.titulo, p.genero, p.clasificacion, p.sinopsis, p.duracion, p.paisOrigen, p.trailerLink, p.imagen, p.eliminado "
+                    + "FROM Pelicula p "
+                    + "JOIN Sucursal_Tiene_Pelicula stp ON p.id = stp.idPelicula "
+                    + "WHERE stp.idSucursal = ? AND p.eliminado = b'0' "
+                    + "LIMIT ? OFFSET ?";
 
             preparedStatement = conexion.prepareStatement(codigoSQL);
             preparedStatement.setInt(1, idSucursal);
@@ -248,7 +290,8 @@ public class PeliculaDAO implements IPeliculaDAO {
 
             resultado = preparedStatement.executeQuery();
 
-            while (resultado.next()) {
+            while (resultado.next())
+            {
                 EntidadPelicula pelicula = new EntidadPelicula();
                 pelicula.setId(resultado.getInt("id"));
                 pelicula.setTitulo(resultado.getString("titulo"));
@@ -264,34 +307,91 @@ public class PeliculaDAO implements IPeliculaDAO {
                 System.out.println(pelicula.toString());
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println(e.getMessage());
             throw new PersistenciaException("Ocurrió un error al consultar las películas por sucursal");
-        } finally {
-            if (resultado != null) {
-                try {
+        } finally
+        {
+            if (resultado != null)
+            {
+                try
+                {
                     resultado.close();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
-            if (preparedStatement != null) {
-                try {
+            if (preparedStatement != null)
+            {
+                try
+                {
                     preparedStatement.close();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
-            if (conexion != null) {
-                try {
+            if (conexion != null)
+            {
+                try
+                {
                     conexion.close();
-                } catch (SQLException e) {
+                } catch (SQLException e)
+                {
                     System.out.println(e.getMessage());
                 }
             }
         }
 
         return sucursalLista;
+    }
+
+    @Override
+    public double calcularGananciasPorPelicula(int idPelicula) throws PersistenciaException {
+        double ganancias = 0;
+        Connection conexion = null;
+        CallableStatement callableStatement = null;
+        try
+        {
+            conexion = conexionBD.crearConexion();
+            callableStatement = conexion.prepareCall("{CALL CalcularGananciasPorPelicula(?)}");
+            callableStatement.setInt(1, idPelicula);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            if (resultSet.next())
+            {
+                ganancias = resultSet.getDouble("GananciasTotales");
+            }
+        } catch (SQLException e)
+        {
+            throw new PersistenciaException("Error al calcular las ganancias por pelicula: " + e.getMessage());
+        } finally
+        {
+            if (callableStatement != null)
+            {
+                try
+                {
+                    callableStatement.close();
+                } catch (SQLException e)
+                {
+                    System.out.println("Error al cerrar el CallableStatement: " + e.getMessage());
+                }
+            }
+            if (conexion != null)
+            {
+                try
+                {
+                    conexion.close();
+                } catch (SQLException e)
+                {
+                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
+                }
+            }
+        }
+
+        return ganancias;
     }
 
 }

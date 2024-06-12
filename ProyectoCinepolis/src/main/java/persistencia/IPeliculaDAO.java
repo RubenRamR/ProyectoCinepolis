@@ -18,5 +18,6 @@ public interface IPeliculaDAO {
     public List <EntidadPelicula> consultarPeliculas (int limit, int offset) throws PersistenciaException;
     public EntidadPelicula consultarPeliculaPorID(int id) throws PersistenciaException;
     public List <EntidadPelicula> consultarPeliculasPorSucursal (int idSucursal, int limit, int offset) throws PersistenciaException;
+    public double calcularGananciasPorPelicula(int idPelicula) throws PersistenciaException;
 
 }
