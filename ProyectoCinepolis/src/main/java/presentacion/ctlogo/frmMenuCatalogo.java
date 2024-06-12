@@ -14,7 +14,10 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dtos.ClienteDTO;
 import dtos.PeliculaDTO;
+import dtos.SucursalDTO;
+import entidades.EntidadCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -55,6 +58,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
     JFrame frameAnterior;
     private IPeliculaNegocio peliculaNegocio;
+    private IClienteNegocio clienteNegocio;
     private IConexionBD conexionBD;
     private int idSucursal;
     private int idPelicula;
@@ -503,6 +507,11 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
 
         btnUbicarme.setBackground(new java.awt.Color(255, 51, 255));
         btnUbicarme.setText("Ubicarme");
+        btnUbicarme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbicarmeActionPerformed(evt);
+            }
+        });
 
         LblGanPel.setText("Ganancias de la pelicula seleccionada:");
 
@@ -634,68 +643,77 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
     private void btnGenerarPDFPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFPeliculaActionPerformed
-     int filaSeleccionada = tblCatalogo.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        int idPelicula = (int) tblCatalogo.getValueAt(filaSeleccionada, 0); // Asumiendo que la primera columna contiene el ID de la película
-        double gananciasPelicula = Double.parseDouble(lblGananciasPelicula.getText());
-        IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD); // Reemplaza con la instancia correcta de PeliculaDAO
+        int filaSeleccionada = tblCatalogo.getSelectedRow();
+        if (filaSeleccionada != -1)
+        {
+            int idPelicula = (int) tblCatalogo.getValueAt(filaSeleccionada, 0); // Asumiendo que la primera columna contiene el ID de la película
+            double gananciasPelicula = Double.parseDouble(lblGananciasPelicula.getText());
+            IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD); // Reemplaza con la instancia correcta de PeliculaDAO
 
-        try {
-            double gananciaTitulo = peliculaDAO.calcularGananciasPorPelicula(idPelicula);
+            try
+            {
+                double gananciaTitulo = peliculaDAO.calcularGananciasPorPelicula(idPelicula);
 
-            if (gananciaTitulo > 0) {
-                gananciasPelicula -= gananciaTitulo;
-                lblGananciasPelicula.setText(String.valueOf(gananciasPelicula));
+                if (gananciaTitulo > 0)
+                {
+                    gananciasPelicula -= gananciaTitulo;
+                    lblGananciasPelicula.setText(String.valueOf(gananciasPelicula));
 
-                Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
-                try {
-                    PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
-                    document.open();
-                    Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-                    Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+                    Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+                    try
+                    {
+                        PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+                        document.open();
+                        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+                        Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
 
-                    // Título del documento
-                    Paragraph titulo_documento = new Paragraph("Reporte de Ganancias", fontTitulo);
-                    titulo_documento.setAlignment(Element.ALIGN_CENTER);
-                    document.add(titulo_documento);
-                    document.add(new Paragraph(" ")); // Espacio en blanco
+                        // Título del documento
+                        Paragraph titulo_documento = new Paragraph("Reporte de Ganancias", fontTitulo);
+                        titulo_documento.setAlignment(Element.ALIGN_CENTER);
+                        document.add(titulo_documento);
+                        document.add(new Paragraph(" ")); // Espacio en blanco
 
-                    // Crear una tabla para los detalles del reporte
-                    PdfPTable table = new PdfPTable(2);
-                    table.setWidthPercentage(100);
-                    table.setSpacingBefore(10f);
-                    table.setSpacingAfter(10f);
+                        // Crear una tabla para los detalles del reporte
+                        PdfPTable table = new PdfPTable(2);
+                        table.setWidthPercentage(100);
+                        table.setSpacingBefore(10f);
+                        table.setSpacingAfter(10f);
 
-                    // Configurar las celdas de la tabla
-                    PdfPCell cell;
-                    cell = new PdfPCell(new Phrase("ID de Película:", fontContenido));
-                    cell.setBorder(PdfPCell.NO_BORDER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase(String.valueOf(idPelicula), fontContenido));
-                    cell.setBorder(PdfPCell.NO_BORDER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
-                    cell.setBorder(PdfPCell.NO_BORDER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase(String.valueOf(gananciasPelicula), fontContenido));
-                    cell.setBorder(PdfPCell.NO_BORDER);
-                    table.addCell(cell);
-                    document.add(table);
-                } catch (DocumentException | FileNotFoundException e) {
-                    e.printStackTrace();
-                } finally {
-                    document.close();
-                    JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+                        // Configurar las celdas de la tabla
+                        PdfPCell cell;
+                        cell = new PdfPCell(new Phrase("ID de Película:", fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase(String.valueOf(idPelicula), fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        cell = new PdfPCell(new Phrase(String.valueOf(gananciasPelicula), fontContenido));
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                        document.add(table);
+                    } catch (DocumentException | FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    } finally
+                    {
+                        document.close();
+                        JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+                    }
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "No se encontraron ganancias para la película seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontraron ganancias para la película seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (PersistenciaException e)
+            {
+                JOptionPane.showMessageDialog(null, "Error al obtener las ganancias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (PersistenciaException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener las ganancias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else
+        {
+            JOptionPane.showMessageDialog(null, "Seleccione una película de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "Seleccione una película de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
 
 
     }//GEN-LAST:event_btnGenerarPDFPeliculaActionPerformed
@@ -781,6 +799,50 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
         }
     }//GEN-LAST:event_btnGenerarPDFSucursal1ActionPerformed
+
+    private void btnUbicarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbicarmeActionPerformed
+        try
+        {
+            IConexionBD conexionBD = new ConexionBD();
+            IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
+            IClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+
+            ClienteDTO cliente = clienteNegocio.obtenerCoordenadasClientePorId(idCliente);
+            int coordenadaX = cliente.getCoordenadaX();
+            int coordenadaY = cliente.getCoordenadaY();
+
+            ISucursalDAO sucursalDAO = new SucursalDAO(conexionBD);
+            ISucursalNegocio sucursalNegocio = new SucursalNegocio(sucursalDAO);
+
+            SucursalDTO sucursalCercana = sucursalNegocio.encontrarSucursalMasCercana(coordenadaX, coordenadaY);
+
+            // Encontrar el índice de la sucursal más cercana en el ComboBox
+            int closestSucursalIndex = -1;
+            for (int i = 0; i < comboSucursales.getItemCount(); i++)
+            {
+                if (comboSucursales.getItemAt(i).equals(sucursalCercana.getNombre()))
+                {
+                    closestSucursalIndex = i;
+                    break;
+                }
+            }
+
+            // Seleccionar la sucursal más cercana
+            if (closestSucursalIndex != -1)
+            {
+                comboSucursales.setSelectedIndex(closestSucursalIndex);
+            }
+
+            // Actualizar el ID de la sucursal seleccionada
+            idSucursal = sucursalCercana.getId();
+            conseguirGananciasDeLaSucursal();
+            cargarPeliculasEnTabla();
+
+        } catch (NegocioException ex)
+        {
+            JOptionPane.showMessageDialog(this, "Error al ubicarme: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUbicarmeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

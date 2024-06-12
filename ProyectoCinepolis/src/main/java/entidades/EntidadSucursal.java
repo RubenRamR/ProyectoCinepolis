@@ -9,33 +9,28 @@ package entidades;
  * @author crazy
  */
 public class EntidadSucursal {
-    int id;
-    String nombre;
-    String ciudad;
-    int coordenadaX;
-    int coordenadaY;
+
+    private int id;
+    private String nombre;
+    private int coordenadaX;
+    private int coordenadaY;
+    private String nombreCiudad;
+    private boolean eliminado;
 
     public EntidadSucursal() {
     }
-    
-    // constructor con todos los atributos
-    public EntidadSucursal(int id, String nombre, String ciudad, int coordenadaX, int coordenadaY) {
+
+    // Constructor
+    public EntidadSucursal(int id, String nombre, int coordenadaX, int coordenadaY, String nombreCiudad, boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
-        this.ciudad = ciudad;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
+        this.nombreCiudad = nombreCiudad;
+        this.eliminado = eliminado;
     }
 
-    // constructor sin id
-    public EntidadSucursal(String nombre, String ciudad, int coordenadaX, int coordenadaY) {
-        this.nombre = nombre;
-        this.ciudad = ciudad;
-        this.coordenadaX = coordenadaX;
-        this.coordenadaY = coordenadaY;
-
-    }
-
+    // Getters y setters
     public int getId() {
         return id;
     }
@@ -50,14 +45,6 @@ public class EntidadSucursal {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
     }
 
     public int getCoordenadaX() {
@@ -75,12 +62,26 @@ public class EntidadSucursal {
     public void setCoordenadaY(int coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-    
+
+    public String getNombreCiudad() {
+        return nombreCiudad;
+    }
+
+    public void setNombreCiudad(String nombreCiudad) {
+        this.nombreCiudad = nombreCiudad;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
     @Override
     public String toString() {
-        return "EntidadSucursal{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + '}';
+        return "SucursalDTO{" + "id=" + id + ", nombre=" + nombre + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + ", nombreCiudad=" + nombreCiudad + ", eliminado=" + eliminado + '}';
     }
-    
-    
-    
+
 }

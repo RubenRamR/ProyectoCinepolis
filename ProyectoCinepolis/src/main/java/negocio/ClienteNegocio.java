@@ -124,7 +124,7 @@ public class ClienteNegocio implements IClienteNegocio {
             {
                 throw new NegocioException("El correo del cliente no puede exceder los 50 caracteres");
             }
-            
+
             EntidadCliente cliente = convertirDTOAEntidad(clienteDTO);
             this.clienteDAO.editarCliente(cliente);
         } catch (PersistenciaException ex)
@@ -173,17 +173,32 @@ public class ClienteNegocio implements IClienteNegocio {
             return convertirClienteDTO(cliente);
         } catch (PersistenciaException ex)
         {
-            LOGGER.log( Level.SEVERE, "Error al consultar cliente por ID", ex);
+            LOGGER.log(Level.SEVERE, "Error al consultar cliente por ID", ex);
             throw new NegocioException("Error al consultar cliente por ID: " + ex.getMessage());
         }
     }
 
     @Override
     public int consultarClienteLogin(String correo, String contrasena) throws NegocioException {
-        try {
+        try
+        {
             return clienteDAO.consultarClienteLogin(correo, contrasena);
-        } catch (PersistenciaException ex){
+        } catch (PersistenciaException ex)
+        {
             throw new NegocioException("Error" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public ClienteDTO obtenerCoordenadasClientePorId(int id) throws NegocioException {
+        try
+        {
+            EntidadCliente cliente = this.clienteDAO.obtenerCoordenadasClientePorId(id);
+            return convertirClienteDTO(cliente);
+        } catch (PersistenciaException ex)
+        {
+            LOGGER.log(Level.SEVERE, "Error al consultar las coordenadas del cliente por ID", ex);
+            throw new NegocioException("Error al consultar las coordenadas del cliente por ID: " + ex.getMessage());
         }
     }
 
