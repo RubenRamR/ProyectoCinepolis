@@ -166,7 +166,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnGenerarPDFSucursal1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnGenerarPDFSucursal" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnGenerarPDFPelicula" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           <Component id="btnCerrarSesion1" min="-2" max="-2" attributes="0"/>
@@ -205,7 +205,7 @@
                   </Group>
                   <Component id="btnGenerarPDFSucursal1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnGenerarPDFSucursal" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGenerarPDFPelicula" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
                   <Component id="btnCerrarSesion1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
@@ -376,7 +376,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarPeliculasActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnGenerarPDFSucursal">
+        <Component class="javax.swing.JButton" name="btnGenerarPDFPelicula">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="0" red="0" type="rgb"/>
@@ -387,7 +387,7 @@
             <Property name="text" type="java.lang.String" value="PDF Ganacias por pelicula"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerarPDFSucursalActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerarPDFPeliculaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnGenerarPDFSucursal1">

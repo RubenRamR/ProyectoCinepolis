@@ -42,6 +42,7 @@ import persistencia.IConexionBD;
 import persistencia.IPeliculaDAO;
 import persistencia.ISucursalDAO;
 import persistencia.PeliculaDAO;
+import persistencia.PersistenciaException;
 import persistencia.SucursalDAO;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRenderer;
@@ -200,7 +201,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         btnCatalogoClientes = new javax.swing.JButton();
         btnCerrarSesion1 = new javax.swing.JButton();
         btnAgregarPeliculas = new javax.swing.JButton();
-        btnGenerarPDFSucursal = new javax.swing.JButton();
+        btnGenerarPDFPelicula = new javax.swing.JButton();
         btnGenerarPDFSucursal1 = new javax.swing.JButton();
         panelHerramientas1 = new javax.swing.JPanel();
         iconoMinimizar1 = new javax.swing.JLabel();
@@ -318,12 +319,12 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
             }
         });
 
-        btnGenerarPDFSucursal.setBackground(new java.awt.Color(0, 0, 102));
-        btnGenerarPDFSucursal.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarPDFSucursal.setText("PDF Ganacias por pelicula");
-        btnGenerarPDFSucursal.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerarPDFPelicula.setBackground(new java.awt.Color(0, 0, 102));
+        btnGenerarPDFPelicula.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPDFPelicula.setText("PDF Ganacias por pelicula");
+        btnGenerarPDFPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarPDFSucursalActionPerformed(evt);
+                btnGenerarPDFPeliculaActionPerformed(evt);
             }
         });
 
@@ -363,7 +364,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(sidePane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGenerarPDFSucursal1)
-                    .addComponent(btnGenerarPDFSucursal)
+                    .addComponent(btnGenerarPDFPelicula)
                     .addGroup(sidePane1Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(btnCerrarSesion1)))
@@ -392,7 +393,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(btnGenerarPDFSucursal1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGenerarPDFSucursal)
+                .addComponent(btnGenerarPDFPelicula)
                 .addGap(185, 185, 185)
                 .addComponent(btnCerrarSesion1)
                 .addGap(169, 169, 169)
@@ -632,9 +633,72 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
         fap.setVisible(true);
     }//GEN-LAST:event_btnAgregarPeliculasActionPerformed
 
-    private void btnGenerarPDFSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFSucursalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGenerarPDFSucursalActionPerformed
+    private void btnGenerarPDFPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFPeliculaActionPerformed
+     int filaSeleccionada = tblCatalogo.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        int idPelicula = (int) tblCatalogo.getValueAt(filaSeleccionada, 0); // Asumiendo que la primera columna contiene el ID de la película
+        double gananciasPelicula = Double.parseDouble(lblGananciasPelicula.getText());
+        IPeliculaDAO peliculaDAO = new PeliculaDAO(conexionBD); // Reemplaza con la instancia correcta de PeliculaDAO
+
+        try {
+            double gananciaTitulo = peliculaDAO.calcularGananciasPorPelicula(idPelicula);
+
+            if (gananciaTitulo > 0) {
+                gananciasPelicula -= gananciaTitulo;
+                lblGananciasPelicula.setText(String.valueOf(gananciasPelicula));
+
+                Document document = new Document(PageSize.A4); // Tamaño A4 para formato estándar
+                try {
+                    PdfWriter.getInstance(document, new FileOutputStream("Reporte.pdf"));
+                    document.open();
+                    Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+                    Font fontContenido = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+                    // Título del documento
+                    Paragraph titulo_documento = new Paragraph("Reporte de Ganancias", fontTitulo);
+                    titulo_documento.setAlignment(Element.ALIGN_CENTER);
+                    document.add(titulo_documento);
+                    document.add(new Paragraph(" ")); // Espacio en blanco
+
+                    // Crear una tabla para los detalles del reporte
+                    PdfPTable table = new PdfPTable(2);
+                    table.setWidthPercentage(100);
+                    table.setSpacingBefore(10f);
+                    table.setSpacingAfter(10f);
+
+                    // Configurar las celdas de la tabla
+                    PdfPCell cell;
+                    cell = new PdfPCell(new Phrase("ID de Película:", fontContenido));
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(String.valueOf(idPelicula), fontContenido));
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+                    cell = new PdfPCell(new Phrase("Ganancias:", fontContenido));
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(String.valueOf(gananciasPelicula), fontContenido));
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+                    document.add(table);
+                } catch (DocumentException | FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    document.close();
+                    JOptionPane.showMessageDialog(null, "Se creó el archivo 'Reporte.pdf' en la carpeta del proyecto");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontraron ganancias para la película seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (PersistenciaException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener las ganancias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Seleccione una película de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+
+
+    }//GEN-LAST:event_btnGenerarPDFPeliculaActionPerformed
 
     private void comboSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSucursalesActionPerformed
         // TODO add your handling code here:
@@ -726,7 +790,7 @@ public class frmMenuCatalogo extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCatalogoClientes;
     private javax.swing.JButton btnCerrarSesion1;
-    private javax.swing.JButton btnGenerarPDFSucursal;
+    private javax.swing.JButton btnGenerarPDFPelicula;
     private javax.swing.JButton btnGenerarPDFSucursal1;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUbicarme;
