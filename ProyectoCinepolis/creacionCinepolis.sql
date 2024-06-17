@@ -270,7 +270,6 @@ CREATE PROCEDURE InsertarFuncionPorNombreSala(
     IN p_inicio TIME,
 	IN p_NombreSala VARCHAR(30)
 )
-    
 BEGIN
     DECLARE p_duracion TIME;
     DECLARE p_tiempoLimpieza TIME DEFAULT '00:30:00';
@@ -288,6 +287,38 @@ BEGIN
     INSERT INTO Funcion (precio, dia, inicio, fin, tiempoLimpieza, asientosDisponibles, idPelicula, idSala)
     VALUES (p_precio, p_dia, p_inicio, p_fin, p_tiempoLimpieza, p_asientosDisponibles, p_idPelicula, @idSala);
 END//
-
 DELIMITER ;
 
+-- CALCULAR SUCURSAL MAS CERCANA SP
+DELIMITER //
+CREATE PROCEDURE EncontrarSucursalMasCercana(IN p_coordenadaXCliente INT, IN p_coordenadaYCliente INT)
+BEGIN
+    DECLARE idSucursalMasCercana INT;
+    DECLARE distanciaMinima DOUBLE;
+
+    SELECT id, SQRT(POW(coordenadaX - p_coordenadaXCliente, 2) + POW(coordenadaY - p_coordenadaYCliente, 2)) AS distancia
+    INTO idSucursalMasCercana, distanciaMinima
+    FROM Sucursal
+    WHERE eliminado = b'0'
+    ORDER BY distancia ASC
+    LIMIT 1;
+    SELECT * FROM Sucursal WHERE id = idSucursalMasCercana;
+END //
+DELIMITER ;
+
+-- SP  Para calcular ganancias por pelicula ---------------------------------------------------------------------------------
+DELIMITER //
+CREATE PROCEDURE CalcularGananciasPorPelicula(
+    IN p_idPelicula INT
+)
+BEGIN
+    DECLARE totalGanancias FLOAT;
+
+    SELECT SUM(f.precio) INTO totalGanancias
+    FROM Cliente_Compra_Funcion ccf
+    JOIN Funcion f ON ccf.idFuncion = f.id
+    WHERE f.idPelicula = p_idPelicula;
+
+    SELECT totalGanancias AS GananciasTotales;
+END//
+DELIMITER ;
